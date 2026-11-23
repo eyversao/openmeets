@@ -1,0 +1,147 @@
+/* ============================================================
+   OPENMEETS — Vistas públicas: inicio, meet, seguir y ajustes
+   Solo variables de tokens.css. Controles de 44 px; 390 px sin scroll horizontal.
+   ============================================================ */
+
+/* ---------- Comunes ---------- */
+.pub-seccion-titulo { display: flex; align-items: center; gap: var(--e-2); font-size: 1.25rem; font-weight: 600; flex-wrap: wrap; }
+.pub-seccion-titulo > span:first-of-type { min-width: 0; }
+.pub-aviso { display: flex; align-items: center; gap: var(--e-3); padding: var(--e-3) var(--e-4); border: 1px solid var(--linea); border-radius: var(--r-2); background: var(--papel-2); color: var(--tinta-2); font-size: .9375rem; }
+.pub-aviso > .icono { flex: none; color: var(--mal); }
+.pub-actualizado { min-height: 20px; margin-block: var(--e-3); }
+.tarjeta-meta { font-size: .875rem; margin-top: var(--e-1); }
+
+/* ---------- Inicio ---------- */
+.pub-hero { justify-items: start; }
+.pub-hero .om-logotipo { margin-bottom: var(--e-2); }
+.pub-filtros { display: grid; gap: var(--e-3); grid-template-columns: 1fr; padding-bottom: var(--e-5); }
+@media (min-width: 720px) { .pub-filtros { grid-template-columns: minmax(0, 2fr) repeat(auto-fit, minmax(110px, 1fr)); align-items: end; } }
+
+/* ---------- Cabecera del meet ---------- */
+.pub-cab { padding-bottom: var(--e-3); }
+.pub-titulo { overflow-wrap: anywhere; }
+.pub-cab .fila { gap: var(--e-2); }
+.pub-pestanas, .pub-cab + .pestanas { position: sticky; top: 0; z-index: 5; background: var(--papel); }
+
+/* ---------- Panel «En vivo» de una plataforma ---------- */
+.pub-tarima { display: grid; gap: var(--e-4); align-content: start; padding: var(--e-5); background: var(--superficie); border: 1px solid var(--linea); border-radius: var(--r-3); min-width: 0; }
+.pub-tarima-cab { display: flex; align-items: baseline; justify-content: space-between; gap: var(--e-3); flex-wrap: wrap; }
+.pub-tarima-cab h3 { font-size: 1.125rem; }
+.pub-tarima-lev { color: var(--tinta-3); font-size: .875rem; }
+.pub-actual { display: grid; gap: var(--e-4); grid-template-columns: minmax(0, 1fr); align-items: center; }
+@media (min-width: 480px) { .pub-actual { grid-template-columns: minmax(0, 1fr) auto; } }
+.pub-actual-nombre { font-family: var(--f-titular); font-size: clamp(1.75rem, 6vw, 2.5rem); line-height: 1.05; overflow-wrap: anywhere; }
+.pub-actual-kg { font-size: 1.75rem; font-weight: 500; }
+.pub-actual-kg small { font-size: .9375rem; color: var(--tinta-3); }
+.pub-insignias { display: flex; gap: var(--e-2); flex-wrap: wrap; align-items: center; margin-top: var(--e-2); }
+.pub-luces { display: grid; justify-items: center; gap: var(--e-2); }
+.pub-luces .ev-resultado { font-size: 1.5rem; text-transform: uppercase; }
+.pub-sin-atleta { padding-block: var(--e-3); }
+.pub-siguen { display: grid; gap: var(--e-2); padding-top: var(--e-3); border-top: 1px solid var(--linea); }
+.pub-siguen-lista { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--e-1); }
+.pub-siguen-lista li { display: flex; justify-content: space-between; gap: var(--e-3); font-size: .9375rem; }
+.pub-progreso { display: grid; gap: var(--e-2); }
+.pub-barra { height: 6px; border-radius: var(--r-pill); background: var(--papel-2); overflow: hidden; }
+.pub-barra > span { display: block; height: 100%; background: var(--tinta); border-radius: var(--r-pill); transition: width var(--t-medio) var(--mv-suave); }
+
+/* Celebración sobria: un brillo que se apaga; más intenso en récord o marca personal. */
+.pub-tarima.celebra { animation: pub-brillo 1.6s var(--mv-suave) both; }
+.pub-tarima.celebra-fuerte { animation-name: pub-brillo-fuerte; animation-duration: 2.4s; }
+@keyframes pub-brillo { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--ok) 55%, transparent); border-color: var(--ok); } 100% { box-shadow: 0 0 0 18px color-mix(in srgb, var(--ok) 0%, transparent); border-color: var(--linea); } }
+@keyframes pub-brillo-fuerte { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--senal) 90%, transparent), 0 0 32px color-mix(in srgb, var(--senal) 60%, transparent); border-color: var(--tinta); } 100% { box-shadow: 0 0 0 26px color-mix(in srgb, var(--senal) 0%, transparent), 0 0 0 color-mix(in srgb, var(--senal) 0%, transparent); border-color: var(--linea); } }
+@media (prefers-reduced-motion: reduce) { .pub-tarima.celebra { animation: none; } }
+
+/* ---------- Resultados ---------- */
+.res-lista { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--e-3); }
+.res-fila { display: grid; gap: var(--e-3); padding: var(--e-4); background: var(--superficie); border: 1px solid var(--linea); border-radius: var(--r-2); min-width: 0; }
+.res-cab { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: var(--e-3); align-items: center; }
+.res-puesto { display: inline-grid; place-items: center; min-width: 32px; height: 32px; padding: 0 var(--e-2); border-radius: var(--r-pill); background: var(--papel-2); font-size: .875rem; }
+.res-puesto.primero { background: var(--senal); color: var(--senal-tinta); }
+.res-nombre { display: grid; min-width: 0; }
+.res-nombre > b { overflow-wrap: anywhere; }
+.res-total { display: grid; justify-items: end; text-align: right; }
+.res-total b { font-size: 1.125rem; }
+.res-mp { display: inline-flex; align-items: center; margin-left: var(--e-2); font-size: .9375rem; font-weight: 600; }
+.res-mp .icono { display: none; }
+.res-levs { display: grid; gap: var(--e-3); grid-template-columns: repeat(auto-fit, minmax(min(100%, 11.5rem), 1fr)); }
+.res-lev { display: grid; gap: var(--e-2); min-width: 0; }
+.res-lev-nombre { display: flex; align-items: center; gap: var(--e-2); flex-wrap: wrap; font-size: .8125rem; color: var(--tinta-3); }
+.res-lev-nombre b { color: var(--tinta); font-size: .875rem; }
+.res-celdas { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--e-1); }
+.res-celdas .celda-intento { min-width: 0; padding: 0 var(--e-1); }
+
+/* ---------- Atletas ---------- */
+.atl-lista { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--e-2); }
+.atl-fila { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: var(--e-3); align-items: center; padding: var(--e-3) var(--e-4); background: var(--superficie); border: 1px solid var(--linea); border-radius: var(--r-2); }
+.atl-datos { display: grid; gap: 2px; min-width: 0; justify-items: start; }
+.atl-datos > b { overflow-wrap: anywhere; }
+.pub-aplauso { min-width: 44px; }
+.pub-aplauso .boton-texto { font-family: var(--f-datos); font-variant-numeric: tabular-nums; }
+.atl-fila-lc { grid-template-columns: 1fr; }
+
+/* ---------- Equipos y mejor levantador ---------- */
+.eq-lista, .mej-lista { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--e-2); }
+.eq-fila { background: var(--superficie); border: 1px solid var(--linea); border-radius: var(--r-2); }
+.eq-fila summary { display: grid; grid-template-columns: auto minmax(0, 1fr) auto auto; gap: var(--e-3); align-items: center; min-height: 52px; padding: var(--e-2) var(--e-4); cursor: pointer; list-style: none; }
+.eq-fila summary::-webkit-details-marker { display: none; }
+.eq-fila summary:focus-visible { outline-offset: -2px; }
+.eq-puntos { font-size: 1.25rem; }
+.eq-detalle { list-style: none; margin: 0; padding: 0 var(--e-4) var(--e-4); display: grid; gap: var(--e-2); }
+.eq-detalle li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--e-1) var(--e-3); font-size: .9375rem; }
+.eq-detalle small { grid-column: 1; }
+.eq-detalle b { grid-row: 1 / span 2; grid-column: 2; align-self: center; }
+.mej-fila { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: var(--e-3); align-items: center; padding: var(--e-3) var(--e-4); background: var(--superficie); border: 1px solid var(--linea); border-radius: var(--r-2); }
+.mej-fila.primero { border-color: var(--tinta); padding-block: var(--e-4); }
+.mej-fila.primero .res-puesto { background: var(--senal); color: var(--senal-tinta); }
+
+/* ---------- Ajustes ---------- */
+.pub-pin { display: inline-flex; align-items: center; min-height: 44px; padding: 0 var(--e-4); border: 1px solid var(--linea); border-radius: var(--r-1); background: var(--papel-2); font-size: 1.25rem; letter-spacing: .12em; }
+.pub-lista-red { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--e-1); }
+.pub-lista-red li { display: flex; align-items: center; justify-content: space-between; gap: var(--e-2); min-height: 44px; }
+.pub-lista-red a { min-width: 0; overflow-wrap: anywhere; }
+.pub-datos { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--e-1) var(--e-4); margin: 0; }
+.pub-datos dt { color: var(--tinta-3); font-size: .875rem; }
+.pub-datos dd { margin: 0; overflow-wrap: anywhere; }
+.pub-enlace-ext { display: inline-flex; align-items: center; gap: var(--e-2); min-height: 44px; padding: 0 var(--e-4); border: 1px solid var(--linea); border-radius: var(--r-1); background: var(--superficie); text-decoration: none; font-weight: 500; }
+.pub-enlace-ext:hover { border-color: var(--tinta); }
+
+/* ---------- Pico y final: tarjeta final del atleta y resumen del meet terminado ---------- */
+.fin-tarjeta { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--e-4); align-items: center; padding: var(--e-4) var(--e-5); background: var(--superficie); border: 1px solid var(--tinta); border-radius: var(--r-3); min-width: 0; }
+.fin-datos { display: grid; gap: var(--e-1); min-width: 0; }
+.fin-nombre { font-family: var(--f-titular); font-size: 1.5rem; font-weight: 400; line-height: 1.1; overflow-wrap: anywhere; }
+.fin-resumen { display: grid; gap: var(--e-2); justify-items: start; min-width: 0; }
+.fin-total { margin: 0; font-size: 1.375rem; font-weight: 500; }
+.fin-total small { font-size: .875rem; color: var(--tinta-3); }
+.fin-chips { display: flex; flex-wrap: wrap; gap: var(--e-2); }
+.fin-chips .pildora { max-width: 100%; white-space: normal; text-align: left; }
+.atl-fila .fin-total { font-size: 1.0625rem; }
+
+/* El anillo se completa: los nueve segmentos se encienden uno tras otro y queda un halo. */
+.anillo.completa .seg { stroke: var(--ok); }
+.anillo.completa .seg.mal { stroke: var(--mal); }
+.anillo.completa.nueva .seg { animation: anillo-llena .5s var(--mv-suave) both; }
+.anillo.completa.nueva .seg:nth-child(2) { animation-delay: 70ms; } .anillo.completa.nueva .seg:nth-child(3) { animation-delay: 140ms; }
+.anillo.completa.nueva .seg:nth-child(4) { animation-delay: 210ms; } .anillo.completa.nueva .seg:nth-child(5) { animation-delay: 280ms; }
+.anillo.completa.nueva .seg:nth-child(6) { animation-delay: 350ms; } .anillo.completa.nueva .seg:nth-child(7) { animation-delay: 420ms; }
+.anillo.completa.nueva .seg:nth-child(8) { animation-delay: 490ms; } .anillo.completa.nueva .seg:nth-child(9) { animation-delay: 560ms; }
+.anillo.completa.nueva { animation: anillo-halo 1.4s var(--mv-suave) .5s both; }
+.fin-tarjeta.nueva { animation: fin-llega .9s var(--mv-suave) both; }
+@keyframes anillo-llena { 0% { stroke: var(--linea); stroke-width: 6; } 60% { stroke-width: 13; } 100% { stroke-width: 9; } }
+@keyframes anillo-halo { 0% { filter: drop-shadow(0 0 0 transparent); } 40% { filter: drop-shadow(0 0 8px var(--senal)); } 100% { filter: drop-shadow(0 0 0 transparent); } }
+@keyframes fin-llega { 0% { opacity: 0; transform: translateY(8px); box-shadow: 0 0 0 0 color-mix(in srgb, var(--senal) 0%, transparent); } 50% { box-shadow: 0 0 0 10px color-mix(in srgb, var(--senal) 55%, transparent); } 100% { opacity: 1; transform: none; box-shadow: 0 0 0 0 color-mix(in srgb, var(--senal) 0%, transparent); } }
+
+.pub-final-zona:empty { display: none; }
+.pub-final { display: grid; gap: var(--e-4); padding: var(--e-5); margin-block: var(--e-3) var(--e-5); background: var(--superficie); border: 1px solid var(--tinta); border-radius: var(--r-3); min-width: 0; animation: fin-llega .9s var(--mv-suave) both; }
+.pub-final-titulo { font-size: clamp(1.75rem, 6vw, 2.5rem); }
+.pub-final-cifras { margin: 0; color: var(--tinta-2); font-size: .9375rem; }
+.fin-mejores { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--e-3); grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr)); }
+.fin-mejor { display: grid; gap: 2px; padding: var(--e-3) var(--e-4); border: 1px solid var(--linea); border-radius: var(--r-2); background: var(--papel); min-width: 0; }
+.fin-mejor > b { overflow-wrap: anywhere; }
+.fin-podios { display: grid; gap: var(--e-3); grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); }
+.fin-podio { display: grid; gap: var(--e-2); align-content: start; padding: var(--e-3) var(--e-4); border: 1px solid var(--linea); border-radius: var(--r-2); background: var(--papel); min-width: 0; }
+.fin-podio-cat { font-size: .875rem; font-weight: 600; color: var(--tinta-3); }
+.fin-podio ol { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--e-2); }
+.fin-podio li { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: var(--e-3); align-items: center; }
+@media (prefers-reduced-motion: reduce) {
+  .anillo.completa.nueva, .anillo.completa.nueva .seg, .fin-tarjeta.nueva, .pub-final { animation: none; }
+}

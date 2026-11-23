@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>OpenMeets · Instalador</title>
+<link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+<!-- OpenMeets · interfaz del instalador (ventana sin marco, transparente, 760×480). Contrato con Rust: CONTRATO.md -->
+<div class="ventana" id="ventana" data-modo="instalar">
+  <header class="cabecera" data-arrastre>
+    <img class="logotipo" src="logotipo.svg" alt="OpenMeets" width="112" height="15" draggable="false">
+    <span class="version" id="version">1.0.0</span>
+    <span class="demo" id="demo" hidden></span>
+    <div class="controles">
+      <button class="control" id="minimizar" type="button"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 6h7"/></svg></button>
+      <button class="control control-cerrar" id="cerrar" type="button"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 3l6 6M9 3l-6 6"/></svg></button>
+    </div>
+  </header>
+
+  <div class="cuerpo">
+    <nav class="lateral" id="lateral">
+      <ol class="pasos" id="pasos"></ol>
+      <p class="pie-lateral">openmeets.web.app</p>
+    </nav>
+
+    <main class="panel" id="panel">
+      <!-- Instalar -->
+      <section class="pantalla" data-p="bienvenida" hidden>
+        <div class="contenido">
+          <svg class="simbolo grande entrada" viewBox="0 0 64 64" aria-hidden="true"><path class="senal" d="M42.33 12.58 A22 22 0 0 1 49.34 18.46"/><g class="giro"><path class="anillo" pathLength="100" d="M49.34 18.46 A22 22 0 1 1 42.33 12.58"/></g><circle class="buje" cx="32" cy="32" r="6"/></svg>
+          <h1 tabindex="-1" data-html="bienvenidaHtml"></h1>
+          <p class="entrada" data-t="bienvenidaTexto"></p>
+          <ul class="rasgos">
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 9.5a14 14 0 0 1 19 0M6 13a9 9 0 0 1 12 0M9.5 16.5a4 4 0 0 1 5 0"/><circle cx="12" cy="20" r="1.2"/></svg><span data-i="rasgos.0"></span></li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg><span data-i="rasgos.1"></span></li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="4" width="19" height="13" rx="2"/><path d="M8 21h8M12 17v4"/><circle cx="8" cy="10.5" r="1.4"/><circle cx="12" cy="10.5" r="1.4"/><circle cx="16" cy="10.5" r="1.4"/></svg><span data-i="rasgos.2"></span></li>
+          </ul>
+        </div>
+        <div class="acciones">
+          <button class="boton boton-senal" type="button" data-accion="siguiente" data-primario data-t="continuar"></button>
+        </div>
+      </section>
+
+      <section class="pantalla" data-p="licencia" hidden>
+        <div class="contenido">
+          <h1 tabindex="-1" data-html="licenciaHtml"></h1>
+          <p class="texto" data-t="licenciaTexto"></p>
+          <pre class="licencia" id="licencia" tabindex="0"></pre>
+        </div>
+        <div class="acciones">
+          <button class="boton boton-vidrio" type="button" data-accion="atras" data-t="atras"></button>
+          <button class="boton boton-senal" type="button" data-accion="siguiente" data-primario data-t="aceptar"></button>
+        </div>
+      </section>
+
+      <section class="pantalla" data-p="carpeta" hidden>
+        <div class="contenido">
+          <h1 tabindex="-1" data-html="carpetaHtml"></h1>
+          <div class="campo">
+            <span class="etiqueta" id="et-carpeta" data-t="carpetaEtiqueta"></span>
+            <div class="ruta-fila">
+              <output class="ruta" id="ruta" aria-labelledby="et-carpeta"></output>
+              <button class="boton boton-vidrio boton-chico" type="button" id="cambiar" data-t="cambiar"></button>
+            </div>
+            <p class="nota" data-t="carpetaNota"></p>
+          </div>
+          <fieldset class="opciones">
+            <legend class="etiqueta" data-t="opcionesEtiqueta"></legend>
+            <label class="opcion"><span data-t="escritorio"></span><input type="checkbox" role="switch" id="op-escritorio" checked></label>
+            <label class="opcion"><span data-t="inicio"></span><input type="checkbox" role="switch" id="op-inicio" checked></label>
+            <label class="opcion"><span data-t="abrir"></span><input type="checkbox" role="switch" id="op-abrir" checked></label>
+          </fieldset>
+        </div>
+        <div class="acciones">
+          <button class="boton boton-vidrio" type="button" data-accion="atras" data-t="atras"></button>
+          <button class="boton boton-senal" type="button" id="instalar" data-primario data-t="instalar"></button>
+        </div>
+      </section>
+
+      <section class="pantalla" data-p="instalando" hidden>
+        <div class="contenido centrado">
+          <svg class="simbolo grande carga" viewBox="0 0 64 64" aria-hidden="true"><path class="senal" d="M42.33 12.58 A22 22 0 0 1 49.34 18.46"/><g class="giro"><path class="anillo" pathLength="100" d="M49.34 18.46 A22 22 0 1 1 42.33 12.58"/></g><circle class="buje" cx="32" cy="32" r="6"/></svg>
+          <h1 tabindex="-1" data-html="instalandoHtml"></h1>
+          <p class="texto" data-t="instalandoTexto"></p>
+          <div class="progreso" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-aria="progresoEtiqueta"><i></i></div>
+          <div class="progreso-datos"><span class="paso-actual" aria-live="polite"></span><span class="porcentaje">0 %</span></div>
+        </div>
+      </section>
+
+      <section class="pantalla" data-p="listo" hidden>
+        <div class="contenido">
+          <svg class="simbolo grande vivo" viewBox="0 0 64 64" aria-hidden="true"><path class="senal" d="M42.33 12.58 A22 22 0 0 1 49.34 18.46"/><g class="giro"><path class="anillo" pathLength="100" d="M49.34 18.46 A22 22 0 1 1 42.33 12.58"/></g><circle class="buje" cx="32" cy="32" r="6"/></svg>
+          <h1 tabindex="-1" data-html="listoHtml"></h1>
+          <p class="entrada" data-t="listoTexto"></p>
+        </div>
+        <div class="acciones">
+          <button class="boton boton-vidrio" type="button" data-accion="cerrar" data-t="cerrar"></button>
+          <button class="boton boton-senal" type="button" data-accion="abrirApp" data-primario data-t="abrirApp"></button>
+        </div>
+      </section>
+
+      <section class="pantalla" data-p="error" hidden>
+        <div class="contenido">
+          <svg class="simbolo grande error" viewBox="0 0 64 64" aria-hidden="true"><g class="giro"><path class="anillo" pathLength="100" d="M49.34 18.46 A22 22 0 1 1 42.33 12.58"/></g><circle class="buje" cx="32" cy="32" r="6"/></svg>
+          <h1 tabindex="-1" data-html="errorHtml"></h1>
+          <p class="texto" data-t="errorTexto"></p>
+          <pre class="mensaje-error" id="mensaje-error"></pre>
+        </div>
+        <div class="acciones">
+          <button class="boton boton-vidrio" type="button" data-accion="cerrar" data-t="cerrar"></button>
+          <button class="boton boton-senal" type="button" data-accion="reintentar" data-primario data-t="reintentar"></button>
+        </div>
+      </section>
+
+      <!-- Desinstalar -->
+      <section class="pantalla" data-p="confirmar" hidden>
+        <div class="contenido">
+          <svg class="simbolo grande" viewBox="0 0 64 64" aria-hidden="true"><g class="giro"><path class="anillo" pathLength="100" d="M49.34 18.46 A22 22 0 1 1 42.33 12.58"/></g><circle class="buje" cx="32" cy="32" r="6"/></svg>
+          <h1 tabindex="-1" data-html="confirmarHtml"></h1>
+          <p class="entrada" data-t="confirmarTexto"></p>
+          <fieldset class="opciones">
+            <label class="opcion peligro"><span data-t="borrarDatos"></span><input type="checkbox" role="switch" id="op-borrar" aria-describedby="aviso-borrar"></label>
+          </fieldset>
+          <p class="nota" id="aviso-borrar" data-t="borrarDatosAviso"></p>
+        </div>
+        <div class="acciones">
+          <button class="boton boton-vidrio" type="button" data-accion="cerrar" data-t="cancelar"></button>
+          <button class="boton boton-peligro" type="button" id="quitar" data-primario data-t="quitar"></button>
+        </div>
+      </section>
+
+      <section class="pantalla" data-p="quitando" hidden>
+        <div class="contenido centrado">
+          <svg class="simbolo grande carga" viewBox="0 0 64 64" aria-hidden="true"><path class="senal" d="M42.33 12.58 A22 22 0 0 1 49.34 18.46"/><g class="giro"><path class="anillo" pathLength="100" d="M49.34 18.46 A22 22 0 1 1 42.33 12.58"/></g><circle class="buje" cx="32" cy="32" r="6"/></svg>
+          <h1 tabindex="-1" data-html="quitandoHtml"></h1>
+          <p class="texto" data-t="quitandoTexto"></p>
+          <div class="progreso" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-aria="progresoEtiqueta"><i></i></div>
+          <div class="progreso-datos"><span class="paso-actual" aria-live="polite"></span><span class="porcentaje">0 %</span></div>
+        </div>
+      </section>
+
+      <section class="pantalla" data-p="hecho" hidden>
+        <div class="contenido">
+          <svg class="simbolo grande" viewBox="0 0 64 64" aria-hidden="true"><g class="giro"><path class="anillo" pathLength="100" d="M49.34 18.46 A22 22 0 1 1 42.33 12.58"/></g><circle class="buje" cx="32" cy="32" r="6"/></svg>
+          <h1 tabindex="-1" data-html="hechoHtml"></h1>
+          <p class="entrada" id="hecho-texto"></p>
+        </div>
+        <div class="acciones">
+          <button class="boton boton-senal" type="button" data-accion="cerrar" data-primario data-t="cerrar"></button>
+        </div>
+      </section>
+    </main>
+  </div>
+  <div class="aviso-demo" id="aviso-demo" role="status" hidden></div>
+</div>
+<script src="textos.js"></script>
+<script src="instalador.js"></script>
+</body>
+</html>

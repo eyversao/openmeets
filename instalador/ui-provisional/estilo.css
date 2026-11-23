@@ -1,0 +1,16 @@
+:root{--azul:#1f6fe5;--tinta:#0e1726;--gris:#6b7686;--linea:#e3e8ef}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:transparent;font:15px/1.4 "Segoe UI Variable","Segoe UI",system-ui,sans-serif;color:var(--tinta);user-select:none}
+#card{height:100%;background:#fff;border-radius:14px;border:1px solid var(--linea);overflow:hidden;display:flex;flex-direction:column}
+#cab{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--linea)}
+#cab b{font-weight:650}#ver{color:var(--gris);font-size:12px}.sp{flex:1;align-self:stretch}
+#cab button{border:0;background:none;width:30px;height:30px;border-radius:8px;font-size:15px;cursor:pointer}
+#cab button:hover{background:#eef2f7}
+section{padding:26px 34px;display:flex;flex-direction:column;gap:14px;flex:1}
+section[hidden]{display:none}
+h1{margin:0;font-size:26px;letter-spacing:-.02em}p{margin:0;color:var(--gris)}
+.fila{display:flex;gap:8px;margin-top:6px}input[readonly]{flex:1;padding:9px 12px;border:1px solid var(--linea);border-radius:10px;font:inherit;background:#f7f9fc}
+button{font:inherit;padding:9px 16px;border-radius:10px;border:1px solid var(--linea);background:#fff;cursor:pointer}
+.primario{background:var(--azul);color:#fff;border-color:var(--azul);align-self:flex-start;margin-top:auto;padding:11px 24px;font-weight:600}
+#barra{height:8px;background:#eef2f7;border-radius:99px;overflow:hidden;margin-top:12px}#rel{display:block;height:100%;width:0;background:var(--azul);transition:width .15s}
+label{display:block}

@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pantalla y HUD para OBS · Documentación de OpenMeets</title>
+<meta name="description" content="Documentación de OpenMeets: Pantalla y HUD para OBS.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="../web/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../web/css/tokens.css">
+<link rel="stylesheet" href="../web/css/base.css">
+<link rel="stylesheet" href="docs.css">
+</head>
+<body>
+<a class="saltar" href="#contenido">Saltar al contenido</a>
+<header class="barra">
+  <a class="logo" href="index.html" aria-label="OpenMeets, documentación"><img class="claro" src="../marca/logotipo-horizontal.svg" alt="OpenMeets" height="26"><img class="oscuro" src="../marca/logotipo-blanco.svg" alt="" height="26"></a>
+  <span class="etiqueta">documentación</span>
+</header>
+<div class="marco">
+  <nav class="lateral" aria-label="Documentación">
+    <details id="menu">
+      <summary>Contenido</summary>
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="guia-rapida.html">Guía rápida</a></li>
+        <li><a href="organizar.html">Organizar un meet</a></li>
+        <li><a href="inscripciones.html">Inscripciones y pesaje</a></li>
+        <li><a href="mesa.html">Dirigir la mesa</a></li>
+        <li><a href="jueces.html">Jueces</a></li>
+        <li><a href="pantalla.html" aria-current="page">Pantalla y HUD para OBS</a></li>
+        <li><a href="transmision.html">Transmisión (regie)</a></li>
+        <li><a href="publico.html">Público e historial</a></li>
+        <li><a href="atletas-records.html">Atletas y récords</a></li>
+        <li><a href="liftingcast.html">Seguir LiftingCast</a></li>
+        <li><a href="tecnico.html">Técnico</a></li>
+        <li><a href="nube.html">Nube</a></li>
+        <li><a href="federacion.html">Modo federación</a></li>
+        <li><a href="marca.html">Marca</a></li>
+        <li><a href="faq.html">Preguntas frecuentes</a></li>
+        <li><a href="creditos.html">Créditos</a></li>
+      </ul>
+    </details>
+  </nav>
+  <main id="contenido">
+
+<h1>Pantalla y HUD para OBS</h1>
+<p class="entrada">Dos vistas para mostrar la tarima: una pantalla completa para el recinto y una franja transparente para la transmisión.</p>
+<h2>Pantalla de tarima</h2>
+<p>Abre <code>http://IP:5050/meets/&lt;id&gt;/pantalla</code> en el televisor o proyector (cualquier navegador sirve). Muestra el atleta en tarima, el intento, el peso, los discos, el reloj y las tres luces. Es siempre oscura, para verse bien en un recinto.</p>
+<ul>
+  <li>Con varias tarimas, elige la tuya en el selector, o fija una con <code>?t=Tarima%202</code> al final de la dirección.</li>
+  <li>Sin conexión mantiene la última imagen con su hora y reintenta sola.</li>
+  <li>Pulsa F11 para pantalla completa.</li>
+</ul>
+<h2>HUD para OBS</h2>
+<p>El HUD es una franja con atleta, intento, peso, luces y reloj sobre <b>fondo transparente</b>. En OBS añade una fuente <b>Navegador</b> con esta dirección:</p>
+<pre><code>http://localhost:5050/meets/&lt;id&gt;/hud?t=Tarima%201&amp;pos=abajo&amp;escala=1</code></pre>
+<p>Pon el ancho y alto de la escena (por ejemplo 1920 por 1080) y borra el CSS personalizado que OBS añade por defecto si le cambia el fondo. Si OBS corre en el equipo de la mesa, usa <code>localhost</code>; si corre en otro equipo, usa la IP de la mesa.</p>
+<div class="tabla"><table><thead><tr><th>Parámetro</th><th>Valores</th><th>Qué hace</th></tr></thead><tbody><tr><td><code>t</code> (o <code>plataforma</code>)</td><td>Nombre de la tarima</td><td>Qué tarima muestra. Sin él, usa la primera.</td></tr><tr><td><code>pos</code></td><td><code>abajo</code> (por defecto) o <code>arriba</code></td><td>Dónde va la franja.</td></tr><tr><td><code>escala</code></td><td>0,6 a 2 (1 por defecto)</td><td>Tamaño de la franja.</td></tr><tr><td><code>sonido</code></td><td><code>1</code></td><td>Activa los sonidos (chicharra y avisos) en la fuente.</td></tr></tbody></table></div>
+<p>Mientras no haya atleta en tarima, el HUD no dibuja nada: no tapa tu escena.</p>
+<h2>Ajustes visuales</h2>
+<p>El meet guarda un objeto <code>hud</code> con ajustes de la pantalla (hasta 8000 caracteres). Se guardan con el meet.</p>
+
+    <footer class="pie">
+      <a href="jueces.html">&larr; Jueces</a><a href="publico.html">Público e historial &rarr;</a>
+    </footer>
+    <p class="firma">OpenMeets · MIT © 2026 Eyver Gomez (<a href="https://instagram.com/eyversao">@eyversao</a>) · <a href="https://github.com/eyversao">GitHub</a></p>
+  </main>
+</div>
+<script>if (matchMedia('(min-width: 860px)').matches) document.getElementById('menu').open = true;</script>
+</body>
+</html>

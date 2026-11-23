@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Modo federación · Documentación de OpenMeets</title>
+<meta name="description" content="Documentación de OpenMeets: modo federación, roles con PIN, panel central, locutor, auditoría y exportación a OpenPowerlifting.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="../web/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../web/css/tokens.css">
+<link rel="stylesheet" href="../web/css/base.css">
+<link rel="stylesheet" href="docs.css">
+</head>
+<body>
+<a class="saltar" href="#contenido">Saltar al contenido</a>
+<header class="barra">
+  <a class="logo" href="index.html" aria-label="OpenMeets, documentación"><img class="claro" src="../marca/logotipo-horizontal.svg" alt="OpenMeets" height="26"><img class="oscuro" src="../marca/logotipo-blanco.svg" alt="" height="26"></a>
+  <span class="etiqueta">documentación</span>
+</header>
+<div class="marco">
+  <nav class="lateral" aria-label="Documentación">
+    <details id="menu">
+      <summary>Contenido</summary>
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="guia-rapida.html">Guía rápida</a></li>
+        <li><a href="organizar.html">Organizar un meet</a></li>
+        <li><a href="inscripciones.html">Inscripciones y pesaje</a></li>
+        <li><a href="mesa.html">Dirigir la mesa</a></li>
+        <li><a href="jueces.html">Jueces</a></li>
+        <li><a href="pantalla.html">Pantalla y HUD para OBS</a></li>
+        <li><a href="transmision.html">Transmisión (regie)</a></li>
+        <li><a href="publico.html">Público e historial</a></li>
+        <li><a href="atletas-records.html">Atletas y récords</a></li>
+        <li><a href="liftingcast.html">Seguir LiftingCast</a></li>
+        <li><a href="tecnico.html">Técnico</a></li>
+        <li><a aria-current="page" href="federacion.html">Modo federación</a></li>
+        >Nube</a></li>
+        <li><a href="marca.html">Marca</a></li>
+        <li><a href="faq.html">Preguntas frecuentes</a></li>
+        <li><a href="creditos.html">Créditos</a></li>
+      </ul>
+    </details>
+  </nav>
+  <main id="contenido">
+<h1>Modo federación</h1>
+<p class="entrada">Lo que hace falta para que una federación use OpenMeets como herramienta oficial: un acceso con PIN para cada persona del equipo, un panel con todas las plataformas, una hoja para el locutor, un registro de quién cambió qué y las exportaciones oficiales.</p>
+<h2 id="roles">Accesos del equipo</h2>
+<p>El organizador sigue siendo el administrador (el propio equipo de la mesa o el PIN de la consola). Desde la pestaña <b>Equipo</b> de un meet crea un acceso por persona: nombre, rol, plataforma (solo la mesa) y caducidad. El PIN de 6 dígitos se muestra <b>una sola vez</b>, con un código QR; quien lo escanea entra y llega directo a lo suyo.</p>
+<div class="tabla"><table><thead><tr><th>Rol</th><th>Puede</th><th>No puede</th></tr></thead><tbody>
+<tr><td>Director técnico</td><td>Todo su meet: datos, atletas, mesa, jueces, resultados, auditoría.</td><td>Borrar el meet, crear accesos, ver el PIN del organizador.</td></tr>
+<tr><td>Mesa</td><td>Marcar resultados y pesos de intentos y publicar el vivo de <b>su</b> plataforma.</td><td>Escribir en otra plataforma, cambiar datos del atleta, añadir o borrar atletas.</td></tr>
+<tr><td>Pesaje</td><td>Peso corporal, clase, rack y apertura de intentos sin resultado.</td><td>Cambiar resultados o tocar el canal en vivo.</td></tr>
+<tr><td>Locutor</td><td>Ver la hoja del locutor y lo público.</td><td>Escribir.</td></tr>
+<tr><td>Solo lectura</td><td>Ver el panel central y los resultados.</td><td>Escribir.</td></tr>
+</tbody></table></div>
+<ul>
+<li>El PIN se guarda con scrypt y sal propia en <code>&lt;datos&gt;/roles.json</code>; nunca en claro. Se compara en tiempo constante.</li>
+<li>Máximo 5 intentos por minuto y por IP. Cookie propia <code>om_rol</code> (HttpOnly, SameSite=Strict). Revocar corta el acceso al instante.</li>
+<li>Los roles se aplican en el servidor: una mesa de la plataforma 1 recibe 403 al escribir en la 2, aunque la web lo permitiera.</li>
+<li>API: <code>GET /api/rol</code> devuelve <code>{rol, meetId, plataforma, nombre}</code>; <code>POST /api/rol/entrar {pin, id?}</code>; <code>POST /api/rol/salir</code>; <code>GET|POST /api/meets/:id/roles</code> y <code>DELETE /api/meets/:id/roles/:acceso</code> (solo el organizador).</li>
+</ul>
+<h2 id="central">Panel central</h2>
+<p>En la pestaña <b>Central</b> (<code>/organizar/:id/central</code>) ves todas las plataformas a la vez: atleta actual, reloj, último resultado, progreso del grupo, jueces conectados y botones para abrir mesa, pantalla y locutor. Avisa cuando una plataforma lleva más de 3 minutos sin movimiento con intentos pendientes, cuando un juez se desconecta, y cuando el servidor o la nube no responden.</p>
+<h2 id="locutor">Hoja del locutor</h2>
+<p><code>/meets/:id/locutor?t=Tarima 1</code>: letra grande y siempre oscura. Muestra a quien está en tarima (nombre, club, categoría, intento, peso, rack), si va por récord y de qué nivel, su marca personal en meets anteriores de este servidor, su puesto y lo que necesita para subir al podio («necesita 222,5 kg en el tercero para el bronce»), los tres siguientes y frases sugeridas. Se actualiza en vivo.</p>
+<h2 id="auditoria">Auditoría</h2>
+<p>Cada escritura del organizador o de un rol queda en <code>&lt;datos&gt;/auditoria/&lt;meet&gt;.jsonl</code>: quién (nombre y rol), qué (resumen «antes → después») y cuándo. No se guardan teléfonos, correos ni IP. La pestaña Equipo la muestra con filtros por persona, texto y fecha, y la exporta a CSV (<code>GET /api/meets/:id/auditoria.csv</code>). La ven el organizador y el director técnico.</p>
+<h2 id="exportar">Exportaciones oficiales</h2>
+<p><b>Acta</b>: <code>/meets/:id/acta</code> es una página imprimible (o PDF) con los resultados por categoría y espacio para la firma del director técnico. Los botones están en Resultados.</p>
+<p><b>OpenPowerlifting</b>: <code>GET /api/meets/:id/openpowerlifting.csv</code> con las columnas de su formato: Name, Sex, Event, Equipment, Age, Division, BodyweightKg, WeightClassKg, Squat1Kg…Best3DeadliftKg, TotalKg, Place, Tested, Country, Federation, Date, MeetCountry, MeetState, MeetTown, MeetName.</p>
+<ul>
+<li>Intentos nulos en negativo (<code>-210</code>); sin declarar o pase, vacío. <code>Best3…</code> es el mejor válido, vacío si no hubo.</li>
+<li><code>Event</code>: SBD, BD, B… según los levantamientos del atleta. <code>Equipment</code>: Raw o Multi-ply. <code>WeightClassKg</code>: «83» y «120+». <code>Age</code>: años cumplidos el día del meet, vacío sin fecha de nacimiento.</li>
+<li><code>Place</code>: número por categoría y división; <code>DQ</code> si levantó pero no hay total válido; <code>NS</code> si no levantó.</li>
+<li><code>Tested</code>: «Yes» solo en federaciones con control de dopaje (IPF, FCLP); en las demás queda vacío. Ajusta la lista en <code>servidor/openpowerlifting.mjs</code>.</li>
+<li><code>MeetState</code> siempre va vacío (OpenMeets no guarda estado o provincia).</li>
+</ul>
+<p><b>Cómo se valida:</b> la prueba <code>pruebas/federacion-logica.test.mjs</code> compara el archivo con un caso conocido fila por fila. Antes de enviarlo a OpenPowerlifting, ábrelo en una hoja de cálculo, comprueba que cada federación y nombre coincidan con los que ellos usan y revisa su guía de formato (<i>bulk CSV format</i>) y sus reglas de envío: la aceptación final es de su equipo.</p>
+<footer class="pie">
+      <a href="nube.html">&larr; Nube</a><a href="tecnico.html">Técnico &rarr;</a>
+    </footer>
+    <p class="firma">OpenMeets · MIT © 2026 Eyver Gomez (<a href="https://instagram.com/eyversao">@eyversao</a>) · <a href="https://github.com/eyversao">GitHub</a></p>
+  </main>
+</div>
+<script>if (matchMedia('(min-width: 860px)').matches) document.getElementById('menu').open = true;</script>
+</body>
+</html>

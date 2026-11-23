@@ -1,0 +1,100 @@
+/* ============================================================
+   OPENMEETS — Luces de los jueces, tarjetas, resultado y mando del juez
+   Compartido por la pantalla, la página pública y la mesa. Portado de VettaPro
+   con los mismos nombres de clase (ev-*, evj-*) usando solo variables de tokens.css.
+   La pantalla de tarima y el teléfono del juez van siempre en oscuro (data-tema="oscuro").
+   ============================================================ */
+
+.ev-luces { display: flex; justify-content: center; align-items: flex-start; gap: var(--e-3); padding: 6px; }
+.ev-luzcol { flex: 0 1 auto; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+
+/* Vacío, pre-marcado (votó, sin color), blanca y roja */
+.ev-luces .ev-luz { width: 40px; height: 40px; border-radius: 50%; background: color-mix(in srgb, var(--tinta) 14%, var(--papel)); box-shadow: inset 0 2px 5px color-mix(in srgb, var(--papel) 70%, transparent); transition: background var(--t-rapido), box-shadow var(--t-rapido); }
+.ev-luces.grandes .ev-luz { width: 56px; height: 56px; }
+.ev-luces .ev-luz.votado { background: color-mix(in srgb, var(--tinta) 30%, var(--papel)); box-shadow: 0 0 0 3px var(--tinta), 0 0 22px color-mix(in srgb, var(--tinta) 45%, transparent); animation: ev-luz-pulso 1.6s ease-in-out infinite; }
+.ev-luces .ev-luz.blanca { background: var(--luz-blanca); box-shadow: 0 0 26px color-mix(in srgb, var(--luz-blanca) 90%, transparent), inset 0 0 0 1px var(--linea); animation: none; }
+.ev-luces .ev-luz.roja { background: var(--luz-roja); box-shadow: 0 0 26px color-mix(in srgb, var(--luz-roja) 85%, transparent); animation: none; }
+.ev-luces .ev-luz.revela { animation: ev-luz-revela .45s var(--mv-suave) both; }
+@keyframes ev-luz-pulso { 0%, 100% { box-shadow: 0 0 0 3px var(--tinta), 0 0 14px color-mix(in srgb, var(--tinta) 25%, transparent); } 50% { box-shadow: 0 0 0 3px var(--tinta), 0 0 30px color-mix(in srgb, var(--tinta) 60%, transparent); } }
+@keyframes ev-luz-revela { 0% { transform: scale(.6); filter: brightness(2.4); } 60% { transform: scale(1.12); } 100% { transform: scale(1); filter: none; } }
+
+/* Tarjetas bajo cada luz */
+.ev-tarjetas { display: flex; justify-content: center; gap: 4px; min-height: 22px; }
+.ev-tarjeta { display: inline-block; width: 14px; height: 20px; border-radius: 3px; box-shadow: 0 1px 3px color-mix(in srgb, var(--tinta) 50%, transparent); }
+.ev-luces.grandes .ev-tarjeta { width: 18px; height: 26px; }
+i.ev-tarjeta.roja { background: var(--luz-roja); }
+i.ev-tarjeta.azul { background: var(--tarjeta-azul); }
+i.ev-tarjeta.amarilla { background: var(--tarjeta-amarilla); }
+.ev-tarjetas .ev-tarjeta { animation: ev-tarjeta-entra .35s var(--mv-suave) .15s both; }
+@keyframes ev-tarjeta-entra { from { opacity: 0; transform: translateY(-8px) rotate(-8deg); } to { opacity: 1; transform: none; } }
+
+/* Tamaños en la pantalla de tarima (cqw: el lienzo del HUD es el contenedor) */
+.evp-tv .ev-luces.grandes .ev-luz { width: clamp(64px, 11vw, 150px); height: clamp(64px, 11vw, 150px); }
+.hud-caja .ev-luces { width: 100%; height: 100%; justify-content: space-around; align-items: center; padding: 0; gap: 0; }
+.hud-caja .ev-luzcol { flex: 1 1 0; gap: .6cqw; }
+.evp-tv .hud-caja .ev-luces.grandes .ev-luzcol .ev-luz { width: min(7cqw, 96%); height: auto; aspect-ratio: 1; }
+.hud-caja .ev-tarjetas { min-height: 2.4cqw; gap: .4cqw; }
+.hud-caja .ev-luces.grandes .ev-tarjeta, .hud-caja .ev-tarjeta { width: 1.5cqw; height: 2.2cqw; border-radius: .3cqw; }
+
+/* Resultado y motivos */
+.ev-resultado { display: inline-flex; align-items: baseline; justify-content: center; gap: .5em; font-weight: 800; letter-spacing: .02em; line-height: 1; animation: ev-resultado-entra .4s var(--mv-suave) both; }
+.ev-resultado b { font-weight: inherit; }
+.ev-resultado.valido { color: var(--ok); }
+.ev-resultado.nulo { color: var(--mal); }
+.ev-resultado .rec { font-size: .4em; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; opacity: .85; }
+.ev-resultado.rec .rec { opacity: 1; background: var(--senal); color: var(--senal-tinta); padding: .1em .45em; border-radius: var(--r-1); }
+@keyframes ev-resultado-entra { from { opacity: 0; transform: scale(.85); } to { opacity: 1; transform: none; } }
+.ev-motivos { width: 100%; display: grid; gap: .25em; }
+.ev-motivos span { display: flex; align-items: center; justify-content: center; gap: .5em; }
+.ev-motivos .ev-tarjeta { flex: none; width: .7em; height: 1em; animation: none; }
+
+/* Botón para activar el sonido de la pantalla */
+.evp-sonido { position: fixed; right: 14px; bottom: 14px; z-index: 6; min-height: 44px; padding: 10px 18px; border: 1px solid var(--linea); border-radius: var(--r-pill); background: var(--superficie); color: var(--tinta); font: 600 14px var(--f-ui); cursor: pointer; }
+.evp-sonido:hover { border-color: var(--tinta-3); }
+
+/* ---------- Teléfono del juez (mando) ---------- */
+.evp.evj.evj-mando { display: flex; flex-direction: column; gap: 10px; height: 100dvh; min-height: 0; padding: 12px 12px max(12px, env(safe-area-inset-bottom)); background: var(--papel); color: var(--tinta); overflow-x: hidden; }
+.evj-mando .evj-cab { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 2px 10px; text-align: left; font-size: 16px; }
+.evj-mando .evj-cab b { font-size: 18px; overflow-wrap: anywhere; }
+.evj-mando .evj-cab .evj-atleta { grid-column: 1 / -1; color: var(--tinta-2); font-size: 18px; font-weight: 600; overflow-wrap: anywhere; }
+.evj-conex { display: inline-flex; align-items: center; gap: 6px; padding: 5px 11px; border-radius: var(--r-pill); background: var(--superficie); border: 1px solid var(--linea); color: var(--tinta); font: 600 13px var(--f-ui); white-space: nowrap; }
+.evj-conex i { width: 9px; height: 9px; border-radius: 50%; background: var(--tinta-3); }
+.evj-conex.ok i { background: var(--ok); }
+.evj-conex.mal i { background: var(--mal); }
+.evj-estado { margin: 0; min-height: 28px; text-align: center; font: 600 20px/1.2 var(--f-ui); color: var(--tinta); }
+.evj-estado.hecho { color: var(--ok); }
+.evj-aviso { margin: 0; padding: 10px 12px; border-radius: var(--r-2); background: var(--superficie); border: 1px solid var(--mal); color: var(--tinta); font: 500 15px/1.3 var(--f-ui); }
+.evj-aviso[hidden] { display: none; }
+.evj-mando .evj-bt { flex: 1 1 0; min-width: 0; min-height: 72px; border: 0; border-radius: var(--r-3); font: 700 clamp(26px, 8vw, 46px) var(--f-ui); letter-spacing: -.01em; cursor: pointer; touch-action: manipulation; transition: transform .1s, opacity .2s; -webkit-tap-highlight-color: transparent; }
+.evj-mando .evj-bt:active:not(:disabled) { transform: scale(.97); }
+.evj-mando .evj-bt:disabled { opacity: .3; }
+.evj-mando .evj-bt.on { opacity: 1; outline: 6px solid var(--ok); outline-offset: -6px; }
+.evj-mando .evj-bt.blanca { background: var(--luz-blanca); color: var(--senal-tinta); flex: 2 1 0; }
+.evj-mando .evj-bt.roja { background: var(--luz-roja); color: var(--luz-blanca); }
+.evj-mando .evj-bt.azul { background: var(--tarjeta-azul); color: var(--luz-blanca); }
+.evj-mando .evj-bt.amarilla { background: var(--tarjeta-amarilla); color: var(--senal-tinta); }
+.evj-fila { flex: 1.5 1 0; min-height: 72px; display: flex; gap: 10px; }
+.evj-fila .evj-bt { font-size: clamp(16px, 5vw, 26px); padding: 0 4px; }
+.evj-mando.otra .evj-bt.roja { flex: 1.4 1 0; font-size: clamp(30px, 9vw, 52px); }
+
+@media (prefers-reduced-motion: reduce) {
+  .ev-luces .ev-luz.votado, .ev-luces .ev-luz.revela, .ev-tarjetas .ev-tarjeta, .ev-resultado { animation: none; }
+  .evj-mando .evj-bt { transition: none; }
+}
+
+/* ---------- Acceso del juez: nombre, código de emparejamiento y estado ---------- */
+.evj-acceso { display: grid; justify-items: center; gap: 4px; padding: 12px; border-radius: var(--r-2); background: var(--superficie); border: 1px solid var(--linea); text-align: center; }
+.evj-acceso[hidden] { display: none; }
+.evj-acceso small { color: var(--tinta-3); font: 600 13px var(--f-ui); text-transform: uppercase; letter-spacing: .08em; }
+.evj-codigo-num { font: 500 clamp(40px, 14vw, 64px)/1 var(--f-datos); letter-spacing: .08em; font-variant-numeric: tabular-nums; color: var(--tinta); }
+.evj-acceso-txt { font: 500 15px/1.3 var(--f-ui); color: var(--tinta-2); overflow-wrap: anywhere; }
+.evj-acceso.ok { border-color: var(--ok); }
+.evj-acceso.ok .evj-acceso-txt { color: var(--ok); }
+.evj-acceso.ok .evj-codigo-num { font-size: 28px; opacity: .6; }
+.evj-acceso.no { border-color: var(--mal); }
+.evj-acceso.no .evj-acceso-txt { color: var(--mal); }
+.evj-nombre { display: grid; gap: 12px; margin: auto 0; text-align: left; }
+.evj-nombre h2 { margin: 0; font: 400 clamp(1.75rem, 8vw, 2.25rem)/1.1 var(--f-titular); color: var(--tinta); }
+.evj-nombre p { margin: 0; color: var(--tinta-2); font: 400 16px/1.35 var(--f-ui); }
+.evj-nombre-in { width: 100%; min-height: 56px; padding: 0 16px; border: 1px solid var(--linea); border-radius: var(--r-2); background: var(--superficie); color: var(--tinta); font: 500 20px var(--f-ui); box-sizing: border-box; }
+.evj-bt-nombre { min-height: 56px; border: 0; border-radius: var(--r-2); background: var(--senal); color: var(--senal-tinta); font: 700 20px var(--f-ui); cursor: pointer; touch-action: manipulation; }

@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><title>OpenMeets</title>
+<link rel="stylesheet" href="estilo.css"></head>
+<body>
+<main id="card">
+  <header id="cab"><b>OpenMeets</b><span id="ver"></span>
+    <span class="sp"></span><button id="min" aria-label="min">&#8211;</button><button id="cer" aria-label="close">&#10005;</button></header>
+  <section id="s-inicio">
+    <h1 id="t-titulo"></h1><p id="t-sub"></p>
+    <label class="campo"><span id="t-carpeta"></span>
+      <div class="fila"><input id="ruta" readonly><button id="elegir"></button></div></label>
+    <label><input type="checkbox" id="c-esc" checked> <span id="t-esc"></span></label>
+    <label><input type="checkbox" id="c-ini" checked> <span id="t-ini"></span></label>
+    <label><input type="checkbox" id="c-abr" checked> <span id="t-abr"></span></label>
+    <button id="go" class="primario"></button>
+  </section>
+  <section id="s-prog" hidden><h1 id="t-prog"></h1><div id="barra"><i id="rel"></i></div><p id="txt"></p></section>
+  <section id="s-fin" hidden><h1 id="t-fin"></h1><button id="abrir" class="primario"></button><button id="cerrar2"></button></section>
+  <section id="s-err" hidden><h1 id="t-err"></h1><p id="msg"></p><button id="volver"></button></section>
+</main>
+<script src="app.js"></script>
+</body></html>

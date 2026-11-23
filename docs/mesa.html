@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dirigir la mesa · Documentación de OpenMeets</title>
+<meta name="description" content="Documentación de OpenMeets: Dirigir la mesa.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="../web/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../web/css/tokens.css">
+<link rel="stylesheet" href="../web/css/base.css">
+<link rel="stylesheet" href="docs.css">
+</head>
+<body>
+<a class="saltar" href="#contenido">Saltar al contenido</a>
+<header class="barra">
+  <a class="logo" href="index.html" aria-label="OpenMeets, documentación"><img class="claro" src="../marca/logotipo-horizontal.svg" alt="OpenMeets" height="26"><img class="oscuro" src="../marca/logotipo-blanco.svg" alt="" height="26"></a>
+  <span class="etiqueta">documentación</span>
+</header>
+<div class="marco">
+  <nav class="lateral" aria-label="Documentación">
+    <details id="menu">
+      <summary>Contenido</summary>
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="guia-rapida.html">Guía rápida</a></li>
+        <li><a href="organizar.html">Organizar un meet</a></li>
+        <li><a href="inscripciones.html">Inscripciones y pesaje</a></li>
+        <li><a href="mesa.html" aria-current="page">Dirigir la mesa</a></li>
+        <li><a href="jueces.html">Jueces</a></li>
+        <li><a href="pantalla.html">Pantalla y HUD para OBS</a></li>
+        <li><a href="transmision.html">Transmisión (regie)</a></li>
+        <li><a href="publico.html">Público e historial</a></li>
+        <li><a href="atletas-records.html">Atletas y récords</a></li>
+        <li><a href="liftingcast.html">Seguir LiftingCast</a></li>
+        <li><a href="tecnico.html">Técnico</a></li>
+        <li><a href="nube.html">Nube</a></li>
+        <li><a href="federacion.html">Modo federación</a></li>
+        <li><a href="marca.html">Marca</a></li>
+        <li><a href="faq.html">Preguntas frecuentes</a></li>
+        <li><a href="creditos.html">Créditos</a></li>
+      </ul>
+    </details>
+  </nav>
+  <main id="contenido">
+
+<h1>Dirigir la mesa</h1>
+<p class="entrada">La mesa lleva el turno: quién levanta, con cuánto peso y cuándo. Todo lo que hace se ve al instante en las pantallas y teléfonos.</p>
+<h2>El flujo de un intento</h2>
+<ol>
+  <li><b>Atleta en tarima.</b> La mesa elige al siguiente según el orden de salida (ronda, peso, lote). Desde ese momento el atleta aparece «en tarima» en todas las pantallas.</li>
+  <li><b>Peso y discos.</b> La mesa ve el peso pedido y los discos de cada lado, calculados con tus discos, la barra y los collarines.</li>
+  <li><b>Reloj.</b> Se inicia con los segundos configurados (60 y 180 por defecto) y avisa con sonido en los últimos segundos.</li>
+  <li><b>Pre-marcado.</b> Cuando un juez vota, su luz aparece como «votó» sin mostrar el color. Nadie ve cómo votó hasta que votan los tres.</li>
+  <li><b>Luces juntas.</b> Con los tres votos, las luces se revelan a la vez. Con <code>pararAlVotar</code> el reloj se detiene solo.</li>
+  <li><b>Resultado.</b> La mesa confirma el resultado (válido o nulo) y pasa al siguiente.</li>
+</ol>
+<h2>Resultado y deshacer</h2>
+<p>Marcar un resultado, cambiar un peso, borrar un atleta o quitar el acceso de un juez muestra un aviso con <b>Deshacer</b> durante 6 segundos. Úsalo sin miedo: la mesa se equivoca y se corrige.</p>
+<ul>
+  <li>Cada intento guarda su historial de cambios: peso anterior, nuevo y motivo.</li>
+  <li>Las acciones de la mesa quedan en la lista de actividad del meet (los últimos 500 eventos).</li>
+  <li>Una celebración sobria aparece solo en válidos, récords y marcas personales. En nulo solo suena la chicharra.</li>
+</ul>
+<h2>Cambios de peso</h2>
+<p>Los atletas piden sus segundos y terceros intentos a la mesa. Cámbialos en la fila del atleta. Cada cambio se cuenta (<code>cambios</code>) y queda en el historial. Un intento «al final» (<code>alFinal</code>) sale después de los demás de su ronda.</p>
+<h2>Avance y progreso</h2>
+<p>Cada atleta tiene un anillo de 9 segmentos (3 movimientos por 3 intentos) coloreados por resultado. Cada grupo y tarima muestra cuántos intentos faltan: «Faltan 14 intentos en el Grupo B».</p>
+<h2>Atajos de teclado</h2>
+<p>La mesa tiene atajos reservados para las letras <kbd>G</kbd>, <kbd>B</kbd>, <kbd>S</kbd>, <kbd>R</kbd>, <kbd>P</kbd> y la barra espaciadora. Los mandos y el teclado de los jueces nunca los usan, así que no chocan (ver <a href="jueces.html">Jueces</a>). La lista completa de atajos con su acción está en la ayuda de la propia mesa de control.</p>
+<h2>Si algo falla</h2>
+<dl>
+  <dt>Se cayó el servidor</dt>
+  <dd>Los teléfonos muestran aviso con pasos y reintentan solos. Al volver, no se pierde nada: el estado en vivo y los atletas están en disco. Abre OpenMeets otra vez en el equipo de la mesa.</dd>
+  <dt>Un juez perdió la red</dt>
+  <dd>Su voto queda en cola en el teléfono («se enviará al volver») y llega solo. El primer voto de cada juez por turno es el que cuenta.</dd>
+  <dt>Una pantalla se quedó sin datos</dt>
+  <dd>Muestra la última imagen con su hora y se reconecta sola.</dd>
+</dl>
+
+    <footer class="pie">
+      <a href="organizar.html">&larr; Organizar un meet</a><a href="jueces.html">Jueces &rarr;</a>
+    </footer>
+    <p class="firma">OpenMeets · MIT © 2026 Eyver Gomez (<a href="https://instagram.com/eyversao">@eyversao</a>) · <a href="https://github.com/eyversao">GitHub</a></p>
+  </main>
+</div>
+<script>if (matchMedia('(min-width: 860px)').matches) document.getElementById('menu').open = true;</script>
+</body>
+</html>

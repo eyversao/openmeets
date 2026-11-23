@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Organizar un meet · Documentación de OpenMeets</title>
+<meta name="description" content="Documentación de OpenMeets: Organizar un meet.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="../web/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../web/css/tokens.css">
+<link rel="stylesheet" href="../web/css/base.css">
+<link rel="stylesheet" href="docs.css">
+</head>
+<body>
+<a class="saltar" href="#contenido">Saltar al contenido</a>
+<header class="barra">
+  <a class="logo" href="index.html" aria-label="OpenMeets, documentación"><img class="claro" src="../marca/logotipo-horizontal.svg" alt="OpenMeets" height="26"><img class="oscuro" src="../marca/logotipo-blanco.svg" alt="" height="26"></a>
+  <span class="etiqueta">documentación</span>
+</header>
+<div class="marco">
+  <nav class="lateral" aria-label="Documentación">
+    <details id="menu">
+      <summary>Contenido</summary>
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="guia-rapida.html">Guía rápida</a></li>
+        <li><a href="organizar.html" aria-current="page">Organizar un meet</a></li>
+        <li><a href="inscripciones.html">Inscripciones y pesaje</a></li>
+        <li><a href="mesa.html">Dirigir la mesa</a></li>
+        <li><a href="jueces.html">Jueces</a></li>
+        <li><a href="pantalla.html">Pantalla y HUD para OBS</a></li>
+        <li><a href="transmision.html">Transmisión (regie)</a></li>
+        <li><a href="publico.html">Público e historial</a></li>
+        <li><a href="atletas-records.html">Atletas y récords</a></li>
+        <li><a href="liftingcast.html">Seguir LiftingCast</a></li>
+        <li><a href="tecnico.html">Técnico</a></li>
+        <li><a href="nube.html">Nube</a></li>
+        <li><a href="federacion.html">Modo federación</a></li>
+        <li><a href="marca.html">Marca</a></li>
+        <li><a href="faq.html">Preguntas frecuentes</a></li>
+        <li><a href="creditos.html">Créditos</a></li>
+      </ul>
+    </details>
+  </nav>
+  <main id="contenido">
+
+<h1>Organizar un meet</h1>
+<p class="entrada">Crea la competencia, carga a los atletas y deja listas las tarimas. Solo el organizador puede hacerlo.</p>
+<h2>Crear el meet</h2>
+<p>En <b>Organizar &rarr; Nuevo meet</b> pide como mínimo el nombre. El resto se puede completar después. Estos son los campos y sus valores:</p>
+<div class="tabla"><table><thead><tr><th>Campo</th><th>Qué es</th></tr></thead><tbody><tr><td><code>nombre</code></td><td>Nombre de la competencia (obligatorio, hasta 120 caracteres).</td></tr><tr><td><code>fecha</code>, <code>fechaFin</code></td><td>Formato AAAA-MM-DD. Con fecha de fin, el meet cuenta como programado hasta ese día.</td></tr><tr><td><code>sede</code>, <code>ciudad</code>, <code>pais</code>, <code>organizador</code></td><td>Texto libre que se muestra al público.</td></tr><tr><td><code>descripcion</code></td><td>Texto libre de hasta 2000 caracteres.</td></tr><tr><td><code>stream</code></td><td>Enlace a la transmisión (debe empezar por http:// o https://).</td></tr><tr><td><code>federacion</code>, <code>modo</code></td><td>Federación (texto) y modo: <code>IPF</code> (tarjetas azul y amarilla con sus motivos) u <code>otra</code> (todo nulo cuenta igual, sin tarjeta).</td></tr><tr><td><code>aprobacion</code></td><td>Cómo se admite a los jueces: <code>abierta</code>, <code>mesa</code> o <code>codigo</code>. Ver <a href="jueces.html">Jueces</a>.</td></tr><tr><td><code>formula</code></td><td>Puntos para el «mejor levantador»: <code>GL</code>, <code>DOTS</code>, <code>Wilks</code> o <code>IPF</code>.</td></tr><tr><td><code>barra</code>, <code>barraSentadilla</code>, <code>collar</code></td><td>Peso de la barra (20 kg por defecto), barra de sentadilla si es distinta (por ejemplo 25 kg) y de cada collarín (2,5 kg).</td></tr><tr><td><code>discos</code></td><td>Discos disponibles: kg, pares y color. Con ellos se calcula la carga de cada lado.</td></tr><tr><td><code>relojes</code></td><td>Duraciones del reloj en segundos. Por defecto 60 y 180.</td></tr><tr><td><code>pararAlVotar</code></td><td>Si el reloj se detiene cuando los tres jueces ya votaron.</td></tr><tr><td><code>plataformas</code></td><td>Nombres de las tarimas (hasta 12). Por defecto «Tarima 1».</td></tr><tr><td><code>publico</code></td><td>Si aparece en el listado público. Si lo desactivas, solo lo ve el organizador.</td></tr><tr><td><code>cerrado</code></td><td>Márcalo al terminar: pasa al historial como terminada.</td></tr></tbody></table></div>
+<p>Al crearlo, OpenMeets genera un <b>código de jueces</b> de 6 dígitos. Puedes cambiarlo desde el meet.</p>
+<h2>Atletas</h2>
+<p>Puedes añadirlos uno a uno o importarlos todos por CSV. Un meet admite hasta <b>1000 atletas</b>. Cada atleta lleva:</p>
+<div class="tabla"><table><thead><tr><th>Dato</th><th>Valores</th></tr></thead><tbody><tr><td>Nombre, club</td><td>Texto. El nombre se usa para encontrar marcas personales en meets anteriores de este servidor.</td></tr><tr><td>Sexo</td><td><code>M</code> o <code>F</code>.</td></tr><tr><td>División</td><td>Open, Junior, Sub-Junior, Master 1 y las demás que uses (texto).</td></tr><tr><td>Equipamiento</td><td><code>raw</code> o <code>equipado</code>.</td></tr><tr><td>Peso corporal y categoría</td><td>Si no pones categoría, se calcula con sexo, peso y división.</td></tr><tr><td>Plataforma, sesión, grupo, lote</td><td>Dónde y cuándo compite. Un grupo (flight) es el conjunto que levanta junto.</td></tr><tr><td>Rack</td><td>Altura del rack en sentadilla y en banca.</td></tr><tr><td>Primeros intentos</td><td>Sentadilla, banca y peso muerto. Los siguientes intentos se piden durante la competencia.</td></tr></tbody></table></div>
+<h2>Importar atletas desde CSV</h2>
+<p>La importación se hace en tu navegador: el archivo no sale de tu red. Acepta comas o punto y coma como separador, comillas dobles para textos con comas y archivos con BOM de Excel. La primera fila son los nombres de columna, exactos y en minúscula (la mayúscula de <code>S1</code>, <code>B1</code>, <code>D1</code>, <code>rackS</code> y <code>rackB</code> importa):</p>
+<pre><code>nombre,sexo,club,division,equipamiento,clase,plataforma,sesion,grupo,lote,peso,nacimiento,S1,B1,D1,rackS,rackB
+"Laura Díaz",F,"Club Ejemplo",Open,raw,,"Tarima 1",1,A,12,62.4,1997-05-12,120,65,145,12,6</code></pre>
+<div class="tabla"><table><thead><tr><th>Columna</th><th>Qué lleva</th><th>Si falta</th></tr></thead><tbody><tr><td><code>nombre</code></td><td>Nombre completo.</td><td>La fila se ignora.</td></tr><tr><td><code>sexo</code></td><td>Si empieza por <code>F</code> es mujer; cualquier otra cosa, hombre.</td><td>M</td></tr><tr><td><code>club</code></td><td>Club o equipo.</td><td>Vacío</td></tr><tr><td><code>division</code></td><td>Open, Junior, Master 1…</td><td>Open</td></tr><tr><td><code>equipamiento</code></td><td>Si contiene «equip» es equipado.</td><td>raw</td></tr><tr><td><code>clase</code></td><td>Categoría de peso, por ejemplo <code>63</code> o <code>84+</code>.</td><td>Se calcula con sexo, peso y división</td></tr><tr><td><code>plataforma</code></td><td>Nombre de la tarima; debe coincidir con las del meet.</td><td>Tarima 1</td></tr><tr><td><code>sesion</code>, <code>grupo</code>, <code>lote</code></td><td>Sesión, grupo (A, B…) y número de lote.</td><td>Sesión 1, grupo A</td></tr><tr><td><code>peso</code></td><td>Peso corporal en kg; la coma decimal se acepta.</td><td>Vacío</td></tr><tr><td><code>nacimiento</code></td><td>AAAA-MM-DD.</td><td>Vacío</td></tr><tr><td><code>S1</code>, <code>B1</code>, <code>D1</code></td><td>Primer intento de sentadilla, banca y peso muerto, en kg.</td><td>Vacío</td></tr><tr><td><code>rackS</code>, <code>rackB</code></td><td>Altura de rack en sentadilla y banca.</td><td>Vacío</td></tr></tbody></table></div>
+<p>La app te ofrece descargar esta misma plantilla. Si importas un atleta con un nombre que ya existe, se añade como otro atleta: revisa duplicados antes de importar dos veces.</p>
+<div class="nota "><b>Límites</b><p>Una sola petición de importación admite hasta 1000 atletas y 1 MB de datos. Para un meet muy grande, divide el archivo.</p></div>
+<h2>Tarimas, sesiones y grupos</h2>
+<p>Cada tarima tiene su propio estado «en vivo» y su pantalla. Con varias tarimas, la mesa dirige una a la vez desde la misma ventana (o cada mesa desde su equipo, todas contra el mismo servidor).</p>
+<h2>Cerrar el meet</h2>
+<p>Cuando acabes, marca el meet como terminado. Pasa al historial y no se borra nunca solo. Si quieres eliminarlo, va a una papelera dentro de la carpeta de datos (ver <a href="tecnico.html#datos">Técnico</a>), no se pierde del todo.</p>
+
+    <footer class="pie">
+      <a href="guia-rapida.html">&larr; Guía rápida</a><a href="mesa.html">Dirigir la mesa &rarr;</a>
+    </footer>
+    <p class="firma">OpenMeets · MIT © 2026 Eyver Gomez (<a href="https://instagram.com/eyversao">@eyversao</a>) · <a href="https://github.com/eyversao">GitHub</a></p>
+  </main>
+</div>
+<script>if (matchMedia('(min-width: 860px)').matches) document.getElementById('menu').open = true;</script>
+</body>
+</html>

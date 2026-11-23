@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Preguntas frecuentes · Documentación de OpenMeets</title>
+<meta name="description" content="Documentación de OpenMeets: Preguntas frecuentes.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="../web/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../web/css/tokens.css">
+<link rel="stylesheet" href="../web/css/base.css">
+<link rel="stylesheet" href="docs.css">
+</head>
+<body>
+<a class="saltar" href="#contenido">Saltar al contenido</a>
+<header class="barra">
+  <a class="logo" href="index.html" aria-label="OpenMeets, documentación"><img class="claro" src="../marca/logotipo-horizontal.svg" alt="OpenMeets" height="26"><img class="oscuro" src="../marca/logotipo-blanco.svg" alt="" height="26"></a>
+  <span class="etiqueta">documentación</span>
+</header>
+<div class="marco">
+  <nav class="lateral" aria-label="Documentación">
+    <details id="menu">
+      <summary>Contenido</summary>
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="guia-rapida.html">Guía rápida</a></li>
+        <li><a href="organizar.html">Organizar un meet</a></li>
+        <li><a href="inscripciones.html">Inscripciones y pesaje</a></li>
+        <li><a href="mesa.html">Dirigir la mesa</a></li>
+        <li><a href="jueces.html">Jueces</a></li>
+        <li><a href="pantalla.html">Pantalla y HUD para OBS</a></li>
+        <li><a href="transmision.html">Transmisión (regie)</a></li>
+        <li><a href="publico.html">Público e historial</a></li>
+        <li><a href="atletas-records.html">Atletas y récords</a></li>
+        <li><a href="liftingcast.html">Seguir LiftingCast</a></li>
+        <li><a href="tecnico.html">Técnico</a></li>
+        <li><a href="nube.html">Nube</a></li>
+        <li><a href="federacion.html">Modo federación</a></li>
+        <li><a href="marca.html">Marca</a></li>
+        <li><a href="faq.html" aria-current="page">Preguntas frecuentes</a></li>
+        <li><a href="creditos.html">Créditos</a></li>
+      </ul>
+    </details>
+  </nav>
+  <main id="contenido">
+
+<h1>Preguntas frecuentes</h1>
+<dl>
+  <dt>¿Necesito internet?</dt>
+  <dd>No para correr la competencia: solo hace falta una red local (Wi-Fi o hotspot). Solo <a href="liftingcast.html">Seguir LiftingCast</a> necesita internet.</dd>
+  <dt>Los teléfonos no abren la dirección</dt>
+  <dd>Casi siempre es el Firewall o la red. Comprueba que Windows permitió OpenMeets en redes <b>privadas</b>, que el teléfono está en la <b>misma</b> Wi-Fi y que usas la dirección con IP que muestra la ventana negra, no <code>localhost</code>. Algunas Wi-Fi de recinto aíslan los dispositivos entre sí: usa tu propio router o el hotspot del equipo de la mesa.</dd>
+  <dt>La dirección cambió de un día para otro</dt>
+  <dd>El router reparte IPs distintas. Fija la IP del equipo de la mesa en el router, o vuelve a copiar los enlaces del día.</dd>
+  <dt>Perdí el PIN</dt>
+  <dd>Desde el equipo de la mesa no lo necesitas: entra en Ajustes y míralo o cámbialo. También está en <code>config.json</code> de la carpeta de datos.</dd>
+  <dt>¿Qué pasa si se apaga el equipo en plena competencia?</dt>
+  <dd>Los cambios se guardan en disco a los pocos segundos y hay una copia <code>.bak</code> del archivo. Al reabrir OpenMeets sigues donde estabas. Un intento a medias puede necesitar repetir el resultado.</dd>
+  <dt>¿Se puede usar en un Mac o en Linux?</dt>
+  <dd>Sí, con Node.js 20 o superior: <code>npm start</code>. Solo el instalador de Windows (<code>OpenMeets-Setup.exe</code>) es exclusivo de Windows.</dd>
+  <dt>Los mandos no aparecen</dt>
+  <dd>Usa Chrome o Edge de escritorio, en <code>http://localhost:5050/</code> en el equipo de la mesa. Ver <a href="jueces.html">Jueces</a>.</dd>
+  <dt>¿Puedo tener dos mesas?</dt>
+  <dd>Sí: cada tarima tiene su propio estado. Abre el meet como organizador en dos equipos (el segundo con el PIN) y dirige una tarima en cada uno. Un solo equipo corre el servidor.</dd>
+  <dt>¿Dónde están mis meets?</dt>
+  <dd>En la carpeta de datos, como archivos JSON. Ver <a href="tecnico.html#datos">Técnico</a>.</dd>
+  <dt>¿Cobra algo o pide una cuenta?</dt>
+  <dd>No. Es software libre con licencia MIT: no hay cuentas, pagos ni anuncios.</dd>
+  <dt>¿Dónde cambio el idioma?</dt>
+  <dd>Con el botón <b>EN</b> / <b>ES</b> de la barra superior de la app. Las páginas de esta documentación solo están en español.</dd>
+  <dt>¿Cómo reporto un error o propongo una mejora?</dt>
+  <dd>Escribe a Eyver Gomez en <a href="https://instagram.com/eyversao">Instagram</a> o abre un tema en <a href="https://github.com/eyversao">GitHub</a>.</dd>
+</dl>
+
+    <footer class="pie">
+      <a href="marca.html">&larr; Marca</a><a href="creditos.html">Créditos &rarr;</a>
+    </footer>
+    <p class="firma">OpenMeets · MIT © 2026 Eyver Gomez (<a href="https://instagram.com/eyversao">@eyversao</a>) · <a href="https://github.com/eyversao">GitHub</a></p>
+  </main>
+</div>
+<script>if (matchMedia('(min-width: 860px)').matches) document.getElementById('menu').open = true;</script>
+</body>
+</html>

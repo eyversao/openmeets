@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Marca · Documentación de OpenMeets</title>
+<meta name="description" content="Documentación de OpenMeets: Marca.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="../web/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../web/css/tokens.css">
+<link rel="stylesheet" href="../web/css/base.css">
+<link rel="stylesheet" href="docs.css">
+</head>
+<body>
+<a class="saltar" href="#contenido">Saltar al contenido</a>
+<header class="barra">
+  <a class="logo" href="index.html" aria-label="OpenMeets, documentación"><img class="claro" src="../marca/logotipo-horizontal.svg" alt="OpenMeets" height="26"><img class="oscuro" src="../marca/logotipo-blanco.svg" alt="" height="26"></a>
+  <span class="etiqueta">documentación</span>
+</header>
+<div class="marco">
+  <nav class="lateral" aria-label="Documentación">
+    <details id="menu">
+      <summary>Contenido</summary>
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="guia-rapida.html">Guía rápida</a></li>
+        <li><a href="organizar.html">Organizar un meet</a></li>
+        <li><a href="inscripciones.html">Inscripciones y pesaje</a></li>
+        <li><a href="mesa.html">Dirigir la mesa</a></li>
+        <li><a href="jueces.html">Jueces</a></li>
+        <li><a href="pantalla.html">Pantalla y HUD para OBS</a></li>
+        <li><a href="transmision.html">Transmisión (regie)</a></li>
+        <li><a href="publico.html">Público e historial</a></li>
+        <li><a href="atletas-records.html">Atletas y récords</a></li>
+        <li><a href="liftingcast.html">Seguir LiftingCast</a></li>
+        <li><a href="tecnico.html">Técnico</a></li>
+        <li><a href="nube.html">Nube</a></li>
+        <li><a href="federacion.html">Modo federación</a></li>
+        <li><a href="marca.html" aria-current="page">Marca</a></li>
+        <li><a href="faq.html">Preguntas frecuentes</a></li>
+        <li><a href="creditos.html">Créditos</a></li>
+      </ul>
+    </details>
+  </nav>
+  <main id="contenido">
+
+<h1>Marca</h1>
+<p class="entrada">Un disco de pesas visto de frente, con una abertura. «Open» dos veces: código abierto y abierto a todos.</p>
+<p><a href="../marca/manual.pdf"><b>Descargar el manual de marca (PDF)</b></a> · <a href="../marca/manual.html">verlo en el navegador</a>. 14 páginas, A4 apaisado.</p>
+<h2>Resumen</h2>
+<ul>
+  <li><b>Símbolo:</b> un anillo con abertura entre 28° y 52°, y un buje central. La abertura se usa como indicador de estado: entrada, carga y «en vivo».</li>
+  <li><b>Logotipo:</b> el símbolo y «openmeets» en minúsculas, en Geist 600. Hay versión horizontal, vertical y blanca. Tamaño mínimo: 16 px el símbolo, 80 px el logotipo.</li>
+  <li><b>Color:</b> papel <code>#F5F5F2</code> y tinta <code>#111111</code>. Un único acento, la señal <code>#D9F84A</code>, solo como fondo de resaltado con texto tinta, nunca como texto sobre claro.</li>
+  <li><b>Colores con significado:</b> luz blanca (válido), luz roja (nulo), tarjetas azul y amarilla, y los estados ok, mal, aviso e info. Siempre con texto o ícono.</li>
+  <li><b>Tipografías:</b> Geist (interfaz), Geist Mono (datos, con cifras tabulares) e Instrument Serif (titulares grandes).</li>
+  <li><b>Voz:</b> español, con «tú», frases cortas. Cada mensaje dice qué pasó y qué puedes hacer.</li>
+</ul>
+<h2>Dónde está todo</h2>
+<div class="tabla"><table><thead><tr><th>Qué</th><th>Dónde</th></tr></thead><tbody><tr><td>Variables de color, tipos y espacios</td><td><code>web/css/tokens.css</code></td></tr><tr><td>Logotipos y símbolo (SVG)</td><td><code>marca/</code></td></tr><tr><td>Íconos de la app y <code>og.png</code></td><td><code>web/iconos/</code> y <code>web/og.png</code></td></tr><tr><td>Animación del símbolo</td><td><code>web/js/marca.js</code> y <code>marca/animacion.html</code></td></tr><tr><td>Regenerarlo todo</td><td><code>python marca/generar.py</code> (ver <code>marca/LEEME.md</code>)</td></tr></tbody></table></div>
+<p>El logotipo y el manual forman parte del proyecto. Úsalos para identificar tus competencias y tu club, respetando las reglas del manual.</p>
+
+    <footer class="pie">
+      <a href="tecnico.html">&larr; Técnico</a><a href="faq.html">Preguntas frecuentes &rarr;</a>
+    </footer>
+    <p class="firma">OpenMeets · MIT © 2026 Eyver Gomez (<a href="https://instagram.com/eyversao">@eyversao</a>) · <a href="https://github.com/eyversao">GitHub</a></p>
+  </main>
+</div>
+<script>if (matchMedia('(min-width: 860px)').matches) document.getElementById('menu').open = true;</script>
+</body>
+</html>

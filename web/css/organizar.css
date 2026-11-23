@@ -1,0 +1,177 @@
+/* ============================================================
+   OPENMEETS — vistas del organizador (lista de meets, datos, atletas, mesa, jueces, resultados)
+   Solo variables de tokens.css. Controles de 44 px. Sin scroll horizontal a 390 px.
+   ============================================================ */
+
+.crece { flex: 1 1 auto; }
+.org-cab { padding-block: var(--e-4) var(--e-3); gap: var(--e-2); }
+.org-atras { display: inline-flex; align-items: center; gap: var(--e-1); min-height: 44px; color: var(--tinta-3); text-decoration: none; font-size: .9375rem; width: fit-content; }
+.org-atras:hover { color: var(--tinta); }
+.org-cab-fila { display: flex; align-items: flex-end; justify-content: space-between; gap: var(--e-3); flex-wrap: wrap; }
+.org-cab-texto { min-width: 0; display: grid; gap: var(--e-2); }
+.org-titular { font-size: clamp(1.75rem, 5vw, 3rem); overflow-wrap: anywhere; }
+.org-cab-acciones { display: flex; align-items: center; gap: var(--e-2); flex-wrap: wrap; }
+
+/* ---------- Lista de meets ---------- */
+.org-meet { gap: var(--e-3); }
+.org-meet-enlace { text-decoration: none; }
+.org-meet-enlace:hover { text-decoration: underline; }
+.org-meet-datos { font-size: .875rem; color: var(--tinta-3); }
+.org-meet-acciones { display: flex; align-items: center; gap: var(--e-2); flex-wrap: wrap; margin-top: var(--e-1); }
+.org-pin-caja { display: grid; justify-items: center; gap: var(--e-3); text-align: center; padding: var(--e-6) var(--e-4); }
+.org-pin-form { width: min(100%, 22rem); text-align: left; }
+.org-pin { font-family: var(--f-datos); font-size: 1.75rem; letter-spacing: .4em; text-align: center; min-height: 56px; }
+
+/* ---------- Marco del meet ---------- */
+.org-nav { position: sticky; top: 0; z-index: 5; background: var(--papel); margin-inline: calc(var(--e-4) * -1); padding-inline: var(--e-4); }
+.org-pane { padding-block: var(--e-4) var(--e-6); min-width: 0; }
+.org-seccion { display: grid; gap: var(--e-4); }
+.org-sec-titulo { font-size: 1.125rem; }
+.org-sub { font-size: 1rem; font-weight: 600; }
+.org-barra-guardar { position: sticky; bottom: 0; display: flex; justify-content: flex-end; align-items: center; gap: var(--e-3); padding: var(--e-3) 0; background: var(--papel); border-top: 1px solid var(--linea); z-index: 4; }
+.org-estado-guardado { margin-right: auto; }
+.org-fila-simple { display: flex; align-items: center; justify-content: space-between; gap: var(--e-3); min-height: 44px; flex-wrap: wrap; }
+.org-punto { display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: var(--tinta-3); margin-right: 6px; }
+.org-punto.ok { background: var(--ok); }
+.org-punto.mal { background: var(--mal); }
+.org-ayuda summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; font-weight: 500; }
+.org-ayuda ul { margin: 0; padding-left: var(--e-5); display: grid; gap: var(--e-2); color: var(--tinta-2); }
+
+/* ---------- Datos: discos ---------- */
+.org-discos { display: grid; gap: var(--e-3); }
+.org-disco-fila { display: grid; grid-template-columns: 14px minmax(0, 1fr) minmax(0, 1fr) 44px; gap: var(--e-3); align-items: end; }
+.org-disco-muestra { width: 14px; height: 44px; border-radius: 3px; border: 1px solid var(--linea); }
+
+/* ---------- Atletas ---------- */
+.org-barra { display: flex; gap: var(--e-2); flex-wrap: wrap; align-items: center; }
+.org-filtros { display: grid; gap: var(--e-3); grid-template-columns: repeat(auto-fit, minmax(min(100%, 10rem), 1fr)); }
+.org-resumen { min-height: 1.4em; }
+.org-atletas { display: grid; gap: var(--e-2); }
+.org-atleta { display: grid; grid-template-columns: auto minmax(0, 1fr) auto auto; gap: var(--e-2) var(--e-3); align-items: center; padding: var(--e-3); background: var(--superficie); border: 1px solid var(--linea); border-radius: var(--r-2); }
+.org-lote { min-width: 2.5rem; color: var(--tinta-3); }
+.org-atleta-quien { display: grid; min-width: 0; }
+.org-grupo { font-size: .8125rem; color: var(--tinta-2); background: var(--papel-2); border-radius: var(--r-pill); padding: 2px 10px; white-space: nowrap; }
+.org-atleta-nums { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: var(--e-2); }
+.org-num { display: grid; gap: 2px; min-width: 0; }
+.org-mini { text-align: center; padding-inline: var(--e-1); font-family: var(--f-datos); font-variant-numeric: tabular-nums; min-width: 0; }
+.org-atleta > .anillo { grid-column: 3; grid-row: 1; }
+.org-atleta > .boton { grid-column: 4; grid-row: 1; }
+.org-grupo { grid-column: 2; grid-row: 2; justify-self: start; display: none; }
+@media (min-width: 900px) {
+  .org-atleta { grid-template-columns: 3rem minmax(10rem, 1.2fr) auto minmax(0, 2fr) auto auto; }
+  .org-atleta-nums { grid-column: auto; }
+  .org-grupo { display: inline-block; grid-column: auto; grid-row: auto; }
+  .org-atleta > .anillo, .org-atleta > .boton { grid-column: auto; grid-row: auto; }
+}
+@media (max-width: 899px) { .org-grupo { display: inline-block; grid-column: 2; grid-row: 2; } .org-atleta > .anillo { grid-row: 1 / 3; } .org-atleta > .boton { grid-row: 1 / 3; } }
+.modal.org-ancho { width: min(100%, 56rem); }
+.org-previa { display: grid; gap: var(--e-3); min-width: 0; }
+.org-previa-resumen { flex-wrap: wrap; }
+.org-previa-msg { white-space: normal !important; min-width: 12rem; font-size: .8125rem; color: var(--tinta-2); }
+.org-fila-mal td { background: color-mix(in srgb, var(--mal) 10%, var(--superficie)); }
+.org-fila-aviso td { background: color-mix(in srgb, var(--aviso) 10%, var(--superficie)); }
+
+/* ---------- Mesa ---------- */
+.org-mesa-cab { display: flex; align-items: center; gap: var(--e-3); flex-wrap: wrap; }
+.org-interruptores { display: grid; gap: var(--e-1) var(--e-5); grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); align-items: center; }
+.org-controles { display: grid; gap: var(--e-3); grid-template-columns: repeat(auto-fit, minmax(min(100%, 9rem), 1fr)); }
+.org-progreso { display: flex; align-items: center; gap: var(--e-3); font-weight: 500; }
+.org-mesa-rejilla { display: grid; gap: var(--e-4); align-items: start; }
+@media (min-width: 900px) { .org-mesa-rejilla { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); } }
+.org-actual { display: grid; gap: var(--e-3); align-content: start; }
+.org-nombre { font-family: var(--f-titular); font-weight: 400; font-size: clamp(1.75rem, 5vw, 2.75rem); line-height: 1.05; overflow-wrap: anywhere; }
+.org-kg { justify-self: start; min-height: 56px; padding: 0 var(--e-4); border: 1px dashed var(--linea); border-radius: var(--r-2); background: transparent; color: var(--tinta); font-size: clamp(2.25rem, 8vw, 3.5rem); font-weight: 500; line-height: 1; cursor: pointer; touch-action: manipulation; }
+.org-kg:hover { border-color: var(--tinta); }
+.org-carga { display: grid; gap: var(--e-2); }
+.org-reloj-caja { display: grid; gap: var(--e-3); justify-items: start; }
+.org-reloj { font-size: clamp(3rem, 12vw, 5rem); line-height: 1; font-weight: 500; padding: var(--e-1) var(--e-3); border-radius: var(--r-2); background: var(--papel-2); cursor: pointer; min-width: 4ch; text-align: center; }
+.org-reloj.corre { background: var(--senal); color: var(--senal-tinta); }
+.org-reloj.pausa { outline: 2px dashed var(--aviso); }
+.org-reloj.fin { background: var(--mal); color: var(--superficie); }
+.org-reloj-botones, .org-acciones, .org-decidir { display: flex; gap: var(--e-2); flex-wrap: wrap; }
+.org-decidir > .boton { flex: 1 1 8rem; }
+.org-chips { display: flex; gap: var(--e-2); flex-wrap: wrap; align-items: center; }
+.org-chip { min-height: 44px; min-width: 56px; padding: 0 var(--e-3); border: 1px solid var(--linea); border-radius: var(--r-pill); background: var(--superficie); font-family: var(--f-datos); font-variant-numeric: tabular-nums; }
+.org-chip.activo { background: var(--tinta); color: var(--papel); border-color: var(--tinta); }
+.org-luces-panel { display: grid; gap: var(--e-3); justify-items: center; }
+.org-luces-panel > .org-sec-titulo { justify-self: start; }
+.org-luces-panel .ev-resultado { font-size: 2rem; min-height: 2rem; }
+.org-luz-via { color: var(--tinta-3); font-size: .75rem; }
+.org-jueces-estado { display: grid; gap: var(--e-2); grid-template-columns: repeat(3, minmax(0, 1fr)); width: 100%; }
+.org-juez { display: grid; gap: 2px; padding: var(--e-2); border: 1px solid var(--linea); border-radius: var(--r-1); min-width: 0; }
+.org-juez.conectado { border-color: var(--ok); }
+.org-solicitudes { display: flex; align-items: center; gap: var(--e-3); flex-wrap: wrap; padding: var(--e-3); border: 1px solid var(--aviso); border-radius: var(--r-2); width: 100%; }
+.org-simulador { display: grid; gap: var(--e-2); grid-template-columns: repeat(3, minmax(0, 1fr)); width: 100%; padding-top: var(--e-3); border-top: 1px dashed var(--linea); }
+.org-simulador[hidden] { display: none; }
+.org-sim-juez { display: grid; gap: var(--e-2); min-width: 0; }
+.org-sim-botones { display: grid; gap: var(--e-1); }
+.org-sim { min-height: 44px; border-radius: var(--r-1); border: 1px solid var(--linea); background: var(--superficie); font-weight: 600; font-size: .8125rem; }
+.org-sim.blanca { background: var(--luz-blanca); color: var(--senal-tinta); }
+.org-sim.roja { background: var(--luz-roja); color: var(--luz-blanca); border-color: var(--luz-roja); }
+.org-sim.azul { background: var(--tarjeta-azul); color: var(--luz-blanca); border-color: var(--tarjeta-azul); }
+.org-sim.amarilla { background: var(--tarjeta-amarilla); color: var(--senal-tinta); border-color: var(--tarjeta-amarilla); }
+.org-orden { list-style: none; margin: 0; padding: 0; display: grid; }
+.org-orden li { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: var(--e-3); align-items: center; min-height: 44px; border-bottom: 1px solid var(--linea); }
+.org-orden li:last-child { border-bottom: 0; }
+.org-tabla td.org-celda { white-space: nowrap; }
+.org-celda { display: flex; gap: 2px; align-items: center; }
+.org-tabla .org-mini { width: 4.5rem; }
+.org-tabla .org-mini.buena { border-color: var(--ok); color: var(--ok); }
+.org-tabla .org-mini.mala { border-color: var(--mal); color: var(--mal); text-decoration: line-through; }
+.org-celda.cambiada { box-shadow: inset 3px 0 0 var(--aviso); }
+.org-sale td { background: var(--senal); color: var(--senal-tinta); }
+.org-sale td .org-mini { background: var(--superficie); }
+
+/* ---------- Jueces ---------- */
+.org-solicitud { display: grid; gap: var(--e-3); padding: var(--e-3); border: 1px solid var(--linea); border-radius: var(--r-2); }
+.org-solicitud-quien { display: grid; }
+.org-recordar { display: flex; align-items: center; gap: var(--e-2); min-height: 44px; }
+.org-recordar input { width: 22px; height: 22px; }
+.org-codigo { display: flex; align-items: center; justify-content: space-between; gap: var(--e-3); flex-wrap: wrap; padding: var(--e-3); background: var(--papel-2); border-radius: var(--r-2); }
+.org-codigo-num { font-size: 2rem; letter-spacing: .12em; }
+.org-enlace { border-bottom: 1px solid var(--linea); padding-bottom: var(--e-2); }
+.org-enlace-fila { display: flex; align-items: center; justify-content: space-between; gap: var(--e-3); flex-wrap: wrap; }
+.org-enlace-quien { display: grid; min-width: 0; flex: 1 1 14rem; }
+.org-qr { display: grid; justify-items: center; gap: var(--e-2); padding: var(--e-3); }
+.org-qr[hidden] { display: none; }
+.org-qr-svg { width: min(100%, 16rem); height: auto; background: #fff; border-radius: var(--r-1); }
+.org-mandos { display: grid; gap: var(--e-4); grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); }
+.org-mando-juez { display: grid; gap: var(--e-2); align-content: start; }
+
+/* ---------- Resultados ---------- */
+.org-podio { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--e-1); }
+.org-podio li { display: grid; grid-template-columns: 2rem minmax(0, 1fr) auto auto; gap: var(--e-3); align-items: center; min-height: 44px; padding: 0 var(--e-3); border-radius: var(--r-1); }
+.org-puesto { color: var(--tinta-3); }
+
+@media (max-width: 480px) {
+  .org-jueces-estado, .org-simulador { gap: var(--e-1); }
+  .org-juez { padding: var(--e-1); font-size: .8125rem; }
+  .org-podio li { grid-template-columns: 1.5rem minmax(0, 1fr) auto; }
+  .org-podio li > span.datos { display: none; }
+  .org-atleta-nums { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+/* ---------- Pico y final ---------- */
+.org-pico { animation: org-pico 1.4s var(--mv-suave) 1; }
+@keyframes org-pico { 0% { box-shadow: 0 0 0 0 var(--senal); } 40% { box-shadow: 0 0 0 8px var(--senal); } 100% { box-shadow: 0 0 0 0 transparent; } }
+.org-cierre { display: grid; gap: var(--e-4); }
+.org-cierre-mensaje { font-family: var(--f-titular); font-size: 1.5rem; line-height: 1.2; }
+.org-cierre-cifras { display: grid; gap: var(--e-3); grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.org-cierre-cifra { display: grid; padding: var(--e-3); background: var(--papel-2); border-radius: var(--r-2); }
+.org-cierre-cifra strong { font-size: 2rem; font-weight: 500; line-height: 1.1; }
+.org-cierre-linea { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0 var(--e-3); padding-bottom: var(--e-2); border-bottom: 1px solid var(--linea); }
+.org-cierre-linea > :first-child { grid-column: 1 / -1; font-size: .8125rem; }
+.org-cierre-entra { opacity: 0; animation: org-cierre-entra var(--t-medio) var(--mv-suave) forwards; }
+@keyframes org-cierre-entra { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .org-pico, .org-cierre-entra { animation: none; opacity: 1; } }
+
+/* ---------- Ajustes para 390 px ---------- */
+.org-mesa, .org-mesa > *, .org-interruptores > *, .org-seccion, .org-seccion > *, .apilar-grande > * { min-width: 0; }
+.org-seccion .segmentado, .org-interruptores .segmentado { display: flex; width: 100%; }
+.org-seccion .segmento, .org-interruptores .segmento { flex: 1 1 0; min-width: 0; padding-inline: var(--e-2); font-size: .875rem; text-align: center; }
+.org-mesa-cab > span { min-width: 0; flex: 1 1 12rem; }
+.org-nav { overflow: hidden; }
+.org-mesa .apilar, .org-mesa-rejilla { grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 900px) { .org-mesa-rejilla { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); } }
+.org-actual > * { min-width: 0; }
+.org-tabla-caja, .org-mesa .tabla-caja { max-width: 100%; }

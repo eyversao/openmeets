@@ -1,0 +1,4 @@
+{
+  "projects": { "default": "open-meets", "sitio": "getopenmeet" },
+  "targets": { "getopenmeet": { "hosting": { "web": ["openmeets"] } } }
+}

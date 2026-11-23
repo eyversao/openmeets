@@ -1,0 +1,30 @@
+[package]
+name = "openmeets-setup"
+version = "1.0.0"
+edition = "2021"
+description = "OpenMeets Windows installer"
+license = "MIT"
+build = "build.rs"
+
+[workspace]
+
+[dependencies]
+tao = "0.34"
+wry = "0.52"
+rfd = { version = "0.15", default-features = false }
+serde_json = "1"
+zstd = "0.13"
+winreg = "0.55"
+mslnk = "0.1"
+windows-sys = { version = "0.59", features = ["Win32_Foundation","Win32_Graphics_Dwm","Win32_Globalization","Win32_UI_Shell","Win32_System_Com"] }
+
+[build-dependencies]
+zstd = "0.13"
+winres = "0.1"
+
+[profile.release]
+lto = "fat"
+codegen-units = 1
+strip = true
+panic = "abort"
+opt-level = "z"

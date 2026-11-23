@@ -1,0 +1,6 @@
+/* OpenMeets (nube): lo que solo existe en la red local no se muestra. Se carga solo en la versión en la nube. */
+html[data-modo="cuentas"] a[href="/atletas"],
+html[data-modo="cuentas"] a[href="/records"],
+html[data-modo="cuentas"] a[href^="/entrar"],
+html[data-modo="cuentas"] .nube-pildora,
+html[data-modo="cuentas"] .nube-meet { display: none !important; }

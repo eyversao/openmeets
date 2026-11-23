@@ -1,0 +1,40 @@
+/* OpenMeets — barra cargada (dibujo de VettaPro) y franja de lectura rápida. Metales y discos: colores reglamentarios del dibujo. */
+.barra-visual { position: relative; width: 100%; height: 100%; overflow: hidden; }
+.barra-visual .ag-eje { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
+.ag-eje { --grosor: 29px; --manga: 40px; position: relative; flex: none; width: 476px; height: 260px; }
+.ag-barra { position: absolute; left: 0; right: 0; top: 50%; height: var(--grosor); transform: translateY(-50%); border-radius: 6px; overflow: hidden; background: linear-gradient(to bottom, #e5e5ea, #b4b4bb 50%, #8e8e93); box-shadow: inset 0 2px 4px rgba(0,0,0,.08); }
+.ag-manga { position: absolute; left: 80px; right: 0; top: 50%; height: var(--manga); transform: translateY(-50%); overflow: hidden; border-radius: 2px 7px 7px 2px; background: linear-gradient(to bottom, #f2f2f7, #c7c7cc 36%, #8e8e93 78%, #aeaeb2); box-shadow: inset 0 2px 3px rgba(255,255,255,.5), inset 0 -2px 3px rgba(0,0,0,.18); }
+.ag-tope { position: absolute; left: 62px; top: 50%; transform: translateY(-50%); width: 18px; height: 62px; z-index: 1; border: 0; border-radius: 3px; background: linear-gradient(to bottom, #d1d1d6, #8e8e93 45%, #1f3a57 82%, #7c7c80); box-shadow: inset 2px 0 2px rgba(255,255,255,.3), inset -2px 0 2px rgba(0,0,0,.25), 0 6px 10px -4px rgba(0,0,0,.3); }
+.ag-tope::before { content: ''; position: absolute; left: -6px; top: 50%; width: 6px; height: 44px; transform: translateY(-50%); border-radius: 2px 0 0 2px; background: linear-gradient(to bottom, #c7c7cc, #8e8e93 50%, #6c6c70); }
+.ag-pila { position: absolute; left: 81px; top: 50%; transform: translateY(-50%); z-index: 1; display: flex; align-items: center; gap: 1px; margin: 0; }
+.ag-disco { position: relative; display: flex; align-items: center; justify-content: center; animation: ag-disco .45s var(--mv-suave) both; }
+@keyframes ag-disco { from { opacity: 0; transform: translateX(-50px) scaleY(.8); } to { opacity: 1; transform: none; } }
+.ag-disco-cara { position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 8px; border-left: 1px solid rgba(0,0,0,.2); border-right: 1px solid rgba(0,0,0,.2); box-shadow: 4px 0 10px rgba(0,0,0,.1); }
+.ag-brillo { position: absolute; top: 0; left: 0; width: 100%; height: 30%; background: rgba(255,255,255,.2); filter: blur(4px); }
+.ag-disco-cara span { position: relative; transform: rotate(90deg); white-space: nowrap; user-select: none; font: 900 9px var(--f-ui); }
+.ag-seguro { width: 40px; height: 96px; border-radius: 12px; background: #a3a3a3; border: 1px solid #737373; box-shadow: 0 20px 25px -5px rgba(0,0,0,.2); display: grid; place-items: center; }
+.ag-seguro i { width: 24px; height: 4px; border-radius: 99px; background: #525252; }
+
+/* Barra + franja */
+.carga-visual { --fr-alto: 34px; --fr-txt: 1.375rem; --bv-alto: 130px; display: grid; gap: var(--e-2); min-width: 0; }
+.carga-fila { display: flex; align-items: center; gap: var(--e-4); min-width: 0; }
+.carga-fila .barra-visual { flex: none; width: auto; height: var(--bv-alto); aspect-ratio: 476 / 260; }
+.carga-info { display: grid; gap: var(--e-2); min-width: 0; }
+.franja-discos { display: flex; align-items: flex-start; gap: 2px; min-width: 0; }
+.franja-tramo { flex-basis: 0; min-width: min-content; display: grid; gap: var(--e-1); justify-items: center; }
+.franja-color { width: 100%; height: var(--fr-alto); display: flex; overflow: hidden; border-radius: var(--e-1); box-shadow: inset 0 0 0 1px rgb(0 0 0 / .25); outline: 1px solid var(--linea); outline-offset: -1px; } /* el contorno hace visible el disco negro de 2,5 sobre fondo oscuro */
+.franja-color span { flex: 1 1 0; min-width: 0; display: grid; place-items: center; font: 700 clamp(.6rem, calc(var(--fr-alto) * .42), 2rem) var(--f-datos); font-variant-numeric: tabular-nums; border-left: 2px solid rgb(0 0 0 / .28); }
+.franja-color span:first-child { border-left: 0; }
+.franja-txt { margin: 0; font-size: var(--fr-txt); font-weight: 500; line-height: 1.1; text-align: center; color: var(--tinta); word-spacing: -.2em; padding-inline: .6em; }
+.franja-txt b { font-weight: 700; }
+.franja-n { display: inline-block; font-weight: 700; }
+.franja-barra { margin: 0; color: var(--tinta-3); font-size: .8125rem; }
+.franja-sola { margin: 0; font: 600 var(--fr-txt) var(--f-datos); color: var(--tinta-2); }
+.franja-aviso { margin: 0; padding: var(--e-2) var(--e-3); border-radius: var(--e-2); background: var(--mal); color: var(--papel); font-weight: 600; font-size: .9375rem; }
+@media (max-width: 480px) { .carga-visual { --fr-alto: 30px; --fr-txt: 1.0625rem; --bv-alto: 96px; } }
+/* En la tarima todo se lee desde lejos */
+.carga-visual.grande { --fr-alto: clamp(34px, 4.8vh, 80px); --fr-txt: clamp(1.15rem, min(1.9vw, 3.3vh), 3rem); --bv-alto: clamp(90px, 14vh, 220px); gap: clamp(6px, 1vh, 14px); }
+.carga-visual.grande .franja-txt { white-space: nowrap; }
+.carga-visual.grande .franja-barra { font-size: clamp(.9rem, 1.3vw, 1.6rem); }
+.carga-visual.grande .franja-aviso { font-size: clamp(1rem, 1.5vw, 2rem); }
+@media (prefers-reduced-motion: reduce) { .ag-disco { animation: none; } }

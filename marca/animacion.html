@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OpenMeets · animación</title>
+<link rel="stylesheet" href="../web/css/tokens.css">
+<link rel="stylesheet" href="../web/css/marca.css">
+<style>
+  @font-face { font-family: "Geist"; font-weight: 400; src: url(../web/fuentes/geist-latin-400-normal.woff2); }
+  @font-face { font-family: "Geist"; font-weight: 600; src: url(../web/fuentes/geist-latin-600-normal.woff2); }
+  @font-face { font-family: "Geist Mono"; src: url(../web/fuentes/geist-mono-latin-400-normal.woff2); }
+  @font-face { font-family: "Instrument Serif"; src: url(../web/fuentes/instrument-serif-latin-400-normal.woff2); }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--papel); color: var(--tinta); font: 400 16px/1.5 var(--f-ui); padding: 48px 24px 80px; }
+  main { max-width: 980px; margin: 0 auto; }
+  h1 { font: 400 56px/1.05 var(--f-titular); letter-spacing: -.01em; margin: 0 0 8px; }
+  .sub { color: var(--tinta-3); margin: 0 0 40px; max-width: 60ch; }
+  section { border-top: 1px solid var(--linea); padding: 28px 0 8px; }
+  h2 { font: 600 15px/1.3 var(--f-ui); letter-spacing: -.01em; margin: 0 0 4px; }
+  p.n { color: var(--tinta-2); margin: 0 0 20px; max-width: 62ch; font-size: 14px; }
+  code { font: 400 13px var(--f-datos); background: var(--papel-2); padding: 1px 6px; border-radius: 6px; }
+  .fila { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; margin-bottom: 20px; }
+  .caja { background: var(--superficie); border: 1px solid var(--linea); border-radius: var(--r-2); min-height: 150px; flex: 1 1 260px; display: grid; place-items: center; gap: 12px; padding: 24px; }
+  .caja.neg { background: #111; border-color: #111; color: #F5F5F2; --tinta: #F5F5F2; }
+  button { font: 600 14px var(--f-ui); min-height: 44px; padding: 0 18px; border-radius: var(--r-pill); border: 1px solid var(--tinta); background: transparent; color: var(--tinta); cursor: pointer; }
+  button:hover { background: var(--papel-2); }
+  .pildora { display: inline-flex; align-items: center; gap: 8px; font: 600 13px var(--f-ui); padding: 6px 12px 6px 8px; border-radius: var(--r-pill); background: var(--papel-2); }
+  .res { background: var(--senal); color: var(--senal-tinta); padding: 1px 6px; }
+  .boton-carga { display: inline-flex; align-items: center; gap: 10px; }
+  .tam { display: flex; align-items: center; gap: 24px; }
+  .etq { font: 400 12px var(--f-datos); color: var(--tinta-3); }
+</style>
+</head>
+<body>
+<main>
+  <h1>Marca en movimiento</h1>
+  <p class="sub">Tres estados del símbolo, una sola geometría. Todo se desactiva con <code>prefers-reduced-motion: reduce</code> y queda estático. Código: <code>web/js/marca.js</code> + <code>web/css/marca.css</code>.</p>
+
+  <section>
+    <h2>1 · Entrada <span class="etq">animar: 'entrada' · 1,1 s · --mv-suave</span></h2>
+    <p class="n">El anillo se dibuja en sentido horario desde el borde de la abertura; el buje aparece con escala suave, sin rebote.</p>
+    <div class="fila">
+      <div class="caja" id="en-simbolo"></div>
+      <div class="caja" id="en-logo"></div>
+    </div>
+    <button id="repetir">Repetir entrada</button>
+  </section>
+
+  <section>
+    <h2>2 · Carga <span class="etq">animar: 'carga' · giro continuo 1,2 s lineal</span></h2>
+    <p class="n">La abertura hace de indicador. Es el spinner de toda la app: se usa <code>cargando()</code> en botones y listas, y <code>pantallaCarga()</code> al arrancar.</p>
+    <div class="fila">
+      <div class="caja"><div class="tam" id="ca-tam"></div><span class="etq">16 · 24 · 48 · 72 px</span></div>
+      <div class="caja"><span class="boton-carga" id="ca-boton"></span></div>
+      <div class="caja neg" id="ca-neg"></div>
+    </div>
+    <button id="pantalla">Ver pantalla de carga (3 s)</button>
+  </section>
+
+  <section>
+    <h2>3 · Vivo <span class="etq">animar: 'vivo' · el buje late cada 1,6 s</span></h2>
+    <p class="n">La abertura se tiñe de <code>--senal</code> y el buje late suave. Para «en vivo» en tarjetas de meet y en la píldora de conexión.</p>
+    <div class="fila">
+      <div class="caja" id="vi-simbolo"></div>
+      <div class="caja"><span class="pildora" id="vi-pildora"></span><span>Sentadilla · <span class="res">intento 2</span></span></div>
+      <div class="caja neg" id="vi-neg"></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Hover del logotipo</h2>
+    <p class="n">Al pasar el cursor, la abertura se abre unos grados.</p>
+    <div class="fila"><div class="caja" id="hv"></div></div>
+  </section>
+</main>
+<script src="marca-demo.js"></script>
+<script>
+  const $ = id => document.getElementById(id);
+  function entrada() {
+    $('en-simbolo').replaceChildren(simbolo({ tam: 96, animar: 'entrada', titulo: 'OpenMeets' }));
+    $('en-logo').replaceChildren(logotipo({ alto: 56, animar: 'entrada' }));
+  }
+  entrada(); $('repetir').onclick = entrada;
+  $('ca-tam').append(...[16, 24, 48, 72].map(t => cargando({ tam: t })));
+  $('ca-boton').append(cargando({ tam: 18 }), document.createTextNode('Guardando…'));
+  $('ca-neg').append(simbolo({ tam: 56, animar: 'carga', titulo: 'Cargando' }));
+  $('vi-simbolo').append(simbolo({ tam: 96, animar: 'vivo', titulo: 'En vivo' }));
+  $('vi-pildora').append(simbolo({ tam: 20, animar: 'vivo' }), document.createTextNode('En vivo'));
+  $('vi-neg').append(simbolo({ tam: 72, animar: 'vivo', titulo: 'En vivo' }));
+  $('hv').append(logotipo({ alto: 72 }));
+  $('pantalla').onclick = () => { const p = pantallaCarga({ texto: 'Conectando con la mesa…' }); document.body.append(p); setTimeout(() => p.quitar(), 3000); };
+</script>
+</body>
+</html>

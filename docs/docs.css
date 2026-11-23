@@ -1,0 +1,67 @@
+/* Documentación de OpenMeets. Usa los tokens y las fuentes de ../web (rutas relativas: abre docs/ junto al resto del proyecto). */
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--papel); color: var(--tinta); font: 400 16px/1.65 var(--f-ui); }
+.saltar { position: absolute; left: -999px; top: 8px; background: var(--tinta); color: var(--papel); padding: 8px 14px; border-radius: var(--r-1); z-index: 20; }
+.saltar:focus { left: 8px; }
+.barra { position: sticky; top: 0; z-index: 10; display: flex; align-items: center; gap: 14px; height: 56px; padding: 0 16px; background: var(--papel); border-bottom: 1px solid var(--linea); }
+.logo { display: inline-flex; }
+.logo img { display: block; height: 26px; width: auto; }
+.logo .oscuro { display: none; }
+.etiqueta { font: 500 12px/1 var(--f-datos); color: var(--tinta-3); text-transform: uppercase; letter-spacing: .08em; }
+.marco { display: grid; grid-template-columns: minmax(0, 1fr); max-width: 1120px; margin: 0 auto; }
+.lateral { padding: 12px 16px 0; }
+.lateral summary { min-height: 44px; display: flex; align-items: center; font-weight: 600; cursor: pointer; }
+.lateral ul { list-style: none; margin: 0; padding: 0 0 8px; }
+.lateral a { display: flex; align-items: center; min-height: 44px; padding: 0 12px; border-radius: var(--r-1); color: var(--tinta-2); text-decoration: none; }
+.lateral a:hover { background: var(--papel-2); color: var(--tinta); }
+.lateral a[aria-current="page"] { background: var(--senal); color: var(--senal-tinta); font-weight: 600; }
+main { padding: 16px 16px 64px; min-width: 0; }
+h1 { font: 400 clamp(36px, 7vw, 56px)/1.05 var(--f-titular); letter-spacing: -.01em; margin: 8px 0 12px; }
+h2 { font: 600 22px/1.25 var(--f-ui); margin: 40px 0 8px; letter-spacing: -.01em; }
+h3 { font: 600 17px/1.3 var(--f-ui); margin: 28px 0 6px; }
+p, ul, ol { max-width: 68ch; margin: 0 0 14px; }
+li { margin-bottom: 4px; }
+.entrada { font-size: 19px; line-height: 1.5; color: var(--tinta-2); max-width: 60ch; }
+a { color: var(--tinta); text-decoration-color: var(--tinta-3); text-underline-offset: 3px; }
+a:hover { text-decoration-color: var(--tinta); }
+code, kbd { font: 500 .88em var(--f-datos); background: var(--papel-2); border: 1px solid var(--linea); border-radius: 6px; padding: 1px 6px; overflow-wrap: anywhere; }
+pre { font: 400 13px/1.55 var(--f-datos); background: var(--papel-2); border: 1px solid var(--linea); border-radius: var(--r-2); padding: 14px 16px; overflow-x: auto; margin: 0 0 16px; max-width: 100%; }
+pre code { background: none; border: 0; padding: 0; font-size: inherit; overflow-wrap: normal; }
+mark { background: var(--senal); color: var(--senal-tinta); padding: 0 .2em; border-radius: 3px; }
+.tabla { overflow-x: auto; margin: 0 0 18px; border: 1px solid var(--linea); border-radius: var(--r-2); background: var(--superficie); }
+table { border-collapse: collapse; width: 100%; font-size: 14.5px; line-height: 1.5; }
+th, td { text-align: left; vertical-align: top; padding: 9px 14px; border-bottom: 1px solid var(--linea); }
+th { font: 500 12px/1.2 var(--f-datos); text-transform: uppercase; letter-spacing: .06em; color: var(--tinta-3); background: var(--papel-2); white-space: nowrap; }
+tr:last-child td { border-bottom: 0; }
+td:first-child code { white-space: nowrap; }
+.nota { border-left: 3px solid var(--tinta); background: var(--superficie); border-radius: 0 var(--r-1) var(--r-1) 0; padding: 12px 16px; margin: 0 0 16px; max-width: 68ch; }
+.nota p:last-child { margin: 0; }
+.nota b:first-child { display: block; font: 500 12px/1.2 var(--f-datos); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 4px; color: var(--tinta-2); }
+.aviso { border-left-color: var(--aviso); }
+.tarjetas { display: grid; grid-template-columns: 1fr; gap: 12px; margin: 18px 0 24px; max-width: none; }
+.tarjetas a { display: block; padding: 16px; background: var(--superficie); border: 1px solid var(--linea); border-radius: var(--r-2); text-decoration: none; }
+.tarjetas a:hover { border-color: var(--tinta); }
+.tarjetas strong { display: block; font-weight: 600; margin-bottom: 4px; }
+.tarjetas span { color: var(--tinta-2); font-size: 14.5px; line-height: 1.5; }
+.captura { display: block; width: 100%; max-width: 720px; border: 1px solid var(--linea); border-radius: var(--r-2); margin: 16px 0; }
+.pie { display: flex; justify-content: space-between; gap: 16px; margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--linea); }
+.pie a { display: inline-flex; align-items: center; min-height: 44px; }
+.firma { color: var(--tinta-3); font-size: 13px; margin-top: 24px; }
+dl { margin: 0 0 16px; max-width: 68ch; }
+dt { font-weight: 600; margin-top: 18px; }
+dd { margin: 4px 0 0; color: var(--tinta-2); }
+:focus-visible { outline: 2px solid var(--tinta); outline-offset: 2px; }
+@media (min-width: 860px) {
+  .barra { padding: 0 32px; }
+  .marco { grid-template-columns: 250px minmax(0, 1fr); }
+  .lateral { position: sticky; top: 56px; align-self: start; height: calc(100vh - 56px); overflow-y: auto; padding: 24px 0 24px 24px; }
+  .lateral summary { pointer-events: none; font: 500 12px/1 var(--f-datos); text-transform: uppercase; letter-spacing: .08em; color: var(--tinta-3); min-height: 32px; list-style: none; }
+  .lateral summary::-webkit-details-marker { display: none; }
+  .lateral a { min-height: 36px; }
+  main { padding: 32px 32px 80px 48px; }
+  .tarjetas { grid-template-columns: repeat(2, 1fr); }
+}
+@media (prefers-color-scheme: dark) {
+  .logo .claro { display: none; } .logo .oscuro { display: block; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }

@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guía rápida · Documentación de OpenMeets</title>
+<meta name="description" content="Documentación de OpenMeets: Guía rápida.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="../web/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../web/css/tokens.css">
+<link rel="stylesheet" href="../web/css/base.css">
+<link rel="stylesheet" href="docs.css">
+</head>
+<body>
+<a class="saltar" href="#contenido">Saltar al contenido</a>
+<header class="barra">
+  <a class="logo" href="index.html" aria-label="OpenMeets, documentación"><img class="claro" src="../marca/logotipo-horizontal.svg" alt="OpenMeets" height="26"><img class="oscuro" src="../marca/logotipo-blanco.svg" alt="" height="26"></a>
+  <span class="etiqueta">documentación</span>
+</header>
+<div class="marco">
+  <nav class="lateral" aria-label="Documentación">
+    <details id="menu">
+      <summary>Contenido</summary>
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="guia-rapida.html" aria-current="page">Guía rápida</a></li>
+        <li><a href="organizar.html">Organizar un meet</a></li>
+        <li><a href="inscripciones.html">Inscripciones y pesaje</a></li>
+        <li><a href="mesa.html">Dirigir la mesa</a></li>
+        <li><a href="jueces.html">Jueces</a></li>
+        <li><a href="pantalla.html">Pantalla y HUD para OBS</a></li>
+        <li><a href="transmision.html">Transmisión (regie)</a></li>
+        <li><a href="publico.html">Público e historial</a></li>
+        <li><a href="atletas-records.html">Atletas y récords</a></li>
+        <li><a href="liftingcast.html">Seguir LiftingCast</a></li>
+        <li><a href="tecnico.html">Técnico</a></li>
+        <li><a href="nube.html">Nube</a></li>
+        <li><a href="federacion.html">Modo federación</a></li>
+        <li><a href="marca.html">Marca</a></li>
+        <li><a href="faq.html">Preguntas frecuentes</a></li>
+        <li><a href="creditos.html">Créditos</a></li>
+      </ul>
+    </details>
+  </nav>
+  <main id="contenido">
+<h1>Guía rápida</h1>
+<p class="entrada">Del instalador a una pantalla funcionando, con lo mínimo que necesitas.</p>
+<h2>1. Qué necesitas</h2>
+<ul>
+  <li>Un equipo Windows para la mesa y un navegador reciente (Chrome, Edge, Safari o Firefox) en cada teléfono o pantalla.</li>
+  <li>Una Wi-Fi a la que se conecten ese equipo, los teléfonos y las pantallas. Si no hay Wi-Fi, activa el <b>hotspot</b> del equipo o de un teléfono.</li>
+  <li>El archivo <code>OpenMeets-Setup.exe</code>. No hace falta Node.js ni permisos de administrador.</li>
+</ul>
+<h2>2. Instalar</h2>
+<ol>
+  <li>Abre <code>OpenMeets-Setup.exe</code>. Si SmartScreen dice «Windows protegió su PC», pulsa <b>Más información</b> y luego <b>Ejecutar de todas formas</b>. Aparece porque el instalador no está firmado.</li>
+  <li>El asistente te deja elegir la carpeta (por defecto <code>%LOCALAPPDATA%\Programs\OpenMeets</code>) y si quieres acceso directo en el escritorio. El del menú Inicio se crea siempre.</li>
+  <li>Pulsa <b>Instalar</b>. Al terminar puedes abrir OpenMeets desde el mismo asistente.</li>
+</ol>
+<p>Tus meets viven en <code>%LOCALAPPDATA%\OpenMeets\datos</code>, fuera de la carpeta del programa, así que actualizar o reinstalar no los toca.</p>
+<h3>Desinstalar</h3>
+<p>Desde <i>Configuración &rarr; Aplicaciones</i> de Windows, busca OpenMeets y pulsa <b>Desinstalar</b>. El desinstalador pregunta si quieres borrar también los datos. Si no marcas esa opción, tus meets se quedan donde están. OpenMeets tiene que estar cerrado: si sigue abierto, el instalador y el desinstalador se niegan y no cambian nada.</p>
+<h2>3. Arrancar</h2>
+<p>Abre OpenMeets desde el menú Inicio o el escritorio. Se abre en tu navegador en <code>http://localhost:5050/</code> y una ventana negra muestra las direcciones de la red, un código QR y el PIN. <b>Esa ventana es el servidor: no la cierres durante la competencia.</b></p>
+<p>Si prefieres Node.js, en la carpeta del proyecto basta <code>npm start</code> (o <code>start.bat</code>). Más detalles en <a href="tecnico.html">Técnico</a>.</p>
+<h2>4. Firewall de Windows</h2>
+<p>La primera vez, Windows pregunta si permite que OpenMeets use la red. Marca <b>Redes privadas</b> y pulsa <b>Permitir</b>. Sin eso, el equipo de la mesa funciona pero los teléfonos y las pantallas no se conectan. El instalador no crea ninguna regla de firewall por su cuenta.</p>
+<div class="nota aviso"><b>Si los teléfonos no conectan</b><p>Si te equivocaste de casilla, abre <i>Firewall de Windows Defender &rarr; Permitir una aplicación</i>, busca OpenMeets y marca «Privada». Si la Wi-Fi está registrada como «Pública», cámbiala a «Privada» en la configuración de red.</p></div>
+<h2>5. Conectar teléfonos y pantallas</h2>
+<ol>
+  <li>Conecta el teléfono o la pantalla <b>a la misma Wi-Fi</b> (o al hotspot) que el equipo de la mesa.</li>
+  <li>Abre en su navegador una de las direcciones que salen en la ventana negra, con esta forma: <code>http://192.168.1.20:5050/</code>, o escanea el QR.</li>
+  <li>Si el equipo tiene varias redes, la consola lista varias direcciones. Usa la que empieza igual que la IP del teléfono (por ejemplo <code>192.168.1.</code>).</li>
+</ol>
+<p>Dentro del meet, la pestaña <b>Jueces</b> y la pantalla del organizador muestran los enlaces ya completos para cada rol. Cópialos desde ahí y pásalos a cada teléfono o pantalla.</p>
+<h2>6. El PIN de organizador</h2>
+<p>El equipo de la mesa es el organizador sin hacer nada. Desde <b>otro equipo</b> (por ejemplo, un portátil de apoyo) solo se puede organizar con el PIN de 6 dígitos que muestra la consola. Se pide una vez y queda guardado en una cookie de ese navegador.</p>
+<ul>
+  <li>Cambia el PIN en <b>Ajustes</b>. Al cambiarlo se cierran las sesiones abiertas.</li>
+  <li>Tras 5 intentos fallidos desde la misma dirección hay que esperar un minuto.</li>
+  <li>Teléfonos de jueces y público <b>no</b> necesitan PIN: entran por el enlace del meet.</li>
+</ul>
+<h2>7. Antes del día de la competencia</h2>
+<ul>
+  <li>Haz una competencia de prueba con tres teléfonos: crea el meet, mete dos atletas y vota desde cada teléfono.</li>
+  <li>Enchufa el equipo y desactiva la suspensión automática.</li>
+  <li>Fija la IP del equipo en el router si puedes, para que las direcciones no cambien entre días.</li>
+  <li>Descarga la copia del meet (<code>/api/meets/&lt;id&gt;/export.json</code>) al terminar cada sesión.</li>
+</ul>
+<h2>Para cerrar</h2>
+<p>Cierra la ventana negra (o pulsa Ctrl+C). Los datos ya están guardados: cada cambio se escribe en disco a los pocos segundos.</p>
+<h2>¿Y sin instalar nada?</h2>
+<p>Si solo necesitas crear un meet y compartirlo por internet, entra en <a href="https://openmeets.web.app">openmeets.web.app</a> con tu cuenta de Google. Cómo funciona está en <a href="nube.html">Nube</a>.</p>
+
+    <footer class="pie">
+      <a href="index.html">&larr; Inicio</a><a href="organizar.html">Organizar un meet &rarr;</a>
+    </footer>
+    <p class="firma">OpenMeets · MIT © 2026 Eyver Gomez (<a href="https://instagram.com/eyversao">@eyversao</a>) · <a href="https://github.com/eyversao">GitHub</a></p>
+  </main>
+</div>
+<script>if (matchMedia('(min-width: 860px)').matches) document.getElementById('menu').open = true;</script>
+</body>
+</html>

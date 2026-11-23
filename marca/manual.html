@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OpenMeets · manual de marca</title>
+<link rel="stylesheet" href="../web/css/tokens.css">
+<link rel="stylesheet" href="../web/css/marca.css">
+<style>
+  @font-face { font-family: "Geist"; font-weight: 400; src: url(../web/fuentes/geist-latin-400-normal.woff2); }
+  @font-face { font-family: "Geist"; font-weight: 500; src: url(../web/fuentes/geist-latin-500-normal.woff2); }
+  @font-face { font-family: "Geist"; font-weight: 600; src: url(../web/fuentes/geist-latin-600-normal.woff2); }
+  @font-face { font-family: "Geist"; font-weight: 700; src: url(../web/fuentes/geist-latin-700-normal.woff2); }
+  @font-face { font-family: "Geist Mono"; font-weight: 400; src: url(../web/fuentes/geist-mono-latin-400-normal.woff2); }
+  @font-face { font-family: "Geist Mono"; font-weight: 500; src: url(../web/fuentes/geist-mono-latin-500-normal.woff2); }
+  @font-face { font-family: "Instrument Serif"; font-style: normal; src: url(../web/fuentes/instrument-serif-latin-400-normal.woff2); }
+  @font-face { font-family: "Instrument Serif"; font-style: italic; src: url(../web/fuentes/instrument-serif-latin-400-italic.woff2); }
+
+  /* El manual es siempre claro e imprimible */
+  :root { color-scheme: light; }
+  @page { size: A4 landscape; margin: 0; }
+  * { box-sizing: border-box; }
+  html { background: #CFCFCA; }
+  body { margin: 0; font: 400 14px/1.5 var(--f-ui); color: #111; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .pg { width: 297mm; height: 210mm; padding: 15mm 20mm 14mm; background: #F5F5F2; position: relative; overflow: hidden; break-after: page; display: flex; flex-direction: column; margin: 0 auto 16px; }
+  @media print { html { background: none; } .pg { margin: 0; } }
+  .cab { display: flex; justify-content: space-between; font: 400 11px var(--f-datos); color: #6B6B66; padding-bottom: 10px; border-bottom: 1px solid #DADAD4; margin-bottom: 20px; flex: none; }
+  .cab b { font-weight: 500; color: #111; }
+  h2 { font: 400 46px/1.02 var(--f-titular); letter-spacing: -.012em; margin: 0 0 8px; }
+  h3 { font: 600 13px/1.3 var(--f-ui); letter-spacing: -.005em; margin: 0 0 6px; }
+  p { margin: 0 0 8px; max-width: 62ch; color: #3C3C38; }
+  .lead { font-size: 15.5px; color: #111; max-width: 56ch; }
+  mark { background: #D9F84A; color: #111; padding: 0 .12em; margin: 0 -.04em; }
+  code, .mono { font-family: var(--f-datos); font-size: 12px; }
+  code { background: #ECECE8; padding: 1px 5px; border-radius: 5px; }
+  .cols { display: grid; gap: 22px; flex: 1; min-height: 0; }
+  .c2 { grid-template-columns: 1fr 1fr; } .c3 { grid-template-columns: repeat(3, 1fr); } .c4 { grid-template-columns: repeat(4, 1fr); }
+  .caja { background: #fff; border: 1px solid #DADAD4; border-radius: 14px; display: grid; place-items: center; padding: 16px; position: relative; }
+  .caja.neg { background: #111; border-color: #111; } .caja.pap { background: #F5F5F2; } .caja.lima { background: #D9F84A; border-color: #D9F84A; }
+  .caja .pie { position: absolute; left: 14px; bottom: 10px; font: 400 11px var(--f-datos); color: #6B6B66; }
+  .caja.neg .pie { color: #A5A59F; }
+  img { display: block; }
+  /* portada */
+  .portada { background: #111; color: #F5F5F2; justify-content: space-between; }
+  .portada .cab { color: #8E8E88; border-color: #2E2E2B; } .portada .cab b { color: #F5F5F2; }
+  .portada h1 { font: 400 92px/.98 var(--f-titular); letter-spacing: -.02em; margin: 0; max-width: 14ch; }
+  .portada h1 mark { padding: 0 .1em; }
+  .portada .pie-p { display: flex; justify-content: space-between; font: 400 13px var(--f-datos); color: #A5A59F; border-top: 1px solid #2E2E2B; padding-top: 14px; }
+  /* swatches */
+  .sw { border-radius: 14px; border: 1px solid #DADAD4; overflow: hidden; background: #fff; display: flex; flex-direction: column; }
+  .sw .m { flex: 1; min-height: 62px; display: flex; align-items: flex-end; padding: 8px 10px; font: 600 12px var(--f-ui); }
+  .sw .d { padding: 8px 10px 9px; font: 400 11px/1.45 var(--f-datos); color: #3C3C38; border-top: 1px solid #DADAD4; }
+  .sw .d b { font: 600 12px var(--f-ui); color: #111; display: block; }
+  table { border-collapse: collapse; width: 100%; font-size: 12.5px; }
+  th { text-align: left; font: 500 11px var(--f-datos); color: #6B6B66; padding: 0 8px 6px 0; border-bottom: 1px solid #DADAD4; }
+  td { padding: 6px 8px 6px 0; border-bottom: 1px solid #ECECE8; vertical-align: middle; }
+  .muestra { display: inline-block; padding: 2px 10px; border-radius: 6px; font: 600 12px var(--f-ui); min-width: 54px; text-align: center; }
+  .ok { color: #0F7A40; font-weight: 600; } .ko { color: #C62A20; font-weight: 600; }
+  .num { font-family: var(--f-datos); font-variant-numeric: tabular-nums; }
+  .lista { margin: 0; padding-left: 16px; color: #3C3C38; } .lista li { margin: 0 0 4px; }
+  .no { position: relative; }
+  .no::after { content: "✕"; position: absolute; right: 10px; top: 6px; color: #C62A20; font: 600 16px var(--f-ui); }
+  .tag { font: 500 11px var(--f-datos); color: #6B6B66; }
+  .ejemplo { border-left: 3px solid #111; padding: 2px 0 2px 12px; margin: 0 0 10px; color: #111; }
+  .ejemplo.x { border-color: #C62A20; color: #6B6B66; text-decoration: line-through; text-decoration-color: #C62A2088; }
+  .luz { width: 54px; height: 54px; border-radius: 50%; border: 1px solid #DADAD4; }
+  .estado { display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: center; }
+  svg.ic { width: 28px; height: 28px; fill: none; stroke: #111; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+</style>
+</head>
+<body>
+
+<!-- 1 · Portada -->
+<section class="pg portada">
+  <div class="cab"><span><b>OpenMeets</b> · manual de marca</span><span>v1 · noviembre 2026</span></div>
+  <div style="display:flex;justify-content:space-between;align-items:flex-end">
+    <h1>Competencias de powerlifting en vivo, <mark>abiertas</mark>.</h1>
+    <img src="logotipo-blanco.svg" height="64" alt="OpenMeets" style="margin-bottom:10px">
+  </div>
+  <div class="pie-p"><span>Código abierto · gratis · en tu red local</span><span>Creado por Eyver Gomez (@eyversao)</span></div>
+</section>
+
+<!-- 2 · Idea -->
+<section class="pg">
+  <div class="cab"><span><b>01</b> · La idea</span><span>OpenMeets</span></div>
+  <div class="cols c2">
+    <div>
+      <h2>Abierto, dos veces.</h2>
+      <p class="lead">«Open» significa <mark>código abierto</mark>: cualquiera puede leer, usar y mejorar OpenMeets, sin cuentas ni pagos. Y significa <mark>abierto a todos</mark>: cualquier club puede montar su competencia con un portátil y una red Wi-Fi.</p>
+      <p>El símbolo es un disco de pesas visto de frente, con una abertura. La abertura es la puerta: lo que no se cierra. El buje central es la barra, el punto donde todo converge: jueces, mesa, público.</p>
+      <p>La marca es sobria porque el trabajo lo hacen los datos. Papel y tinta, un solo acento de resaltador y mucho aire. Nada decora; todo informa.</p>
+      <h3 style="margin-top:14px">Rasgos</h3>
+      <ul class="lista"><li>Abierto y limpio: un solo acento, mucho espacio.</li><li>Claro antes que ingenioso: texto en español, con «tú».</li><li>Fiable en pleno directo: estados siempre visibles.</li></ul>
+    </div>
+    <div class="caja"><img src="simbolo.svg" width="300" height="300" alt="Símbolo"><span class="pie">disco abierto + buje</span></div>
+  </div>
+</section>
+
+<!-- 3 · Construcción -->
+<section class="pg">
+  <div class="cab"><span><b>02</b> · Construcción</span><span>viewBox 0 0 64 64</span></div>
+  <div class="cols c2" style="grid-template-columns:1.1fr 1fr">
+    <div class="caja pap" style="background:#fff">
+      <svg viewBox="0 0 64 64" width="400" height="400" aria-label="Construcción del símbolo">
+        <defs><pattern id="g" width="4" height="4" patternUnits="userSpaceOnUse"><path d="M4 0H0V4" fill="none" stroke="#DADAD4" stroke-width=".12"/></pattern></defs>
+        <rect width="64" height="64" fill="url(#g)"/>
+        <path d="M49.34 18.46 A22 22 0 1 1 42.33 12.58" fill="none" stroke="#111" stroke-width="9"/>
+        <circle cx="32" cy="32" r="6" fill="#111"/>
+        <g fill="none" stroke="#2563EB" stroke-width=".25">
+          <circle cx="32" cy="32" r="26.5"/><circle cx="32" cy="32" r="17.5"/><circle cx="32" cy="32" r="22" stroke-dasharray="1 .8"/>
+          <path d="M32 32 L32 .5 M32 32 L49.34 18.46 M32 32 L42.33 12.58" stroke="#E5352B"/>
+          <path d="M32 32 L61 32" stroke-dasharray="1 .8"/>
+        </g>
+        <g font-family="Geist Mono" font-size="1.7" fill="#2563EB">
+          <text x="33.4" y="30.6">r 6</text><text x="49" y="31">r 22</text><text x="37" y="6.4" fill="#E5352B">28°</text><text x="50.6" y="16.6" fill="#E5352B">52°</text>
+        </g>
+      </svg>
+    </div>
+    <div>
+      <h2>Un anillo, una abertura, un punto.</h2>
+      <table>
+        <tr><th>Elemento</th><th>Medida (en 64)</th></tr>
+        <tr><td>Anillo, centro</td><td class="num">(32, 32)</td></tr>
+        <tr><td>Anillo, radio al eje del trazo</td><td class="num">22</td></tr>
+        <tr><td>Anillo, grosor del trazo</td><td class="num">9 (radio exterior 26,5 · interior 17,5)</td></tr>
+        <tr><td>Abertura</td><td class="num">entre 28° y 52°, centrada en 40°</td></tr>
+        <tr><td>Arco del anillo</td><td class="num">de 52° a 388°, sentido horario desde las 12</td></tr>
+        <tr><td>Buje central</td><td class="num">círculo, radio 6</td></tr>
+        <tr><td>Extremos del trazo</td><td class="num">rectos (butt), nunca redondeados</td></tr>
+      </table>
+      <p style="margin-top:14px">Trazado: <code>M49.34 18.46 A22 22 0 1 1 42.33 12.58</code>. El logotipo usa «openmeets» en Geist 600, minúsculas, tracking −0,035 em. El diámetro del símbolo es 1,45 veces la altura de x, centrado sobre ella, con un aire de 0,27 em hasta la «o».</p>
+    </div>
+  </div>
+</section>
+
+<!-- 4 · Respeto y mínimos -->
+<section class="pg">
+  <div class="cab"><span><b>03</b> · Área de respeto y tamaño mínimo</span><span>OpenMeets</span></div>
+  <h2>Deja aire a su alrededor.</h2>
+  <p class="lead" style="max-width:80ch">El área de respeto es <b>dos veces el radio del buje</b> (el diámetro del buje) por cada lado del logotipo. Nada entra ahí: ni texto, ni bordes, ni otras marcas.</p>
+  <div class="cols c2" style="margin-top:6px">
+    <div class="caja" style="background:#fff">
+      <div style="position:relative;padding:26px;background:repeating-linear-gradient(45deg,#2563EB14 0 4px,transparent 4px 8px);outline:1px dashed #2563EB">
+        <div style="background:#fff;outline:1px solid #DADAD4"><img src="logotipo-horizontal.svg" width="380" alt=""></div>
+      </div>
+      <span class="pie">x = diámetro del buje · en el logotipo mide 0,15 em × 2 ≈ 8 % de su alto</span>
+    </div>
+    <div class="caja" style="background:#fff;place-items:stretch">
+      <div style="display:flex;gap:22px;align-items:flex-end;justify-content:center;padding-bottom:24px">
+        <div style="text-align:center"><img src="simbolo.svg" width="16" height="16" alt="" style="display:block;margin:0 auto 10px"><span class="tag">16 px</span></div>
+        <div style="text-align:center"><img src="simbolo.svg" width="32" height="32" alt="" style="display:block;margin:0 auto 10px"><span class="tag">32 px</span></div>
+        <div style="text-align:center"><img src="logotipo-horizontal.svg" width="80" alt="" style="display:block;margin:0 auto 10px"><span class="tag">80 px</span></div>
+        <div style="text-align:center"><img src="logotipo-horizontal.svg" width="160" alt="" style="display:block;margin:0 auto 10px"><span class="tag">160 px</span></div>
+      </div>
+      <span class="pie">mínimos: símbolo 16 px, logotipo 80 px de ancho; por debajo se usa solo el símbolo</span>
+    </div>
+  </div>
+</section>
+
+<!-- 5 · Versiones -->
+<section class="pg">
+  <div class="cab"><span><b>04</b> · Versiones</span><span>archivos en /marca</span></div>
+  <h2>Cuatro versiones, tres fondos.</h2>
+  <div class="cols c4" style="grid-template-rows:1fr 1fr;margin-top:8px">
+    <div class="caja"><img src="logotipo-horizontal.svg" width="190" alt=""><span class="pie">horizontal · por defecto</span></div>
+    <div class="caja"><img src="logotipo-vertical.svg" width="120" alt=""><span class="pie">vertical · portadas, cartel</span></div>
+    <div class="caja"><img src="simbolo.svg" width="96" alt=""><span class="pie">símbolo · iconos, avatar</span></div>
+    <div class="caja neg"><img src="logotipo-blanco.svg" width="190" alt=""><span class="pie">blanco · sobre tinta</span></div>
+    <div class="caja neg"><img src="simbolo-blanco.svg" width="96" alt=""><span class="pie">símbolo blanco</span></div>
+    <div class="caja pap"><img src="logotipo-horizontal.svg" width="190" alt=""><span class="pie">sobre papel #F5F5F2</span></div>
+    <div class="caja lima"><img src="logotipo-horizontal.svg" width="190" alt=""><span class="pie" style="color:#111">sobre lima: solo como parche, en tinta</span></div>
+    <div class="caja" style="padding:0;overflow:hidden"><img src="../web/og.png" width="100%" alt=""><span class="pie" style="background:#F5F5F2;padding:2px 6px;border-radius:4px">og.png · 1200×630</span></div>
+  </div>
+</section>
+
+<!-- 6 · Colores -->
+<section class="pg">
+  <div class="cab"><span><b>05</b> · Color</span><span>tokens en web/css/tokens.css</span></div>
+  <h2>Papel, tinta y un resaltador.</h2>
+  <p class="lead" style="max-width:86ch">Casi todo es papel y tinta. La <mark>señal</mark> aparece solo como <b>fondo de resaltado con texto tinta</b>: una palabra, una cifra, un estado. Nunca como color de texto sobre fondo claro (contraste 1,1:1) ni como relleno grande.</p>
+  <div class="cols c4" id="sw-base" style="grid-template-rows:1fr 1fr;margin-top:6px"></div>
+</section>
+
+<!-- 7 · Contraste -->
+<section class="pg">
+  <div class="cab"><span><b>06</b> · Contraste WCAG</span><span>medido con script al abrir esta página</span></div>
+  <div class="cols c2" style="grid-template-columns:1.35fr 1fr">
+    <div>
+      <h2>Contraste medido.</h2>
+      <table id="t-contraste"><thead><tr><th>Texto sobre fondo</th><th>Muestra</th><th>Hex</th><th>Ratio</th><th>Nivel</th></tr></thead><tbody></tbody></table>
+    </div>
+    <div>
+      <h3>Reglas</h3>
+      <ul class="lista">
+        <li>Texto normal: mínimo 4,5:1 (AA). Texto grande y componentes: 3:1.</li>
+        <li>Texto principal en tinta (17:1) o tinta 2 (10:1). Tinta 3 solo para apoyo (≥ 4,5:1).</li>
+        <li><b>El lima nunca es texto sobre claro.</b> Es fondo; el texto encima es tinta (15,7:1).</li>
+        <li>El lima sí se lee como texto sobre oscuro (16:1), pero se evita: el resaltado es su uso.</li>
+        <li>Los verdes, rojos y ámbar de estado se oscurecen en modo claro y se aclaran en oscuro para mantener 4,5:1.</li>
+        <li>Nunca se comunica algo solo con color: va con texto o icono (luz blanca/roja + «Válido»/«Nulo»).</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 8 · Semánticos -->
+<section class="pg">
+  <div class="cab"><span><b>07</b> · Colores de jueces y estado</span><span>semánticos</span></div>
+  <h2>Los colores que significan algo.</h2>
+  <p class="lead" style="max-width:86ch">Son del reglamento, no de la marca: luz blanca = válido, luz roja = nulo, tarjetas azul y amarilla. Se usan sin decoración y siempre con texto.</p>
+  <div class="cols c4" id="sw-sem" style="grid-template-rows:1fr 1fr;margin-top:6px"></div>
+</section>
+
+<!-- 9 · Tipografía -->
+<section class="pg">
+  <div class="cab"><span><b>08</b> · Tipografía</span><span>Geist · Geist Mono · Instrument Serif</span></div>
+  <div class="cols c2">
+    <div>
+      <h2>Tres voces.</h2>
+      <h3>Geist · interfaz</h3><p>400, 500, 600 y 700. Todo el texto de la app. El logotipo es Geist 600 con tracking −0,035 em.</p>
+      <h3>Geist Mono · datos</h3><p>Pesos, tiempos, códigos y etiquetas. Cifras tabulares siempre en tablas y marcadores, para que no bailen.</p>
+      <h3>Instrument Serif · titulares</h3><p>Solo titulares grandes y editoriales, en regular o cursiva. Nunca en botones ni en datos.</p>
+      <h3 style="margin-top:14px">Cifras tabulares</h3>
+      <table class="num" style="width:auto;font-size:15px"><tr><td>Sentadilla</td><td style="text-align:right">185,0</td><td style="text-align:right">192,5</td><td style="text-align:right">200,0</td></tr>
+        <tr><td>Banca</td><td style="text-align:right">112,5</td><td style="text-align:right">117,5</td><td style="text-align:right">122,5</td></tr>
+        <tr><td>Peso muerto</td><td style="text-align:right">225,0</td><td style="text-align:right">235,0</td><td style="text-align:right">242,5</td></tr></table>
+    </div>
+    <div class="caja" style="place-items:start;align-content:center;gap:12px;padding:24px 28px;background:#fff">
+      <span class="tag">titular · Instrument Serif 56 / 1,02</span>
+      <div style="font:400 56px/1.02 var(--f-titular);letter-spacing:-.012em">En vivo desde la <i>tarima</i> 1</div>
+      <span class="tag">título · Geist 600 24 / 1,25</span>
+      <div style="font:600 24px/1.25 var(--f-ui);letter-spacing:-.015em">Campeonato Regional · Medellín</div>
+      <span class="tag">cuerpo · Geist 400 16 / 1,5</span>
+      <div style="font:400 16px/1.5 var(--f-ui);max-width:44ch">Los jueces votan desde el teléfono. Las luces se muestran juntas cuando votan los tres.</div>
+      <span class="tag">datos · Geist Mono 500 20 · etiqueta Geist Mono 400 12</span>
+      <div style="font:500 20px var(--f-datos);font-variant-numeric:tabular-nums">200,0 kg · 1:42 · <mark>GL 82,4</mark></div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 · Iconografía -->
+<section class="pg">
+  <div class="cab"><span><b>09</b> · Iconografía</span><span>cuadrícula de 24</span></div>
+  <div class="cols c2" style="grid-template-columns:1fr 1.15fr">
+    <div>
+      <h2>Línea simple, esquinas redondeadas.</h2>
+      <ul class="lista" style="margin-top:6px">
+        <li>Trazo de <b>1,75</b> sobre cuadrícula de 24, terminaciones y uniones redondeadas.</li>
+        <li>Solo contorno, sin relleno, en <code>currentColor</code>.</li>
+        <li>Siempre acompañados de texto cuando la acción no es obvia.</li>
+        <li><b>Sin emojis</b> en la interfaz. Sin iconos 3D, degradados ni sombras.</li>
+        <li>Objetivo táctil de 44 px aunque el icono mida 20–24.</li>
+      </ul>
+    </div>
+    <div class="caja" style="background:#fff;align-content:center">
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:26px 38px;justify-items:center">
+        <svg class="ic" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+        <svg class="ic" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        <svg class="ic" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+        <svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.25"/><path d="M12 7.5V12l3 2"/></svg>
+        <svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.75"/><path d="M5 19.5c1.2-3.6 4-5 7-5s5.8 1.4 7 5"/></svg>
+        <svg class="ic" viewBox="0 0 24 24"><path d="M4 9.5a11 11 0 0 1 16 0M7 13a6.5 6.5 0 0 1 10 0M10.2 16.2a2.2 2.2 0 0 1 3.6 0"/><circle cx="12" cy="19" r=".6"/></svg>
+        <svg class="ic" viewBox="0 0 24 24"><path d="M3 12h18M6.5 8v8M17.5 8v8M9.5 6v12M14.5 6v12"/></svg>
+        <svg class="ic" viewBox="0 0 24 24"><path d="M9 6L4.5 10.5 9 15M4.5 10.5H14a5.5 5.5 0 0 1 0 11H9"/></svg>
+      </div>
+      <span class="pie">marcar · cerrar · añadir · reloj · juez · conexión · barra · deshacer</span>
+    </div>
+  </div>
+</section>
+
+<!-- 11 · Movimiento -->
+<section class="pg">
+  <div class="cab"><span><b>10</b> · Movimiento</span><span>web/js/marca.js · web/css/marca.css</span></div>
+  <h2>La abertura es el indicador.</h2>
+  <div class="cols c3" style="margin-top:6px">
+    <div class="caja" style="background:#fff;gap:10px"><div id="m-en"></div><h3 style="margin:0">Entrada</h3><p class="mono" style="text-align:center;margin:0">1,1 s · cubic-bezier(.16,1,.3,1)</p><p style="text-align:center;font-size:12.5px;margin:0">El anillo se dibuja en sentido horario desde el borde de la abertura. El buje aparece con escala suave, sin rebote.</p></div>
+    <div class="caja" style="background:#fff;gap:10px"><div id="m-ca"></div><h3 style="margin:0">Carga</h3><p class="mono" style="text-align:center;margin:0">1,2 s · lineal · infinito</p><p style="text-align:center;font-size:12.5px;margin:0">El anillo gira; la abertura marca el avance. Es el spinner de toda la app.</p></div>
+    <div class="caja" style="background:#fff;gap:10px"><div id="m-vi"></div><h3 style="margin:0">Vivo</h3><p class="mono" style="text-align:center;margin:0">1,6 s · ease-in-out · infinito</p><p style="text-align:center;font-size:12.5px;margin:0">El buje late suave y la abertura se tiñe de <mark>señal</mark>. Solo para «en vivo».</p></div>
+  </div>
+  <p style="margin-top:14px;max-width:none"><b>Hover del logotipo:</b> la abertura se abre unos grados (280 ms, <code>--mv-suave</code>). <b>Reducir movimiento:</b> con <code>prefers-reduced-motion: reduce</code> todo queda estático. <b>Uso:</b> <code>simbolo({ tam, animar: 'entrada'|'carga'|'vivo'|null })</code>, <code>logotipo({ alto, animar })</code>, <code>cargando()</code>, <code>pantallaCarga()</code>. Demo: <code>marca/animacion.html</code>.</p>
+</section>
+
+<!-- 12 · Voz y tono -->
+<section class="pg">
+  <div class="cab"><span><b>11</b> · Voz y tono</span><span>español, con «tú»</span></div>
+  <div class="cols c2">
+    <div>
+      <h2>Claro, directo, sin jerga.</h2>
+      <ul class="lista" style="margin-top:6px">
+        <li>Hablamos de tú, en frases cortas, en español.</li>
+        <li>Cada mensaje dice <b>qué pasó</b> y <b>qué puedes hacer</b>.</li>
+        <li>Nada de códigos de error ni culpas al usuario. Nunca «¡Ups!».</li>
+        <li>Los estados de la mesa son sobrios: sin celebración en un nulo.</li>
+        <li>Un vacío es una invitación: señala la siguiente acción.</li>
+        <li>Si no hay red, lo decimos y mostramos lo último que sabemos, con su hora.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Error</h3>
+      <p class="ejemplo">No pudimos guardar el peso. Tu cambio sigue en pantalla y lo reintentamos en 5 s.</p>
+      <p class="ejemplo x">Error 500: excepción no controlada.</p>
+      <h3>Estado vacío</h3>
+      <p class="ejemplo">Aún no hay atletas. Importa un CSV o añade el primero.</p>
+      <p class="ejemplo x">No hay datos.</p>
+      <h3>Sin conexión</h3>
+      <p class="ejemplo">Sin conexión. Mostramos lo último que recibimos a las 14:32 y reintentamos solos.</p>
+      <h3>Voto del juez</h3>
+      <p class="ejemplo">Tu voto está en cola, se enviará al volver.</p>
+      <h3>Deshacer</h3>
+      <p class="ejemplo">Atleta eliminado. <u>Deshacer</u> (6 s)</p>
+    </div>
+  </div>
+</section>
+
+<!-- 13 · Usos incorrectos -->
+<section class="pg">
+  <div class="cab"><span><b>12</b> · Usos incorrectos</span><span>no lo hagas</span></div>
+  <h2>Lo que no se toca.</h2>
+  <div class="cols c4" style="grid-template-rows:1fr 1fr;margin-top:8px">
+    <div class="caja no"><img src="logotipo-horizontal.svg" width="170" alt="" style="transform:scaleX(1.35) scaleY(.8)"><span class="pie">no deformar</span></div>
+    <div class="caja no"><svg viewBox="0 0 64 64" width="84" height="84" style="transform:rotate(130deg)"><path d="M49.34 18.46 A22 22 0 1 1 42.33 12.58" fill="none" stroke="#111" stroke-width="9"/><circle cx="32" cy="32" r="6"/></svg><span class="pie">no rotar la abertura</span></div>
+    <div class="caja no"><img src="logotipo-horizontal.svg" width="170" alt="" style="filter:drop-shadow(5px 6px 5px #0007)"><span class="pie">no añadir sombras</span></div>
+    <div class="caja no"><div style="font:600 34px var(--f-ui);letter-spacing:-.035em;color:#D9F84A">openmeets</div><span class="pie">no lima como texto sobre claro</span></div>
+    <div class="caja no"><div style="display:flex;align-items:center;gap:8px"><img src="simbolo.svg" width="44" alt=""><span style="font:italic 400 36px Georgia,serif">OpenMeets</span></div><span class="pie">no cambiar el tipo</span></div>
+    <div class="caja no" style="background:#D9F84A"><img src="logotipo-blanco.svg" width="170" alt=""><span class="pie" style="color:#111">no blanco sobre claro o lima</span></div>
+    <div class="caja no"><img src="logotipo-horizontal.svg" width="170" alt="" style="opacity:.25"><span class="pie">no bajar la opacidad</span></div>
+    <div class="caja no"><img src="logotipo-horizontal.svg" width="170" alt="" style="filter:hue-rotate(200deg) saturate(8) invert(.3) sepia(1) hue-rotate(180deg)"><span class="pie">no recolorear</span></div>
+  </div>
+</section>
+
+<!-- 14 · Crédito -->
+<section class="pg" style="background:#F5F5F2;justify-content:space-between">
+  <div class="cab"><span><b>13</b> · Crédito y licencia</span><span>OpenMeets</span></div>
+  <div style="display:flex;gap:60px;align-items:center;flex:1">
+    <img src="simbolo.svg" width="200" height="200" alt="">
+    <div>
+      <h2>Creado por Eyver Gomez <span style="color:#6B6B66">(@eyversao)</span>.</h2>
+      <p class="lead">OpenMeets es software libre. El logotipo y este manual forman parte del proyecto; úsalos para identificar tus competencias y tu club, respetando las reglas de estas páginas.</p>
+      <p class="mono">marca/generar.py regenera los SVG, los iconos y el og.png. marca/manual.pdf se imprime desde este archivo.</p>
+    </div>
+  </div>
+  <div class="cab" style="border:0;border-top:1px solid #DADAD4;margin:0;padding:10px 0 0"><span>Código abierto · gratis · en tu red local</span><span>Creado por Eyver Gomez (@eyversao)</span></div>
+</section>
+
+<script>
+  // --- medidas de contraste WCAG 2.x ---
+  const lum = h => { const c = [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16) / 255).map(v => v <= .03928 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4); return .2126 * c[0] + .7152 * c[1] + .0722 * c[2]; };
+  const ratio = (a, b) => { const [x, y] = [lum(a), lum(b)].sort((p, q) => q - p); return (x + .05) / (y + .05); };
+  const fmt = v => v.toFixed(1).replace('.', ',');
+  const rgb = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16)).join(', ');
+  const nivel = r => r >= 7 ? 'AAA' : r >= 4.5 ? 'AA' : r >= 3 ? 'solo grande' : 'no pasa';
+
+  const base = [
+    ['Papel', '--papel', '#F5F5F2', '#111111', 'fondo de página'], ['Papel 2', '--papel-2', '#ECECE8', '#111111', 'zonas, píldoras'],
+    ['Superficie', '--superficie', '#FFFFFF', '#111111', 'tarjetas'], ['Línea', '--linea', '#DADAD4', '#111111', 'bordes, divisores'],
+    ['Tinta', '--tinta', '#111111', '#F5F5F2', 'texto, símbolo'], ['Tinta 2', '--tinta-2', '#3C3C38', '#F5F5F2', 'texto secundario'],
+    ['Tinta 3', '--tinta-3', '#6B6B66', '#FFFFFF', 'apoyo, etiquetas'], ['Señal', '--senal', '#D9F84A', '#111111', 'solo resaltado, texto tinta']];
+  const sem = [
+    ['OK', '--ok', '#0F7A40', '#FFFFFF', 'válido, correcto'], ['Mal', '--mal', '#C62A20', '#FFFFFF', 'error, nulo en texto'],
+    ['Aviso', '--aviso', '#8A5A06', '#FFFFFF', 'atención'], ['Info', '--info', '#2B5CD6', '#FFFFFF', 'información'],
+    ['Luz blanca', '--luz-blanca', '#FFFFFF', '#111111', 'voto válido'], ['Luz roja', '--luz-roja', '#E5352B', '#FFFFFF', 'voto nulo'],
+    ['Tarjeta azul', '--tarjeta-azul', '#2563EB', '#FFFFFF', 'tarjeta de juez'], ['Tarjeta amarilla', '--tarjeta-amarilla', '#F5C400', '#111111', 'tarjeta de juez']];
+  const sw = ([n, v, hex, txt, uso]) => `<div class="sw"><div class="m" style="background:${hex};color:${txt}">${n}</div><div class="d"><b>${n}</b>${hex}<br>RGB ${rgb(hex)}<br>${v}<br>${uso}</div></div>`;
+  document.getElementById('sw-base').innerHTML = base.map(sw).join('');
+  document.getElementById('sw-sem').innerHTML = sem.map(sw).join('');
+
+  const pares = [
+    ['Tinta sobre papel', '#111111', '#F5F5F2'], ['Tinta sobre superficie', '#111111', '#FFFFFF'], ['Tinta sobre señal (resaltado)', '#111111', '#D9F84A'],
+    ['Blanco sobre tinta', '#FFFFFF', '#111111'], ['Tinta 2 sobre papel', '#3C3C38', '#F5F5F2'], ['Tinta 3 sobre papel', '#6B6B66', '#F5F5F2'],
+    ['Señal como texto sobre papel', '#D9F84A', '#F5F5F2'], ['Señal sobre tinta (modo oscuro)', '#D9F84A', '#111111'],
+    ['OK sobre papel', '#0F7A40', '#F5F5F2'], ['Mal sobre papel', '#C62A20', '#F5F5F2'], ['Aviso sobre papel', '#8A5A06', '#F5F5F2'], ['Info sobre papel', '#2B5CD6', '#F5F5F2'],
+    ['Blanco sobre tarjeta azul', '#FFFFFF', '#2563EB'], ['Tinta sobre tarjeta amarilla', '#111111', '#F5C400'], ['Tinta 3 oscuro sobre papel oscuro', '#8E8E88', '#0E0E0D']];
+  document.querySelector('#t-contraste tbody').innerHTML = pares.map(([n, f, b]) => {
+    const r = ratio(f, b), niv = nivel(r), bien = r >= 4.5;
+    return `<tr><td>${n}</td><td><span class="muestra" style="color:${f};background:${b};border:1px solid #DADAD4">Aa 12</span></td><td class="num">${f} / ${b}</td><td class="num">${fmt(r)}:1</td><td class="${bien ? 'ok' : 'ko'}">${niv}</td></tr>`;
+  }).join('');
+  window.__contrastes = pares.map(([n, f, b]) => [n, +ratio(f, b).toFixed(2)]);
+</script>
+<script src="marca-demo.js"></script>
+<script>
+  document.getElementById('m-en').append(simbolo({ tam: 110, animar: 'entrada' }));
+  document.getElementById('m-ca').append(simbolo({ tam: 110, animar: 'carga' }));
+  document.getElementById('m-vi').append(simbolo({ tam: 110, animar: 'vivo' }));
+</script>
+</body>
+</html>

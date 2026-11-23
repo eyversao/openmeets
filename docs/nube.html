@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nube · Documentación de OpenMeets</title>
+<meta name="description" content="OpenMeets en internet: Firebase Hosting, Firestore y cuenta de Google, sin servidor.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="../web/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../web/css/tokens.css">
+<link rel="stylesheet" href="../web/css/base.css">
+<link rel="stylesheet" href="docs.css">
+</head>
+<body>
+<a class="saltar" href="#contenido">Saltar al contenido</a>
+<header class="barra">
+  <a class="logo" href="index.html" aria-label="OpenMeets, documentación"><img class="claro" src="../marca/logotipo-horizontal.svg" alt="OpenMeets" height="26"><img class="oscuro" src="../marca/logotipo-blanco.svg" alt="" height="26"></a>
+  <span class="etiqueta">documentación</span>
+</header>
+<div class="marco">
+  <nav class="lateral" aria-label="Documentación">
+    <details id="menu">
+      <summary>Contenido</summary>
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="guia-rapida.html">Guía rápida</a></li>
+        <li><a href="organizar.html">Organizar un meet</a></li>
+        <li><a href="inscripciones.html">Inscripciones y pesaje</a></li>
+        <li><a href="mesa.html">Dirigir la mesa</a></li>
+        <li><a href="jueces.html">Jueces</a></li>
+        <li><a href="pantalla.html">Pantalla y HUD para OBS</a></li>
+        <li><a href="transmision.html">Transmisión (regie)</a></li>
+        <li><a href="publico.html">Público e historial</a></li>
+        <li><a href="atletas-records.html">Atletas y récords</a></li>
+        <li><a href="liftingcast.html">Seguir LiftingCast</a></li>
+        <li><a href="tecnico.html">Técnico</a></li>
+        <li><a href="nube.html" aria-current="page">Nube</a></li>
+        <li><a href="federacion.html">Modo federación</a></li>
+        <li><a href="marca.html">Marca</a></li>
+        <li><a href="faq.html">Preguntas frecuentes</a></li>
+        <li><a href="creditos.html">Créditos</a></li>
+      </ul>
+    </details>
+  </nav>
+  <main id="contenido">
+<h1>Nube</h1>
+<p class="entrada">La versión en la nube vive en <a href="https://openmeets.web.app">openmeets.web.app</a>. <mark>No hay servidor</mark>: el navegador habla directo con Firestore, y las reglas de la base de datos son la seguridad. Sirve para crear meets y compartirlos por internet. La mesa de un gimnasio sigue funcionando sin internet con la <a href="guia-rapida.html">app local</a>.</p>
+<h2>Cómo funciona</h2>
+<ul>
+  <li><b>Firebase Hosting</b> sirve la web (el mismo código de <code>web/</code>, empaquetado).</li>
+  <li><b>Firestore</b> guarda los meets, los atletas, el estado en vivo y los votos. El tiempo real sale de las escuchas de Firestore, no de un canal SSE.</li>
+  <li><b>Auth con Google</b> identifica a quien organiza. Cada cuenta solo puede dirigir los meets que creó, hasta 50. Jueces y público no necesitan cuenta.</li>
+  <li>El meet puede ser público o privado. La cuenta dueña nunca se muestra en las páginas públicas.</li>
+  <li>El código de jueces vive en un documento aparte (<code>meets/&lt;id&gt;/privado/datos</code>) que solo lee el dueño. Los jueces votan con ese código y las reglas lo comprueban.</li>
+</ul>
+<h2>Qué cambia respecto a la app local</h2>
+<ul>
+  <li>Hay cuentas y no hay PIN de organizador.</li>
+  <li>Las funciones que dependen de una carpeta en tu equipo (perfiles de atletas entre meets, récords del servidor, modo federación) no están. La app lo avisa y te manda a la versión de tu red local.</li>
+  <li>Sin internet no hay nube. Para competir sin conexión usa la app local.</li>
+</ul>
+<h2>Reglas de Firestore</h2>
+<p>Están en <code>firestore.rules</code> y definen qué puede leer y escribir cada quien: lectura pública solo de meets públicos, escritura solo del dueño, validación de campos y tamaños, y votos de jueces con código. Se prueban contra el emulador:</p>
+<pre><code>npm run reglas</code></pre>
+<p>Hace falta Java (el emulador de Firestore lo usa) y descarga <code>firebase-tools</code> la primera vez.</p>
+<h2>Publicar tu propia versión</h2>
+<p>Puedes montar la nube con tu propio proyecto de Firebase. Los pasos:</p>
+<ol>
+  <li>En la <a href="https://console.firebase.google.com">consola de Firebase</a> crea un proyecto. Activa <b>Firestore</b> (modo producción), <b>Authentication</b> con el proveedor de Google y añade una <b>app web</b> para obtener su configuración.</li>
+  <li>En <b>Hosting</b> crea un sitio. Ajusta <code>.firebaserc</code> con tu proyecto (<code>default</code>), el proyecto donde está el sitio (<code>sitio</code>) y, en <code>targets</code>, el nombre del sitio. En Authentication &rarr; Configuración &rarr; Dominios autorizados añade el dominio del sitio.</li>
+  <li>Guarda la configuración web de Firebase en un JSON (<code>apiKey</code>, <code>projectId</code>, etc.) fuera del repositorio y apunta a él con la variable <code>OPENMEETS_FIREBASE_CONFIG</code>. Esa clave es pública, pero no se versiona.</li>
+  <li>Restringe la clave web en Google Cloud (sitios y APIs permitidos).</li>
+  <li>Instala las dependencias y publica:</li>
+</ol>
+<pre><code>npm install
+npm run nube:desplegar</code></pre>
+<p><code>npm run nube:build</code> prepara la carpeta <code>publico/</code>: copia <code>web/</code>, la empaqueta con esbuild y escribe <code>publico/nube.json</code> con tu configuración. La app detecta la nube porque ese archivo existe. <code>nube:desplegar</code> hace lo anterior y publica las reglas de Firestore y el sitio con <code>firebase-tools</code>. Antes inicia sesión con <code>npx firebase-tools login</code>.</p>
+<div class="nota aviso"><b>Las reglas van antes que el sitio</b><p>El código de la web depende de ellas. El script ya las despliega primero; si publicas a mano, hazlo en ese orden.</p></div>
+<h2>Copia de seguridad</h2>
+<p>Desde un meet puedes descargar su copia completa (<code>export.json</code>) y restaurarla después. Es el mismo formato que usa la app local, así que un meet puede pasar de una a otra.</p>
+
+    <footer class="pie">
+      <a href="tecnico.html">&larr; Técnico</a><a href="marca.html">Marca &rarr;</a>
+    </footer>
+    <p class="firma">OpenMeets · MIT © 2026 Eyver Gomez (<a href="https://instagram.com/eyversao">@eyversao</a>) · <a href="https://github.com/eyversao">GitHub</a></p>
+  </main>
+</div>
+<script>if (matchMedia('(min-width: 860px)').matches) document.getElementById('menu').open = true;</script>
+</body>
+</html>

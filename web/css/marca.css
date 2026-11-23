@@ -1,0 +1,37 @@
+/* OpenMeets · marca animada. Sin dependencias. Estados: entrada, carga, vivo. */
+.om-simbolo, .om-logotipo { display: inline-block; vertical-align: middle; color: var(--tinta, #111); overflow: visible; flex: none; }
+.om-anillo { fill: none; stroke: currentColor; stroke-width: 9; stroke-dasharray: 100 100; stroke-dashoffset: 0;
+  transition: stroke-dasharray var(--t-medio, 280ms) var(--mv-suave, cubic-bezier(.16, 1, .3, 1)), stroke-dashoffset var(--t-medio, 280ms) var(--mv-suave, cubic-bezier(.16, 1, .3, 1)); }
+.om-buje { fill: currentColor; transform-origin: 32px 32px; transform-box: view-box; }
+.om-giro { transform-origin: 32px 32px; transform-box: view-box; }
+.om-senal { fill: none; stroke: var(--senal, #D9F84A); stroke-width: 9; opacity: 0; }
+
+/* hover del logotipo (y del símbolo con enlace): la abertura se abre unos grados */
+.om-logotipo:hover .om-anillo, a:hover > .om-simbolo .om-anillo, .om-simbolo.om-abre:hover .om-anillo {
+  stroke-dasharray: 97.6 102.4; stroke-dashoffset: -1.2; }
+
+/* entrada: el anillo se dibuja en sentido horario desde el borde de la abertura; el buje aparece sin rebote */
+.om-entrada .om-anillo { animation: om-dibuja 1.1s var(--mv-suave, cubic-bezier(.16, 1, .3, 1)) backwards; }
+.om-entrada .om-buje { animation: om-aparece .55s var(--mv-suave, cubic-bezier(.16, 1, .3, 1)) .55s backwards; }
+@keyframes om-dibuja { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } }
+@keyframes om-aparece { from { transform: scale(0); } to { transform: scale(1); } }
+
+/* carga: el anillo gira continuo; la abertura hace de indicador (spinner de toda la app) */
+.om-carga .om-giro { animation: om-gira 1.2s linear infinite; }
+@keyframes om-gira { to { transform: rotate(360deg); } }
+
+/* vivo: el buje late suave y la abertura se tiñe de señal */
+.om-vivo .om-senal { opacity: 1; }
+.om-vivo .om-buje { animation: om-late 1.6s ease-in-out infinite; }
+@keyframes om-late { 0%, 100% { transform: scale(1); } 40% { transform: scale(1.22); } }
+
+/* pantalla de carga */
+.om-pantalla-carga { position: fixed; inset: 0; z-index: 9999; display: grid; place-items: center; align-content: center; gap: var(--e-4, 16px);
+  background: var(--papel, #F5F5F2); color: var(--tinta, #111); transition: opacity var(--t-medio, 280ms) var(--mv-sale, ease-in); }
+.om-pantalla-carga.om-sale { opacity: 0; pointer-events: none; }
+.om-pantalla-carga small { font: 400 14px/1.4 var(--f-ui, system-ui); color: var(--tinta-3, #6B6B66); }
+
+@media (prefers-reduced-motion: reduce) {
+  .om-entrada .om-anillo, .om-entrada .om-buje, .om-carga .om-giro, .om-vivo .om-buje { animation: none; }
+  .om-anillo { transition: none; }
+}

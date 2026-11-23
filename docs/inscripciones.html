@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inscripciones y pesaje · Documentación de OpenMeets</title>
+<meta name="description" content="Documentación de OpenMeets: Inscripciones y pesaje.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="../web/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../web/css/tokens.css">
+<link rel="stylesheet" href="../web/css/base.css">
+<link rel="stylesheet" href="docs.css">
+</head>
+<body>
+<a class="saltar" href="#contenido">Saltar al contenido</a>
+<header class="barra">
+  <a class="logo" href="index.html" aria-label="OpenMeets, documentación"><img class="claro" src="../marca/logotipo-horizontal.svg" alt="OpenMeets" height="26"><img class="oscuro" src="../marca/logotipo-blanco.svg" alt="" height="26"></a>
+  <span class="etiqueta">documentación</span>
+</header>
+<div class="marco">
+  <nav class="lateral" aria-label="Documentación">
+    <details id="menu">
+      <summary>Contenido</summary>
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="guia-rapida.html">Guía rápida</a></li>
+        <li><a href="organizar.html">Organizar un meet</a></li>
+        <li><a href="inscripciones.html" aria-current="page">Inscripciones y pesaje</a></li>
+        <li><a href="mesa.html">Dirigir la mesa</a></li>
+        <li><a href="jueces.html">Jueces</a></li>
+        <li><a href="pantalla.html">Pantalla y HUD para OBS</a></li>
+        <li><a href="transmision.html">Transmisión (regie)</a></li>
+        <li><a href="publico.html">Público e historial</a></li>
+        <li><a href="atletas-records.html">Atletas y récords</a></li>
+        <li><a href="liftingcast.html">Seguir LiftingCast</a></li>
+        <li><a href="tecnico.html">Técnico</a></li>
+        <li><a href="nube.html">Nube</a></li>
+        <li><a href="federacion.html">Modo federación</a></li>
+        <li><a href="marca.html">Marca</a></li>
+        <li><a href="faq.html">Preguntas frecuentes</a></li>
+        <li><a href="creditos.html">Créditos</a></li>
+      </ul>
+    </details>
+  </nav>
+  <main id="contenido">
+
+<h1>Inscripciones y pesaje</h1>
+<p class="entrada">Recibe las inscripciones de tus atletas y pésalos el día del meet sin Excel ni CSV. Todo vive dentro de OpenMeets y los contactos solo los ves tú.</p>
+<h2>1. Configurar</h2>
+<p>En <b>Organizar &rarr; tu meet &rarr; Inscripciones &rarr; Configurar</b> decides:</p>
+<ul>
+<li><b>Apertura:</b> abiertas o en pausa, y una fecha y hora de cierre opcional. Pasada la hora, el formulario se cierra solo.</li>
+<li><b>Cupos:</b> total y, si quieres, máximo por categoría (sexo y clase de peso). Al llenarse, la gente entra a la <b>lista de espera</b>.</li>
+<li><b>Quién puede inscribirse:</b> divisiones y categorías de peso (de la federación del meet) y equipamiento raw, equipado o ambos.</li>
+<li><b>Pago:</b> precio, moneda y un <b>enlace de pago</b> externo (Mercado Pago, Nequi, transferencia). OpenMeets no cobra ni guarda datos de pago: solo muestra el enlace.</li>
+<li><b>Instrucciones</b> y hasta 8 <b>preguntas extra</b> de texto o sí/no, obligatorias o no.</li>
+</ul>
+<h2>2. El formulario público</h2>
+<p>Está en <code>/meets/&lt;id&gt;/inscripcion</code>. El botón «Inscribirme» aparece en la página del meet y en su tarjeta del inicio mientras las inscripciones están abiertas. El atleta escribe nombre, sexo, fecha de nacimiento (la división se sugiere por edad si el reglamento la define), club, peso estimado (con la categoría propuesta al instante), equipamiento, marcas opcionales, contacto y acepta el reglamento. Al enviar recibe un <b>código de 6 caracteres</b> y, si hay precio, el enlace de pago.</p>
+<div class="nota "><b>Protecciones</b><p>Máximo 5 inscripciones por hora desde la misma conexión y no se admite el mismo nombre con la misma fecha de nacimiento dos veces. Quien se inscribe <b>no aparece</b> en la página pública ni en el CSV de resultados hasta que lo confirmas.</p></div>
+<h2>3. Gestionar</h2>
+<p>La lista muestra contadores (lugares, confirmados, sin pagar, en espera) y filtros por estado y por pago pendiente. Por persona: <b>Confirmar</b> (entra a la lista de atletas del meet con sus aperturas estimadas), <b>Marcar pagado</b>, pasar a lista de espera, rechazar con motivo y <b>Deshacer</b>. «Copiar mensaje» arma el texto de confirmación para WhatsApp o correo: OpenMeets no envía nada. «Exportar CSV privado» incluye el contacto; es solo para ti.</p>
+<h2>4. Modo pesaje</h2>
+<p>La pestaña <b>Pesaje</b> (<code>/organizar/&lt;id&gt;/pesaje</code>) está pensada para tableta. Busca al atleta por nombre, club o lote, escribe el peso corporal y la categoría se asigna sola con las clases de la federación; avisa si cambia respecto a la inscrita o si no entra en ninguna. Anota las aperturas de sentadilla, banca y peso muerto, las alturas de rack, la revisión de equipo y de licencia, y quién pesó. El anillo muestra el progreso («Pesados 18/32»).</p>
+<p>Al pesar al último aparece <b>Pesaje cerrado</b> con el resumen por categoría y el botón <b>Generar grupos y lotes</b>: reparte parejo, de la categoría más liviana a la más pesada y con hombres primero, hasta el máximo que indiques por grupo, y sortea los lotes dentro de cada grupo.</p>
+<h2>API</h2>
+<div class="tabla"><table><thead><tr><th>Ruta</th><th>Quién</th><th>Qué hace</th></tr></thead><tbody>
+<tr><td><code>GET /api/meets/:id/inscripciones/estado</code></td><td>Público</td><td>Configuración pública, si está abierta y los cupos.</td></tr>
+<tr><td><code>POST /api/meets/:id/inscripciones</code></td><td>Público</td><td>Envía una inscripción (valida todo; 5 por hora por IP).</td></tr>
+<tr><td><code>GET /api/inscripciones/abiertas</code></td><td>Público</td><td>Ids de los meets con inscripciones abiertas.</td></tr>
+<tr><td><code>GET /api/meets/:id/inscripciones</code></td><td>Organizador</td><td>Lista con contacto.</td></tr>
+<tr><td><code>PUT /api/meets/:id/inscripciones/config</code></td><td>Organizador</td><td>Guarda la configuración en <code>meet.inscripciones</code>.</td></tr>
+<tr><td><code>PATCH /api/meets/:id/inscripciones/:iid</code></td><td>Organizador</td><td>Estado, pagado y nota.</td></tr>
+<tr><td><code>GET /api/meets/:id/inscripciones.csv</code></td><td>Organizador</td><td>CSV privado con contacto.</td></tr>
+</tbody></table></div>
+<p>Los inscritos se guardan aparte, en <code>&lt;datos&gt;/inscripciones/&lt;meet&gt;.json</code>, nunca dentro del meet público.</p>
+
+    <footer class="pie">
+      <a href="organizar.html">&larr; Organizar un meet</a><a href="mesa.html">Dirigir la mesa &rarr;</a>
+    </footer>
+    <p class="firma">OpenMeets · MIT © 2026 Eyver Gomez (<a href="https://instagram.com/eyversao">@eyversao</a>) · <a href="https://github.com/eyversao">GitHub</a></p>
+  </main>
+</div>
+<script>if (matchMedia('(min-width: 860px)').matches) document.getElementById('menu').open = true;</script>
+</body>
+</html>

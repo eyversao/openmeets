@@ -1,0 +1,175 @@
+/* ============================================================
+   OPENMEETS — Pantalla de tarima (.evp-tv) y HUD de transmisión (.hud)
+   Siempre oscura (la vista fija data-tema="oscuro"). Solo variables de tokens.css;
+   los colores de los discos vienen de los datos del meet. Las luces y el resultado están en luces.css.
+   ============================================================ */
+
+/* ---------- Pantalla de tarima ---------- */
+.evp.evp-tv { height: 100vh; height: 100dvh; overflow: hidden; display: flex; flex-direction: column; gap: 1.6vw; padding: 2vw 2.4vw; background: var(--papel); color: var(--tinta); }
+.tv-cab { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--e-4); flex-wrap: wrap; }
+.tv-titulo { min-width: 0; display: grid; gap: var(--e-2); }
+.tv-meet { font: 400 clamp(1.5rem, 2.6vw, 3.5rem)/1.05 var(--f-titular); letter-spacing: -.01em; overflow-wrap: anywhere; }
+.tv-sub { display: flex; align-items: center; flex-wrap: wrap; gap: var(--e-2) var(--e-4); color: var(--tinta-2); font-size: clamp(1rem, 1.3vw, 1.75rem); font-weight: 500; }
+.tv-plat { display: inline-flex; align-items: center; gap: var(--e-2); }
+.tv-plat span { color: var(--tinta-3); }
+.tv-plat select { min-height: 44px; padding: 0 var(--e-4); border: 1px solid var(--linea); border-radius: var(--r-2); background: var(--superficie); color: var(--tinta); font: inherit; }
+.tv-estado { padding: 2px var(--e-3); border-radius: var(--r-pill); border: 1px solid var(--linea); font-size: .8em; }
+.tv-estado.reloj { border-color: var(--ok); color: var(--ok); }
+.tv-estado.decision { background: var(--senal); border-color: var(--senal); color: var(--senal-tinta); }
+.tv-controles { display: flex; align-items: center; flex-wrap: wrap; gap: var(--e-2); opacity: .55; transition: opacity var(--t-medio); }
+.tv-controles:hover, .tv-controles:focus-within { opacity: 1; }
+.tv-aviso { padding: var(--e-3) var(--e-4); border: 1px solid var(--aviso); border-radius: var(--r-2); background: var(--superficie); color: var(--aviso); font-size: clamp(1rem, 1.4vw, 1.75rem); font-weight: 600; }
+
+.tv-cuerpo { flex: 1 1 auto; min-height: 0; display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 2.4vw; align-items: stretch; }
+.tv-atleta { min-width: 0; display: flex; flex-direction: column; justify-content: center; gap: .4vw; }
+.tv-espera { font: 400 clamp(2rem, min(4.6vw, 8.2vh), 6rem)/1.05 var(--f-titular); color: var(--tinta-2); }
+.tv-meta { color: var(--tinta-3); font-size: clamp(1rem, 1.5vw, 2rem); font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
+.tv-nombre { font: 700 clamp(2.25rem, min(5vw, 8.9vh), 6.5rem)/1 var(--f-ui); letter-spacing: -.025em; overflow-wrap: anywhere; }
+.tv-club { color: var(--tinta-2); font-size: clamp(1.1rem, 1.9vw, 2.5rem); font-weight: 500; }
+.tv-kg { display: flex; align-items: baseline; flex-wrap: wrap; gap: .8vw; line-height: .95; }
+.tv-kg-num { font: 500 clamp(3rem, min(11vw, 18.5vh), 15rem)/.95 var(--f-datos); letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
+.tv-kg-u { font: 500 clamp(1.5rem, min(3.4vw, 6vh), 4.5rem) var(--f-datos); color: var(--tinta-3); }
+.tv-rec { padding: .15em .7em; border-radius: var(--r-1); background: var(--senal); color: var(--senal-tinta); font-size: clamp(.9rem, 1.4vw, 1.8rem); font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+/* Aviso de récord: rojo, mayúsculas, Geist 700 con tracking del logotipo. Titila ~1 s por ciclo (marcador); «no» queda fijo. */
+.tv-record { align-self: flex-start; max-width: 100%; padding: .06em .45em; border: .08em solid var(--luz-roja); border-radius: var(--r-2); color: var(--luz-roja); font: 700 clamp(1.4rem, min(3.2vw, 5.6vh), 4.5rem)/1.05 var(--f-ui); letter-spacing: -.02em; text-transform: uppercase; overflow-wrap: anywhere; animation: tv-titila 1s steps(1, end) infinite; }
+.tv-record.logrado { background: var(--luz-roja); color: #fff; animation-duration: .55s; box-shadow: 0 0 3vw color-mix(in srgb, var(--luz-roja) 55%, transparent); }
+.tv-record.no { animation: none; }
+@keyframes tv-titila { 0%, 100% { opacity: 1; } 50% { opacity: .12; } }
+.tv-discos { width: 100%; max-width: 62vw; display: grid; gap: .4vw; }
+
+.tv-decision { min-width: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.4vw; padding: 1.6vw; border-radius: var(--r-3); border: 1px solid var(--linea); background: var(--papel-2); text-align: center; }
+.tv-decision[data-estado="espera"] { opacity: .55; }
+.tv-decision.valido { border-color: var(--ok); animation: tv-brillo 1.4s var(--mv-suave) both; }
+.tv-decision.nulo { border-color: var(--mal); }
+.tv-reloj { font: 500 clamp(3rem, min(12vw, 21.3vh), 17rem)/1 var(--f-datos); letter-spacing: -.04em; font-variant-numeric: tabular-nums; color: var(--tinta-2); }
+.tv-reloj.corre { color: var(--tinta); }
+.tv-reloj.pausa { color: var(--tinta-3); }
+.tv-reloj.fin { color: var(--mal); }
+.tv-luces { width: 100%; }
+.tv-res .ev-resultado { flex-direction: column; align-items: center; gap: .18em; font-size: clamp(2.5rem, min(7vw, 12.4vh), 10rem); }
+.tv-res .ev-resultado b { white-space: nowrap; }
+.tv-res .ev-resultado .rec { font-size: .3em; white-space: nowrap; }
+.tv-motivos { width: 100%; font-size: clamp(1rem, 1.5vw, 2rem); color: var(--tinta-2); }
+.tv-motivos:empty, .tv-res:empty { display: none; }
+@keyframes tv-brillo { 0% { box-shadow: 0 0 0 0 transparent; } 35% { box-shadow: 0 0 5vw color-mix(in srgb, var(--ok) 45%, transparent); } 100% { box-shadow: 0 0 1.2vw color-mix(in srgb, var(--ok) 20%, transparent); } }
+
+.tv-sigue { display: flex; align-items: center; flex-wrap: wrap; gap: var(--e-2) var(--e-3); padding-top: 1.2vw; border-top: 1px solid var(--linea); }
+.tv-sigue-t { color: var(--tinta-3); font-size: clamp(.9rem, 1.2vw, 1.5rem); font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
+.tv-sig { display: inline-flex; align-items: baseline; gap: var(--e-3); padding: var(--e-2) var(--e-4); border: 1px solid var(--linea); border-radius: var(--r-pill); background: var(--superficie); font-size: clamp(1rem, 1.5vw, 2rem); }
+.tv-sig span { color: var(--tinta-3); }
+.tv-error { margin: auto; max-width: 36rem; }
+
+/* ---------- Pico y final: grupo terminado, meet terminado y espera útil ---------- */
+.tv-atleta[hidden], .tv-decision[hidden], .tv-final[hidden] { display: none; }
+.tv-final { grid-column: 1 / -1; min-width: 0; display: flex; flex-direction: column; justify-content: center; gap: 1.2vw; animation: tv-llega 1.1s var(--mv-suave) both; }
+.tv-final-titulo { font: 400 clamp(2.5rem, 5vw, 6.5rem)/1 var(--f-titular); letter-spacing: -.02em; overflow-wrap: anywhere; }
+.tv-final-titulo.suave { color: var(--tinta-2); font-size: clamp(2rem, 4.6vw, 6rem); }
+.tv-final-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); gap: 2.4vw; align-items: start; }
+.tv-final-col { min-width: 0; display: grid; gap: .8vw; align-content: start; }
+.tv-podio, .tv-mejores { list-style: none; margin: 0; padding: 0; display: grid; gap: .7vw; }
+.tv-pod { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: var(--e-4); padding: .8vw 1.4vw; border: 1px solid var(--linea); border-radius: var(--r-3); background: var(--superficie); font-size: clamp(1.1rem, 1.8vw, 2.4rem); }
+.tv-pod.primero { border-color: var(--senal); box-shadow: 0 0 2.4vw color-mix(in srgb, var(--senal) 35%, transparent); }
+.tv-pod-n { display: inline-grid; place-items: center; min-width: 1.6em; height: 1.6em; border-radius: var(--r-pill); background: var(--papel-2); color: var(--tinta-2); font-weight: 700; }
+.tv-pod.primero .tv-pod-n { background: var(--senal); color: var(--senal-tinta); }
+.tv-pod-datos { min-width: 0; display: grid; }
+.tv-pod-datos b { overflow-wrap: anywhere; font-weight: 700; }
+.tv-pod-datos small, .tv-pod-cifras small { color: var(--tinta-3); font-size: .55em; }
+.tv-pod-cifras { display: grid; justify-items: end; text-align: right; }
+.tv-mejor { display: grid; gap: .2em; padding: .8vw 1.4vw; border: 1px solid var(--linea); border-radius: var(--r-3); background: var(--superficie); font-size: clamp(1.1rem, 1.8vw, 2.4rem); }
+.tv-mejor small { color: var(--tinta-3); font-size: .55em; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
+.tv-mejor .num { color: var(--tinta-2); font-size: .8em; }
+.tv-final-pie, .tv-credito { color: var(--tinta-3); font-size: clamp(1rem, 1.4vw, 1.8rem); }
+.tv-credito { letter-spacing: .04em; }
+@keyframes tv-llega { 0% { opacity: 0; transform: translateY(1.2vw); } 100% { opacity: 1; transform: none; } }
+
+@media (max-width: 900px) {
+  .evp.evp-tv { height: auto; min-height: 100dvh; overflow: visible; padding: var(--e-4); gap: var(--e-4); }
+  .tv-cuerpo { grid-template-columns: minmax(0, 1fr); gap: var(--e-5); }
+  .tv-discos { max-width: 100%; }
+  .tv-controles { opacity: 1; }
+}
+
+
+/* ---------- HUD de transmisión (OBS) ---------- */
+html.hud-transparente, html.hud-transparente body { background: transparent; }
+.hud-raiz { position: fixed; inset: 0; pointer-events: none; overflow: hidden; }
+.hud { --u: calc(var(--hud-escala, 1) * 1.05vw); position: absolute; left: 3vw; right: 3vw; display: flex; align-items: center; flex-wrap: wrap; gap: calc(var(--u) * 1.4); padding: calc(var(--u) * .8) calc(var(--u) * 1.6); font-size: var(--u); color: var(--tinta); background: color-mix(in srgb, var(--papel) 90%, transparent); border: 1px solid var(--linea); border-radius: var(--r-3); }
+.hud.abajo { bottom: 3vh; }
+.hud.arriba { top: 3vh; }
+.hud.valido { border-color: var(--ok); }
+.hud.nulo { border-color: var(--mal); }
+.hud-atleta { flex: 1 1 14em; min-width: 0; display: grid; gap: .1em; }
+.hud-nombre { font: 700 2.1em/1.05 var(--f-ui); letter-spacing: -.02em; overflow-wrap: anywhere; }
+.hud-meta { color: var(--tinta-2); font-size: .95em; font-weight: 500; }
+.hud-kg { display: flex; align-items: baseline; gap: .3em; }
+.hud-kg-num { font: 500 3.2em/1 var(--f-datos); letter-spacing: -.03em; }
+.hud-kg small { color: var(--tinta-3); font: 500 1.2em var(--f-datos); }
+.hud-rec { align-self: center; padding: .1em .5em; border: .1em solid var(--luz-roja); border-radius: var(--r-1); color: var(--luz-roja); font: 700 .8em/1.1 var(--f-ui); text-transform: uppercase; letter-spacing: -.01em; animation: tv-titila 1s steps(1, end) infinite; }
+.hud-rec.logrado { background: var(--luz-roja); color: #fff; animation-duration: .55s; }
+.hud-rec.no { animation: none; }
+.hud .ev-luces { padding: 0; gap: .9em; }
+.hud .ev-luces .ev-luz { width: 2.5em; height: 2.5em; }
+.hud .ev-luces .ev-tarjeta { width: .7em; height: 1em; }
+.hud-res .ev-resultado { font-size: 2.2em; flex-direction: column; align-items: center; gap: .1em; }
+.hud-res .ev-resultado b, .hud-res .ev-resultado .rec { white-space: nowrap; }
+.hud-res:empty { display: none; }
+.hud-reloj { font: 500 3.2em/1 var(--f-datos); letter-spacing: -.03em; font-variant-numeric: tabular-nums; color: var(--tinta-2); }
+.hud-reloj.corre { color: var(--tinta); }
+.hud-reloj.fin { color: var(--mal); }
+.hud-sinred { position: absolute; right: var(--e-4); top: var(--e-4); padding: 2px var(--e-3); border: 1px solid var(--mal); border-radius: var(--r-pill); background: var(--papel); color: var(--mal); font-size: .8125rem; font-weight: 600; }
+
+@media (prefers-reduced-motion: reduce) {
+  .tv-decision.valido, .tv-final { animation: none; }
+  .tv-controles { transition: none; }
+  .tv-record, .hud-rec { animation: none; border-width: .16em; }
+}
+
+/* Pantallas bajas (portátil, proyector 16:10 o ventana): todo el bloque del atleta cabe sobre «Siguen». */
+@media (max-height: 820px) {
+  .tv-atleta { gap: .4vh; }
+  .tv-nombre { font-size: clamp(1.8rem, 7vh, 6.5rem); }
+  .tv-club, .tv-meta { font-size: clamp(.9rem, 2.6vh, 2rem); }
+  .tv-kg-num { font-size: clamp(2.6rem, 14vh, 15rem); }
+  .tv-record { font-size: clamp(1.1rem, 4.4vh, 4.5rem); }
+  .carga-visual.grande { --bv-alto: 10vh; --fr-alto: 4.2vh; --fr-txt: clamp(1rem, 3vh, 3rem); gap: .6vh; }
+}
+
+/* ---------- HUD: escenas de la regie (entrada/salida 300-500 ms; con movimiento reducido, sin movimiento) ---------- */
+.hud { transition: opacity .4s var(--mv-suave), transform .4s var(--mv-suave); box-shadow: 0 .4em 1.6em rgb(0 0 0 / .35); }
+.hud.fuera { opacity: 0; transform: translateY(1.5vh); visibility: hidden; transition: opacity .3s var(--mv-sale), transform .3s var(--mv-sale), visibility 0s .3s; }
+.hud.arriba.fuera { transform: translateY(-1.5vh); }
+.hud-capa { position: absolute; inset: 0; }
+.hud-panel { --u: calc(var(--hud-escala, 1) * 1.05vw); position: absolute; left: 3vw; right: 3vw; font-size: var(--u); color: var(--tinta); background: color-mix(in srgb, var(--papel) 92%, transparent); border: 1px solid var(--linea); border-radius: var(--r-3); padding: calc(var(--u) * .9) calc(var(--u) * 1.8); box-shadow: 0 .4em 1.6em rgb(0 0 0 / .35); opacity: 0; transform: translateY(1.5vh); transition: opacity .4s var(--mv-suave), transform .4s var(--mv-suave); }
+.hud-panel.abajo { bottom: 3vh; } .hud-panel.arriba { top: 3vh; transform: translateY(-1.5vh); }
+.hud-panel.entra { opacity: 1; transform: none; }
+.hud-panel.sale { opacity: 0; transition-duration: .3s; transition-timing-function: var(--mv-sale); }
+.hud-p-cab { display: flex; align-items: baseline; gap: .8em; margin-bottom: .5em; font-size: .9em; color: var(--tinta-3); text-transform: uppercase; letter-spacing: .08em; font-weight: 600; }
+.hud-p-cab b { color: var(--tinta); }
+.hud-p-lista { list-style: none; margin: 0; padding: 0; display: grid; gap: .25em; }
+.hud-p-fila { display: grid; grid-template-columns: 1.6em minmax(0, 1fr) auto; align-items: baseline; gap: .8em; padding: .15em 0; border-top: 1px solid var(--linea); }
+.hud-p-fila:first-child { border-top: 0; }
+.hud-p-n { color: var(--tinta-3); font: 500 1.4em var(--f-datos); }
+.hud-p-nombre { display: grid; min-width: 0; }
+.hud-p-nombre b { font: 700 1.6em/1.1 var(--f-ui); letter-spacing: -.02em; overflow-wrap: anywhere; }
+.hud-p-nombre small { color: var(--tinta-2); font-size: .85em; }
+.hud-p-cifra { font: 500 1.8em var(--f-datos); letter-spacing: -.02em; }
+.hud-p-fila.primero .hud-p-nombre b { background: linear-gradient(transparent 12%, var(--senal) 12%, var(--senal) 92%, transparent 92%); color: var(--senal-tinta); justify-self: start; padding: 0 .15em; margin: 0 -.15em; }
+.hud-p-dos { display: flex; gap: 3em; flex-wrap: wrap; }
+.hud-p-mejor { display: grid; gap: .1em; }
+.hud-p-mejor small { color: var(--tinta-3); font-weight: 600; text-transform: uppercase; letter-spacing: .06em; }
+.hud-p-mejor b { font: 700 2em/1.1 var(--f-ui); letter-spacing: -.02em; justify-self: start; }
+.hud-p-mejor span { font: 500 1.2em var(--f-datos); color: var(--tinta-2); }
+.hud-panel.p-record { border-color: var(--luz-roja); display: grid; gap: .3em; }
+.hud-p-rec-etiqueta { justify-self: start; padding: .1em .6em; background: var(--luz-roja); color: #fff; border-radius: var(--r-1); font: 700 1.5em/1.2 var(--f-ui); letter-spacing: -.01em; text-transform: uppercase; }
+.hud-p-rec-cuerpo { display: flex; align-items: baseline; gap: .5em; flex-wrap: wrap; }
+.hud-p-rec-kg { font: 500 5.5em/1 var(--f-datos); letter-spacing: -.04em; }
+.hud-p-rec-cuerpo small { color: var(--tinta-3); font: 500 1.6em var(--f-datos); }
+.hud-p-rec-lev { font: 400 2.6em/1 var(--f-titular); color: var(--tinta-2); margin-left: .4em; }
+.hud-p-rec-nombre { margin: 0; font-size: 1.7em; } .hud-p-rec-nombre span { color: var(--tinta-2); }
+.hud-panel.p-pausa { top: 50%; bottom: auto; left: 50%; right: auto; width: min(80vw, 60em); translate: -50% -50%; text-align: center; padding: 2em 2.5em; }
+.hud-p-pausa { margin: 0; font: 400 4.4em/1.05 var(--f-titular); overflow-wrap: anywhere; }
+.hud-panel.p-patro { top: auto; left: 50%; right: auto; bottom: 4vh; translate: -50% 0; display: grid; place-items: center; width: min(46vw, 30em); height: 12vh; padding: 1em; background: #fff; }
+.hud-p-logo { max-width: 100%; max-height: 100%; object-fit: contain; }
+@media (prefers-reduced-motion: reduce) {
+  .hud, .hud.fuera, .hud-panel, .hud-panel.sale { transition: none; transform: none; }
+}

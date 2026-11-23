@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Atletas y récords · Documentación de OpenMeets</title>
+<meta name="description" content="Documentación de OpenMeets: Atletas y récords.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="../web/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../web/css/tokens.css">
+<link rel="stylesheet" href="../web/css/base.css">
+<link rel="stylesheet" href="docs.css">
+</head>
+<body>
+<a class="saltar" href="#contenido">Saltar al contenido</a>
+<header class="barra">
+  <a class="logo" href="index.html" aria-label="OpenMeets, documentación"><img class="claro" src="../marca/logotipo-horizontal.svg" alt="OpenMeets" height="26"><img class="oscuro" src="../marca/logotipo-blanco.svg" alt="" height="26"></a>
+  <span class="etiqueta">documentación</span>
+</header>
+<div class="marco">
+  <nav class="lateral" aria-label="Documentación">
+    <details id="menu">
+      <summary>Contenido</summary>
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="guia-rapida.html">Guía rápida</a></li>
+        <li><a href="organizar.html">Organizar un meet</a></li>
+        <li><a href="inscripciones.html">Inscripciones y pesaje</a></li>
+        <li><a href="mesa.html">Dirigir la mesa</a></li>
+        <li><a href="jueces.html">Jueces</a></li>
+        <li><a href="pantalla.html">Pantalla y HUD para OBS</a></li>
+        <li><a href="transmision.html">Transmisión (regie)</a></li>
+        <li><a href="publico.html">Público e historial</a></li>
+        <li><a href="atletas-records.html" aria-current="page">Atletas y récords</a></li>
+        <li><a href="liftingcast.html">Seguir LiftingCast</a></li>
+        <li><a href="tecnico.html">Técnico</a></li>
+        <li><a href="nube.html">Nube</a></li>
+        <li><a href="federacion.html">Modo federación</a></li>
+        <li><a href="marca.html">Marca</a></li>
+        <li><a href="faq.html">Preguntas frecuentes</a></li>
+        <li><a href="creditos.html">Créditos</a></li>
+      </ul>
+    </details>
+  </nav>
+  <main id="contenido">
+
+<h1>Atletas y récords</h1>
+<p class="entrada">Cada atleta tiene una ficha con todos sus meets de este servidor, y la tabla de récords guarda quién tiene cada marca y quién la tuvo antes.</p>
+<h2>Fichas de atleta (<code>/atletas</code>)</h2>
+<p>Se arman solas con los meets públicos: mismo nombre (sin tildes ni mayúsculas) y mismo sexo es la misma persona. La ficha muestra mejores marcas (S, B, D, total y puntos), gráficas de progresión, el anillo de 9 intentos del último meet, los récords que posee y el historial con puesto. El nombre del atleta en Resultados y Atletas de cada meet enlaza a su ficha.</p>
+<p>Si dos personas se llaman igual, o una misma persona escribió distinto su nombre, el organizador usa <b>Fusionar con otra ficha</b> o <b>No es esta persona</b> (ambos con Deshacer). También puedes fijar un <code>atletaId</code> estable en el atleta del meet. Las asignaciones se guardan en <code>atletas.json</code>.</p>
+<h2>Tabla de récords (<code>/records</code>)</h2>
+<p>Se organiza por federación, nivel (mundial, nacional, ibero, regional u otro con nombre libre), sexo, división, equipamiento, clase y levantamiento (S, B, D, total). Se guarda en <code>records.json</code> dentro de la carpeta de datos. El organizador crea, edita y elimina (con Deshacer); al editar, «Es un récord nuevo» guarda el titular anterior en el historial.</p>
+<h2>Récord automático y aviso en la mesa</h2>
+<p>Antes del intento, la mesa avisa «Este intento sería RÉCORD NACIONAL (actual 182,5 kg)» y el botón <b>Marcar</b> rellena el selector de récord (si ya había otro marcado, pide confirmación). Cuando se decide un intento válido que supera un récord de la tabla, el servidor lo registra solo como <b>por homologar</b>, con el anterior en el historial, y la página pública lo marca. Un empate no cuenta; la barra usada no influye.</p>
+<h2>CSV</h2>
+<p>Exportar: <code>/api/records/export.csv</code>. Plantilla: <code>/api/records/plantilla.csv</code>. Columnas: <code>federacion, nivel, nivel_texto, sexo, division, equipamiento, clase, levantamiento, kg, atleta, fecha, meet, lugar, fuente, homologado</code>. El importador primero muestra un resumen y las filas con error; un récord con la misma categoría pasa al historial del nuevo.</p>
+<h2>API</h2>
+<div class="tabla"><table><thead><tr><th>Ruta</th><th>Qué hace</th></tr></thead><tbody>
+<tr><td>GET /api/records?federacion=&amp;nivel=&amp;sexo=&amp;division=&amp;equipamiento=&amp;clase=&amp;lev=&amp;q=&amp;meetId=&amp;pendientes=1</td><td>Lista filtrada (pública)</td></tr>
+<tr><td>POST/PUT/DELETE /api/records[/:id]</td><td>Organizador: crear, editar, borrar</td></tr>
+<tr><td>POST /api/records/importar {csv, simular}</td><td>Organizador: importar CSV</td></tr>
+<tr><td>GET /api/atletas?q= · GET /api/atletas/:slug</td><td>Buscador y ficha (públicos)</td></tr>
+<tr><td>PUT /api/atletas/asignaciones {set}</td><td>Organizador: fusionar o separar fichas</td></tr>
+</tbody></table></div>
+
+    <footer class="pie"><a href="publico.html">&larr; Público e historial</a><a href="liftingcast.html">Seguir LiftingCast &rarr;</a></footer>
+    <p class="firma">OpenMeets · MIT © 2026 Eyver Gomez (<a href="https://instagram.com/eyversao">@eyversao</a>) · <a href="https://github.com/eyversao">GitHub</a></p>
+  </main>
+</div>
+<script>if (matchMedia('(min-width: 860px)').matches) document.getElementById('menu').open = true;</script>
+</body>
+</html>

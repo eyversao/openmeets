@@ -1,0 +1,89 @@
+/* ============================================================
+   OPENMEETS — Récords y fichas de atleta
+   Solo variables de tokens.css. Controles de 44 px; 390 px sin scroll horizontal.
+   ============================================================ */
+
+/* ---------- Barra de filtros ---------- */
+.rc-filtros { display: grid; gap: var(--e-3); grid-template-columns: 1fr 1fr; padding-bottom: var(--e-4); }
+.rc-filtros > :first-child { grid-column: 1 / -1; }
+@media (min-width: 720px) { .rc-filtros { grid-template-columns: minmax(0, 2fr) repeat(3, minmax(0, 1fr)); align-items: end; } .rc-filtros > :first-child { grid-column: auto; } }
+.rc-barra { display: flex; flex-wrap: wrap; gap: var(--e-2); align-items: center; justify-content: space-between; }
+.rc-barra-acciones { display: flex; flex-wrap: wrap; gap: var(--e-2); }
+
+/* ---------- Tabla de récords: un bloque por federación / nivel / sexo / división / equipamiento ---------- */
+.rc-fed { display: grid; gap: var(--e-4); }
+.rc-nivel { display: grid; gap: var(--e-3); }
+.rc-nivel-titulo { display: flex; align-items: baseline; gap: var(--e-2); flex-wrap: wrap; font-size: 1.0625rem; font-weight: 600; }
+.rc-bloque { display: grid; gap: var(--e-2); padding: var(--e-4); background: var(--superficie); border: 1px solid var(--linea); border-radius: var(--r-2); min-width: 0; }
+.rc-bloque-titulo { font-size: .875rem; color: var(--tinta-3); font-weight: 500; }
+.rc-clase { display: grid; gap: var(--e-2); grid-template-columns: 4.5rem repeat(auto-fit, minmax(7rem, 1fr)); align-items: stretch; padding-block: var(--e-2); border-top: 1px solid var(--linea); }
+.rc-clase:first-of-type { border-top: 0; }
+.rc-clase-nombre { align-self: center; font-weight: 600; }
+.rc-celda { display: grid; gap: 2px; align-content: start; min-height: 44px; padding: var(--e-2) var(--e-3); text-align: left; background: var(--papel-2); border: 1px solid transparent; border-radius: var(--r-1); color: var(--tinta); min-width: 0; }
+button.rc-celda { cursor: pointer; }
+button.rc-celda:hover { border-color: var(--linea); background: var(--superficie); }
+.rc-celda-lev { font-size: .75rem; color: var(--tinta-3); letter-spacing: .02em; }
+.rc-celda-kg { font-size: 1.0625rem; font-weight: 600; }
+.rc-celda-quien { font-size: .8125rem; color: var(--tinta-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rc-celda.vacia { background: transparent; border: 1px dashed var(--linea); }
+.rc-celda.vacia .rc-celda-kg { color: var(--tinta-3); font-weight: 400; }
+.rc-celda.pendiente { border-color: var(--aviso); }
+@media (max-width: 520px) { .rc-clase { grid-template-columns: repeat(2, minmax(0, 1fr)); } .rc-clase-nombre { grid-column: 1 / -1; align-self: start; } }
+
+/* ---------- Detalle de un récord ---------- */
+.rc-detalle { display: grid; gap: var(--e-3); }
+.rc-kg { font-size: 2rem; font-weight: 600; line-height: 1; }
+.rc-datos { display: grid; grid-template-columns: auto 1fr; gap: var(--e-1) var(--e-3); font-size: .9375rem; }
+.rc-datos dt { color: var(--tinta-3); }
+.rc-datos dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+.rc-historial { display: grid; gap: var(--e-2); list-style: none; padding: 0; margin: 0; }
+.rc-historial li { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--e-3); align-items: baseline; padding: var(--e-2) var(--e-3); background: var(--papel-2); border-radius: var(--r-1); }
+.rc-historial small { color: var(--tinta-3); display: block; }
+.rc-form { display: grid; gap: var(--e-3); grid-template-columns: 1fr 1fr; }
+.rc-form .completo { grid-column: 1 / -1; }
+@media (max-width: 520px) { .rc-form { grid-template-columns: 1fr; } }
+.rc-importar { display: grid; gap: var(--e-3); }
+.rc-importar code { display: block; padding: var(--e-2) var(--e-3); background: var(--papel-2); border-radius: var(--r-1); font-size: .8125rem; overflow-wrap: anywhere; }
+.rc-errores { margin: 0; padding-left: var(--e-5); color: var(--mal); font-size: .875rem; }
+
+/* ---------- Aviso de la mesa: «Este intento sería récord» ---------- */
+.rc-aviso { display: grid; gap: var(--e-2); padding: var(--e-3) var(--e-4); border: 1px solid var(--senal); border-radius: var(--r-2); background: var(--papel-2); }
+.rc-aviso-fila { display: flex; align-items: center; justify-content: space-between; gap: var(--e-3); flex-wrap: wrap; }
+.rc-aviso b { font-weight: 600; }
+
+/* ---------- Listado de atletas ---------- */
+.rc-lista { display: grid; gap: var(--e-2); list-style: none; padding: 0; margin: 0; }
+.rc-fila { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--e-3); align-items: center; min-height: 56px; padding: var(--e-3) var(--e-4); background: var(--superficie); border: 1px solid var(--linea); border-radius: var(--r-2); color: var(--tinta); text-decoration: none; }
+a.rc-fila:hover { border-color: var(--tinta-3); }
+.rc-fila b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: block; }
+.rc-fila small { color: var(--tinta-3); display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rc-fila .rc-fila-total { text-align: right; font-weight: 600; }
+
+/* ---------- Ficha de atleta ---------- */
+.rc-ficha-cab { display: grid; gap: var(--e-3); padding-block: var(--e-5); }
+.rc-ficha-cab .fila { gap: var(--e-2); }
+.rc-marcas { display: grid; gap: var(--e-3); grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr)); }
+.rc-marca { display: grid; gap: 2px; padding: var(--e-3) var(--e-4); background: var(--superficie); border: 1px solid var(--linea); border-radius: var(--r-2); min-width: 0; }
+.rc-marca .rc-celda-kg { font-size: 1.5rem; }
+.rc-marca small { color: var(--tinta-3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rc-graficas { display: grid; gap: var(--e-4); grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); }
+.rc-grafica { display: grid; gap: var(--e-2); padding: var(--e-4); background: var(--superficie); border: 1px solid var(--linea); border-radius: var(--r-2); min-width: 0; }
+.rc-grafica svg { width: 100%; height: auto; display: block; overflow: visible; }
+.rc-g-eje { stroke: var(--linea); stroke-width: 1; }
+.rc-g-linea { fill: none; stroke: var(--tinta); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.rc-g-punto { fill: var(--papel); stroke: var(--tinta); stroke-width: 2; }
+.rc-g-punto.ultimo { fill: var(--senal); }
+.rc-g-texto { fill: var(--tinta-3); font-family: var(--f-datos); font-size: 11px; }
+.rc-historial-meets { display: grid; gap: var(--e-3); list-style: none; padding: 0; margin: 0; }
+.rc-meet { display: grid; gap: var(--e-2); padding: var(--e-4); background: var(--superficie); border: 1px solid var(--linea); border-radius: var(--r-2); min-width: 0; }
+.rc-meet-cab { display: flex; justify-content: space-between; gap: var(--e-3); flex-wrap: wrap; align-items: baseline; }
+.rc-meet-cab a { color: var(--tinta); font-weight: 600; }
+.rc-meet-levs { display: grid; gap: var(--e-2); grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.rc-meet-levs > div { display: grid; gap: 2px; }
+.rc-meet-levs small { color: var(--tinta-3); }
+@media (max-width: 520px) { .rc-meet-levs { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.rc-ultimo { display: flex; align-items: center; gap: var(--e-4); padding: var(--e-4); background: var(--superficie); border: 1px solid var(--linea); border-radius: var(--r-2); }
+
+/* ---------- Nombre enlazado en la página del meet ---------- */
+.pub-atleta-enlace { color: inherit; text-decoration: none; border-bottom: 1px solid var(--linea); }
+.pub-atleta-enlace:hover { border-bottom-color: var(--tinta); }

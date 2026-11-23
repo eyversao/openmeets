@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>OpenMeets</title>
+  <meta name="description" content="OpenMeets: organiza, dirige, juzga, muestra y sigue competencias de powerlifting en vivo. Código abierto, funciona en tu red local.">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#F5F5F2" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0E0E0D" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <script>
+/* Corre antes de pintar. 1) migra las claves antiguas («openmeet.*» y «openmeet-*», sin s) y pone el tema para que no parpadee.
+   2) Pide /nube.json ya (app.js lo reutiliza: sin él esperaría a que baje todo el JS). 3) Precarga en paralelo los módulos de la vista
+   de esta ruta (tabla que escribe scripts/sw-lista.mjs) y el diccionario inglés si toca. */
+(function () {
+  try {
+    var viejas = [], i, k;
+    for (i = 0; i < localStorage.length; i++) { k = localStorage.key(i); if (/^openmeet[.-]/.test(k)) viejas.push(k); }
+    viejas.forEach(function (v) {
+      var n = v.replace(/^openmeet/, 'openmeets');
+      if (localStorage.getItem(n) === null) localStorage.setItem(n, localStorage.getItem(v));
+      localStorage.removeItem(v);
+    });
+  } catch (e) { /* sin almacenamiento */ }
+  var p = location.pathname, l = null;
+  try {
+    var d = document.documentElement, t = localStorage.getItem('openmeets.tema');
+    l = localStorage.getItem('openmeets.idioma');
+    if (/\/pantalla\/?$/.test(p) || /^\/juez\//.test(p)) d.dataset.tema = 'oscuro';
+    else if (t === 'claro' || t === 'oscuro') d.dataset.tema = t;
+  } catch (e) { /* sin almacenamiento */ }
+  try {
+    window.__nube = fetch('/nube.json', { cache: 'no-cache' });
+    // Sin nube (servidor local) también se pide ya el rol de equipo; rol.js reutiliza esa respuesta.
+    window.__nube.then(function (r) { if (!r.ok) window.__rol = fetch('/api/rol'); }, function () { /* sin red */ });
+  } catch (e) { /* sin fetch */ }
+  var h = document.head;
+  function pre(url, como) {
+    var a = document.createElement('link');
+    a.rel = como ? 'preload' : 'modulepreload'; a.href = url;
+    if (como) { a.as = como; a.crossOrigin = 'anonymous'; }
+    h.appendChild(a);
+  }
+  var P = /*PRECARGA*/{"base":["/js/util.js","/js/i18n.js","/js/nucleo/competencia.js","/js/nucleo/federaciones.js","/js/nucleo/puntajes.js","/js/api.js","/js/nube/modo.js","/js/vistas/federacion/rol.js","/js/ui.js"],"rutas":[["^/?/?$",["/js/vistas/inicio.js","/js/marca.js","/js/vistas/_publico.js","/js/nucleo/luces-estado.js","/js/nucleo/reloj.js","/js/inscripciones-api.js"]],["^/meets/([^/]+)/pantalla/?$",["/js/vistas/pantalla.js","/js/canal.js","/js/nucleo/luces-estado.js","/js/nucleo/reloj.js","/js/vistas/barra-visual.js","/js/nucleo/discos.js","/js/nucleo/sonidos.js","/js/vistas/pantalla-datos.js"]],["^/meets/([^/]+)/hud/?$",["/js/vistas/hud.js","/js/vistas/pantalla.js","/js/canal.js","/js/nucleo/luces-estado.js","/js/nucleo/reloj.js","/js/vistas/barra-visual.js","/js/nucleo/discos.js","/js/nucleo/sonidos.js","/js/vistas/pantalla-datos.js","/js/vistas/hud-escenas.js","/js/nucleo/regie.js"]],["^/meets/([^/]+)/inscripcion/?$",["/js/vistas/inscripcion.js","/js/inscripciones-api.js","/js/nucleo/inscripcion.js"]],["^/meets/([^/]+)/locutor/?$",["/js/vistas/federacion/locutor.js","/js/vistas/pantalla.js","/js/canal.js","/js/nucleo/luces-estado.js","/js/nucleo/reloj.js","/js/vistas/barra-visual.js","/js/nucleo/discos.js","/js/nucleo/sonidos.js","/js/vistas/pantalla-datos.js","/js/nucleo/federacion.js"]],["^/meets/([^/]+)/acta/?$",["/js/vistas/federacion/acta.js"]],["^/entrar/?$",["/js/vistas/federacion/entrar.js"]],["^/meets/([^/]+)/?$",["/js/vistas/meet.js","/js/canal.js","/js/vistas/tarjeta-render.js","/js/nucleo/tarjeta-social.js","/js/nucleo/luces-estado.js","/js/nucleo/reloj.js","/js/nucleo/inscripcion.js","/js/vistas/_publico.js","/js/vistas/_records.js","/js/nucleo/records.js","/js/nucleo/perfiles.js"]],["^/juez/([^/]+)/?$",["/js/vistas/juez.js","/js/canal.js","/js/nucleo/luces-estado.js","/js/nucleo/reloj.js","/js/nucleo/jueces-acceso.js","/js/vistas/juez-datos.js","/js/vistas/pantalla-datos.js"]],["^/organizar/?$",["/js/vistas/organizar/index.js","/js/vistas/organizar/comun.js","/js/vistas/organizar/logica.js","/js/vistas/juez-datos.js","/js/nucleo/jueces-acceso.js","/js/vistas/pantalla-datos.js","/js/nucleo/luces-estado.js","/js/nucleo/reloj.js"]],["^/organizar/([^/]+)(?:/([^/]+))?/?$",["/js/vistas/organizar/meet.js","/js/canal.js","/js/nucleo/jueces-mandos.js","/js/nucleo/jueces-acceso.js","/js/vistas/organizar/comun.js","/js/vistas/nube-ui.js"]],["^/atletas/?$",["/js/vistas/atletas.js"]],["^/atletas/([^/]+)/?$",["/js/vistas/atleta.js","/js/nucleo/records.js","/js/nucleo/perfiles.js","/js/vistas/_records.js"]],["^/records/?$",["/js/vistas/records.js","/js/nucleo/records.js","/js/vistas/_records.js"]],["^/seguir/?$",["/js/vistas/seguir.js","/js/nucleo/liftingcast.js","/js/vistas/_publico.js","/js/nucleo/luces-estado.js","/js/nucleo/reloj.js"]],["^/ajustes/?$",["/js/vistas/ajustes.js","/js/marca.js","/js/vistas/nube-ui.js"]]]}/*FIN*/, r = 0;
+  P.base.forEach(function (u) { pre(u); });
+  for (; r < P.rutas.length; r++) if (new RegExp(P.rutas[r][0]).test(p)) { P.rutas[r][1].forEach(function (u) { pre(u); }); break; }
+  // La página de un meet pinta ya con negritas y datos en mono: sus fuentes llegan con el primer pintado y no desplazan el diseño.
+  if (/^\/meets\/[^\/]+\/?$/.test(p)) ['geist-latin-500-normal', 'geist-latin-600-normal', 'geist-latin-700-normal', 'geist-mono-latin-500-normal'].forEach(function (f) { pre('/fuentes/' + f + '.woff2', 'font'); });
+  if ((l === 'es' || l === 'en' ? l : String(navigator.language || 'es').slice(0, 2).toLowerCase()) === 'en') pre(P.en || '/js/i18n/en.json', 'fetch');
+})();
+</script>
+  <link rel="preload" href="/fuentes/geist-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fuentes/instrument-serif-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/app.css">
+  <script type="module" src="/js/app.js"></script>
+</head>
+<body>
+  <div id="app"></div>
+  <noscript>OpenMeets necesita JavaScript para funcionar. / OpenMeets needs JavaScript to run.</noscript>
+</body>
+</html>

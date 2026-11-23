@@ -1,0 +1,17 @@
+/* ============================================================
+   OPENMEETS — Nube opcional: bloque de Ajustes, interruptor del meet, píldora y modo nube.
+   Solo variables de tokens.css.
+   ============================================================ */
+.nube-pildora { display: inline-flex; align-items: center; min-height: 32px; }
+.nube-pildora[hidden] { display: none; }
+.nube-meet { display: grid; gap: var(--e-2); }
+.nube-enlace { align-items: center; min-width: 0; }
+.nube-enlace .datos { overflow-wrap: anywhere; min-width: 0; font-size: .875rem; }
+.nube-nota { margin: 0; }
+.nube-aviso { margin: 0; }
+.nube-aviso[hidden] { display: none; }
+.nube-estado { align-items: center; gap: var(--e-3); }
+.nube-resultado:empty { display: none; }
+.nube-error { margin: 0; color: var(--mal); font-size: .9375rem; }
+/* En el hub no hay mesa ni organizador. */
+html[data-modo="nube"] [data-nav="organizar"] { display: none; }

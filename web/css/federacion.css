@@ -1,0 +1,78 @@
+/* OpenMeets · modo federación: panel central, equipo, entrar, hoja del locutor y acta. Solo variables de tokens.css. */
+.fed-entrar { display: grid; justify-items: center; gap: var(--e-3); padding: var(--e-6) var(--e-4); text-align: center; }
+.fed-entrar-form { width: min(100%, 22rem); text-align: left; }
+.fed-pin { font-family: var(--f-datos); font-size: 1.75rem; letter-spacing: .4em; text-align: center; min-height: 56px; }
+.fed-pin-grande { font-size: 2.5rem; letter-spacing: .2em; text-align: center; padding: var(--e-3); background: var(--senal); color: var(--senal-tinta); border-radius: var(--r-2); }
+.fed-qr { justify-self: center; width: min(100%, 14rem); }
+.fed-acceso { flex-wrap: wrap; }
+.fed-acceso-quien { min-width: 0; overflow-wrap: anywhere; }
+.fed-filtros { align-items: end; }
+.fed-aud-resumen { white-space: normal !important; min-width: 16rem; overflow-wrap: anywhere; }
+/* Central */
+.fed-alerta-global { margin: 0; padding: var(--e-3); border: 1px solid var(--mal); border-radius: var(--r-2); color: var(--mal); font-weight: 600; }
+.fed-plat { display: grid; gap: var(--e-3); align-content: start; min-width: 0; }
+.fed-plat.parada { border-color: var(--mal); }
+.fed-plat-cab { display: flex; align-items: center; justify-content: space-between; gap: var(--e-2); flex-wrap: wrap; }
+.fed-plat-nombre { margin: 0; font-size: 1.125rem; }
+.fed-plat-actual { display: flex; align-items: center; justify-content: space-between; gap: var(--e-3); min-height: 44px; }
+.fed-plat-quien { display: grid; min-width: 0; overflow-wrap: anywhere; }
+.fed-plat-nombre-atleta { font-size: 1.25rem; }
+.fed-reloj { font-size: 1.75rem; font-weight: 600; }
+.fed-reloj.corre { color: var(--ok); }
+.fed-alertas { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--e-1); }
+.fed-alerta { padding: var(--e-2) var(--e-3); border-radius: var(--r-1); border: 1px solid var(--aviso); color: var(--aviso); font-size: .9375rem; }
+.fed-alerta.parada { border-color: var(--mal); color: var(--mal); }
+.fed-ok { color: var(--ok); font-weight: 600; }
+.fed-mal { color: var(--mal); font-weight: 600; }
+.fed-prog { display: grid; gap: var(--e-1); }
+.fed-prog-barra { height: 8px; border-radius: var(--r-pill); background: var(--papel-2); overflow: hidden; }
+.fed-prog-barra span { display: block; height: 100%; background: var(--ok); }
+.fed-jueces { display: flex; gap: var(--e-3); flex-wrap: wrap; font-size: .875rem; }
+.fed-juez { display: inline-flex; align-items: center; gap: 6px; }
+.fed-juez i { width: 10px; height: 10px; border-radius: 50%; background: var(--mal); }
+.fed-juez.on i { background: var(--ok); }
+.fed-plat-acciones { display: flex; gap: var(--e-2); flex-wrap: wrap; }
+/* Locutor */
+.fed-locutor { min-height: 100vh; background: var(--papel); color: var(--tinta); display: grid; grid-template-rows: auto 1fr; }
+.loc-cab { display: flex; align-items: center; justify-content: space-between; gap: var(--e-3); flex-wrap: wrap; padding: var(--e-3) var(--e-4); border-bottom: 1px solid var(--linea); }
+.loc-meet { margin: 0; font-size: 1.125rem; font-weight: 600; }
+.loc-ctl { display: flex; align-items: center; gap: var(--e-3); }
+.loc-cuerpo { display: grid; gap: var(--e-5); padding: var(--e-4); align-content: start; max-width: 70rem; width: 100%; margin-inline: auto; min-width: 0; }
+.loc-meta { margin: 0; color: var(--tinta-3); font-size: 1.25rem; }
+.loc-nombre { margin: 0; font: 400 clamp(2.5rem, 9vw, 5.5rem)/1.05 var(--f-titular); overflow-wrap: anywhere; }
+.loc-club { margin: 0; font-size: 1.5rem; color: var(--tinta-2); }
+.loc-peso { margin: var(--e-2) 0; font-size: clamp(3rem, 12vw, 7rem); font-weight: 600; line-height: 1; }
+.loc-datos { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--e-2); font-size: clamp(1.25rem, 3vw, 1.75rem); }
+.loc-record { color: var(--senal); font-weight: 600; }
+.loc-podio { color: var(--info); }
+.loc-h2 { font-size: 1rem; color: var(--tinta-3); text-transform: uppercase; letter-spacing: .08em; margin: 0 0 var(--e-2); }
+.loc-lista { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--e-2); font-size: clamp(1.125rem, 2.6vw, 1.5rem); }
+.loc-lista li { display: flex; gap: var(--e-2); flex-wrap: wrap; align-items: baseline; }
+.loc-kg { margin-left: auto; }
+.loc-frase { display: block !important; padding: var(--e-3); border: 1px solid var(--linea); border-radius: var(--r-2); background: var(--superficie); }
+.loc-espera { font-size: 2rem; color: var(--tinta-3); margin: var(--e-5) 0; }
+/* Acta */
+.fed-acta { background: var(--papel); color: var(--tinta); }
+.acta-hoja { max-width: 60rem; padding-block: var(--e-5); }
+.acta-barra { display: flex; gap: var(--e-2); margin-bottom: var(--e-4); }
+.acta-tipo { margin: 0; text-transform: uppercase; letter-spacing: .1em; font-size: .8125rem; color: var(--tinta-3); }
+.acta-titulo { margin: var(--e-1) 0; font: 400 clamp(2rem, 6vw, 3rem)/1.1 var(--f-titular); }
+.acta-sub { margin: 0 0 var(--e-4); color: var(--tinta-2); }
+.acta-borrador { color: var(--aviso); }
+.acta-cat { break-inside: avoid; margin-bottom: var(--e-5); overflow-x: auto; }
+.acta-cat-nombre { font-size: 1.0625rem; margin: 0 0 var(--e-2); }
+.acta-tabla { width: 100%; border-collapse: collapse; font-size: .9375rem; }
+.acta-tabla th, .acta-tabla td { padding: 6px 8px; border-bottom: 1px solid var(--linea); text-align: left; }
+.acta-tabla .num { text-align: right; }
+.acta-firmas { display: flex; gap: var(--e-7); margin-top: var(--e-7); break-inside: avoid; flex-wrap: wrap; }
+.acta-firma { display: grid; gap: var(--e-1); flex: 1 1 14rem; }
+.acta-linea { display: block; border-bottom: 1px solid var(--tinta); height: 56px; }
+@media print {
+  .no-imprimir, .barra, .nav, .pie, .aviso-red, .saltar { display: none !important; }
+  html, body, .fed-acta { background: #fff !important; color: #000 !important; }
+  .acta-tabla th, .acta-tabla td { border-color: #999; }
+  .acta-hoja { max-width: none; padding: 0; }
+  @page { margin: 14mm; }
+}
+@media (max-width: 480px) { .fed-pin-grande { font-size: 1.75rem; } .fed-reloj { font-size: 1.375rem; } }
+@media (max-width: 480px) { .barra-salir { font-size: 0; gap: 0; padding-inline: var(--e-2); } }

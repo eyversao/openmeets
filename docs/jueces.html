@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jueces · Documentación de OpenMeets</title>
+<meta name="description" content="Documentación de OpenMeets: Jueces.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="../web/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../web/css/tokens.css">
+<link rel="stylesheet" href="../web/css/base.css">
+<link rel="stylesheet" href="docs.css">
+</head>
+<body>
+<a class="saltar" href="#contenido">Saltar al contenido</a>
+<header class="barra">
+  <a class="logo" href="index.html" aria-label="OpenMeets, documentación"><img class="claro" src="../marca/logotipo-horizontal.svg" alt="OpenMeets" height="26"><img class="oscuro" src="../marca/logotipo-blanco.svg" alt="" height="26"></a>
+  <span class="etiqueta">documentación</span>
+</header>
+<div class="marco">
+  <nav class="lateral" aria-label="Documentación">
+    <details id="menu">
+      <summary>Contenido</summary>
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="guia-rapida.html">Guía rápida</a></li>
+        <li><a href="organizar.html">Organizar un meet</a></li>
+        <li><a href="inscripciones.html">Inscripciones y pesaje</a></li>
+        <li><a href="mesa.html">Dirigir la mesa</a></li>
+        <li><a href="jueces.html" aria-current="page">Jueces</a></li>
+        <li><a href="pantalla.html">Pantalla y HUD para OBS</a></li>
+        <li><a href="transmision.html">Transmisión (regie)</a></li>
+        <li><a href="publico.html">Público e historial</a></li>
+        <li><a href="atletas-records.html">Atletas y récords</a></li>
+        <li><a href="liftingcast.html">Seguir LiftingCast</a></li>
+        <li><a href="tecnico.html">Técnico</a></li>
+        <li><a href="nube.html">Nube</a></li>
+        <li><a href="federacion.html">Modo federación</a></li>
+        <li><a href="marca.html">Marca</a></li>
+        <li><a href="faq.html">Preguntas frecuentes</a></li>
+        <li><a href="creditos.html">Créditos</a></li>
+      </ul>
+    </details>
+  </nav>
+  <main id="contenido">
+
+<h1>Jueces</h1>
+<p class="entrada">Cada juez vota <mark>blanca</mark> (válido) o <mark>roja</mark> (nulo) desde su teléfono o con un mando físico. Las luces salen juntas cuando votan los tres.</p>
+<h2>Enlaces y código</h2>
+<p>En la pestaña <b>Jueces</b> del meet encuentras el enlace de juez (<code>http://IP:5050/juez/&lt;id-del-meet&gt;</code>)y el <b>código de jueces</b> de 6 dígitos. Cada juez abre el enlace en su teléfono, elige su posición (izquierdo, principal o derecho) y su tarima.</p>
+<ul>
+  <li>El enlace funciona por la red local. No hace falta cuenta.</li>
+  <li>El código identifica al meet: un voto sin el código correcto se rechaza.</li>
+  <li>Puedes cambiar el código en cualquier momento. Los teléfonos con el código viejo dejan de poder votar.</li>
+</ul>
+<h2>Modos de aprobación</h2>
+<p>Define quién puede sentarse como juez. Se elige por meet (<code>aprobacion</code>):</p>
+<div class="tabla"><table><thead><tr><th>Modo</th><th>Cómo entra el juez</th><th>Cuándo usarlo</th></tr></thead><tbody><tr><td><code>abierta</code></td><td>Abre el enlace y ya puede votar.</td><td>Pruebas y entrenamientos. Cualquiera con el enlace puede votar.</td></tr><tr><td><code>mesa</code></td><td>Abre el enlace y la mesa lo aprueba con un toque. Recuerda al juez en ese teléfono.</td><td>Lo normal en una competencia.</td></tr><tr><td><code>codigo</code></td><td>Además del enlace, escribe el código de 6 dígitos que le da la mesa.</td><td>Cuando el enlace puede circular entre personas ajenas.</td></tr></tbody></table></div>
+<p>La mesa reconoce cada teléfono por una huella (SHA-256 del identificador del aparato). Los jueces conocidos quedan guardados en el meet, para no volver a aprobarlos en la siguiente sesión. La mesa puede quitar el acceso de un juez (con Deshacer).</p>
+<h2>Lo que ve el juez</h2>
+<p>Dos botones grandes (blanca y roja) y, tras una roja en modo IPF, las tarjetas azul y amarilla con el motivo de cada movimiento. Siempre sabe si su toque funcionó: <i>enviado</i>, <i>en cola</i> o <i>no llegó, reintentando</i>.</p>
+<h2>Mandos físicos</h2>
+<p>Un botón de verdad suele ser más rápido y más fiable que una pantalla táctil. OpenMeets soporta tres formas, todas en el navegador del <b>equipo de la mesa</b>:</p>
+<div class="tabla"><table><thead><tr><th>Opción</th><th>Hardware</th><th>Cómo se conecta</th></tr></thead><tbody><tr><td>Mando Bluetooth</td><td>Un ESP32 por juez con 4 botones (blanca, roja, azul, amarilla).</td><td><b>Conectar mando Bluetooth</b> y elegir <code>OpenMando-L</code>, <code>-C</code> o <code>-R</code>.</td></tr><tr><td>Mando USB</td><td>Un Arduino Uno/Nano con 12 botones.</td><td><b>Conectar placa USB</b> y elegir el puerto.</td></tr><tr><td>Teclado, gamepad o presentador Bluetooth</td><td>Lo que ya tengas.</td><td><b>Aprender</b>: pulsas el botón y eliges a qué voto corresponde.</td></tr></tbody></table></div>
+<p>Teclas de fábrica, sin aprender nada:</p>
+<div class="tabla"><table><thead><tr><th>Juez</th><th>Blanca</th><th>Roja</th><th>Azul</th><th>Amarilla</th></tr></thead><tbody><tr><td>Izquierdo</td><td><kbd>Q</kbd></td><td><kbd>A</kbd></td><td><kbd>1</kbd></td><td><kbd>2</kbd></td></tr><tr><td>Principal</td><td><kbd>W</kbd></td><td><kbd>Z</kbd></td><td><kbd>3</kbd></td><td><kbd>4</kbd></td></tr><tr><td>Derecho</td><td><kbd>E</kbd></td><td><kbd>C</kbd></td><td><kbd>5</kbd></td><td><kbd>6</kbd></td></tr></tbody></table></div>
+<div class="nota aviso"><b>Compatibilidad</b><p>Web Bluetooth y Web Serial solo funcionan en <b>Chrome o Edge de escritorio</b>, abiertos en <code>http://localhost:5050/</code> en el equipo de la mesa. No funcionan en iPhone, Safari ni Firefox, ni desde una dirección <code>http://192.168...</code>. Un teléfono no puede hacerse pasar por mando Bluetooth: sin mando, el juez vota con el enlace.</p></div>
+<p>El código de los sketches, el cableado, la lista de materiales y el protocolo están en la carpeta <a href="../mandos/LEEME.md"><code>mandos/</code></a> del proyecto (también va dentro del zip de Windows).</p>
+
+    <footer class="pie">
+      <a href="mesa.html">&larr; Dirigir la mesa</a><a href="pantalla.html">Pantalla y HUD para OBS &rarr;</a>
+    </footer>
+    <p class="firma">OpenMeets · MIT © 2026 Eyver Gomez (<a href="https://instagram.com/eyversao">@eyversao</a>) · <a href="https://github.com/eyversao">GitHub</a></p>
+  </main>
+</div>
+<script>if (matchMedia('(min-width: 860px)').matches) document.getElementById('menu').open = true;</script>
+</body>
+</html>

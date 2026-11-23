@@ -1,0 +1,142 @@
+rules_version = '2';
+
+// OpenMeets · reglas de Firestore. No hay servidor: estas reglas son la seguridad real.
+// Modelo y quién escribe qué: web/js/nube/modelo.js. Pruebas: pruebas/reglas.test.mjs.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function raiz(id) { return /databases/$(database)/documents/meets/$(id); }
+    function esDueno(id) { return request.auth != null && request.auth.uid == get(raiz(id)).data.dueno; }
+    // En escrituras en lote (crear un meet con sus subdocumentos) get() ve el estado anterior: getAfter() ve el resultante.
+    function esDuenoW(id) { return request.auth != null && request.auth.uid == getAfter(raiz(id)).data.dueno; }
+    function publico(id) { return get(raiz(id)).data.publico == true; }
+    function visible(id) { return publico(id) || esDueno(id); }
+    function codigoOk(id, c) { return c is string && c.size() > 0 && c == get(/databases/$(database)/documents/meets/$(id)/privado/datos).data.codigoJuez; }
+    function inscAbiertas(id) { return get(raiz(id)).data.inscripciones.abiertas == true; }
+
+    /* ---------- meets/{id} ---------- */
+    function meetValido(d) {
+      return d.nombre is string && d.nombre.size() > 0 && d.nombre.size() <= 120
+        && d.publico is bool && d.cerrado is bool && d.enVivo is bool
+        && d.n is int && d.n >= 0 && d.n <= 1000
+        && d.id is string && d.id.matches('^[a-z0-9][a-z0-9-]{0,59}$')
+        && d.keys().hasOnly(['id', 'nombre', 'fecha', 'fechaFin', 'sede', 'ciudad', 'pais', 'organizador', 'descripcion', 'stream', 'federacion', 'modo',
+          'aprobacion', 'unidades', 'formula', 'barra', 'barraSentadilla', 'collar', 'discos', 'relojes', 'pararAlVotar', 'plataformas', 'publico',
+          'cerrado', 'hud', 'creado', 'actualizado', 'dueno', 'n', 'enVivo', 'inscripciones']);
+    }
+    match /meets/{id} {
+      allow get: if resource == null || resource.data.publico == true || (request.auth != null && resource.data.dueno == request.auth.uid);
+      allow list: if resource.data.publico == true || (request.auth != null && resource.data.dueno == request.auth.uid);
+      allow create: if request.auth != null && request.resource.data.dueno == request.auth.uid && request.resource.data.id == id && meetValido(request.resource.data);
+      allow update: if request.auth != null && resource.data.dueno == request.auth.uid && request.resource.data.dueno == resource.data.dueno && meetValido(request.resource.data);
+      allow delete: if request.auth != null && resource.data.dueno == request.auth.uid;
+    }
+
+    /* ---------- datos públicos del meet (lee cualquiera si el meet es público; escribe el dueño) ---------- */
+    function atletaValido(d, aid) {
+      return d.id == aid && aid.matches('^[a-z0-9][a-z0-9-]{0,59}$')
+        && d.nombre is string && d.nombre.size() <= 80 && d.sexo in ['M', 'F'] && d.intentos is map
+        && d.keys().hasOnly(['id', 'nombre', 'sexo', 'nacimiento', 'club', 'division', 'equipamiento', 'peso', 'clase', 'plataforma', 'sesion', 'grupo',
+          'lote', 'rack', 'intentos', 'levantes', 'pais', 'atletaId', 'notas', 'pesaje']);
+    }
+    match /meets/{id}/atletas/{aid} {
+      allow read: if visible(id);
+      allow create, update: if esDuenoW(id) && atletaValido(request.resource.data, aid);
+      allow delete: if esDuenoW(id);
+    }
+
+    function platValida(d) { return d.plataforma is string && d.plataforma.size() <= 40 && d.datos is map && d.keys().hasOnly(['plataforma', 'datos']); }
+    match /meets/{id}/vivo/{p} {
+      allow read: if visible(id);
+      allow create: if esDuenoW(id) && platValida(request.resource.data);
+      // la versión solo sube: un mensaje retrasado no pisa al más nuevo
+      allow update: if esDuenoW(id) && platValida(request.resource.data)
+        && request.resource.data.datos.get('version', 0) >= resource.data.datos.get('version', 0);
+      allow delete: if esDuenoW(id);
+    }
+    match /meets/{id}/regie/{p} {
+      allow read: if visible(id);
+      allow create, update: if esDuenoW(id) && platValida(request.resource.data);
+      allow delete: if esDuenoW(id);
+    }
+
+    // shortcut: sin servidor no hay límite por IP (la app limita 1 aplauso cada 10 s por dispositivo); añadir App Check si se abusa
+    function aplausoDe(id, aid) { return visible(id) && exists(/databases/$(database)/documents/meets/$(id)/atletas/$(aid)); }
+    match /meets/{id}/aplausos/{aid} {
+      allow read: if visible(id);
+      allow create: if (request.resource.data.keys().hasOnly(['n']) && request.resource.data.n == 1 && aplausoDe(id, aid))
+        || (esDuenoW(id) && request.resource.data.n is int && request.resource.data.n >= 0);
+      allow update: if (request.resource.data.keys().hasOnly(['n']) && request.resource.data.n == resource.data.n + 1 && aplausoDe(id, aid))
+        || (esDuenoW(id) && request.resource.data.n is int && request.resource.data.n >= 0);
+      allow delete: if esDuenoW(id);
+    }
+
+    match /meets/{id}/actividad/{a} {
+      allow read: if visible(id);
+      allow create, update: if esDuenoW(id) && request.resource.data.keys().hasOnly(['ts', 'texto']) && request.resource.data.ts is number && request.resource.data.texto is string && request.resource.data.texto.size() <= 300;
+      allow delete: if esDuenoW(id);
+    }
+
+    /* ---------- solo el dueño ---------- */
+    match /meets/{id}/privado/{d} {
+      allow read: if esDueno(id);
+      allow delete: if esDuenoW(id);
+      allow create, update: if esDuenoW(id) && d == 'datos' && request.resource.data.keys().hasOnly(['codigoJuez', 'juecesConocidos'])
+        && request.resource.data.codigoJuez is string && request.resource.data.codigoJuez.size() > 0 && request.resource.data.codigoJuez.size() <= 40
+        && request.resource.data.juecesConocidos is map && request.resource.data.juecesConocidos.size() <= 50;
+    }
+
+    /* ---------- jueces: escribe quien tenga el código de jueces, lee el dueño ---------- */
+    function votoValido(d) {
+      return d.pos in ['izq', 'cen', 'der'] && d.voto in ['blanca', 'roja'] && d.plataforma is string && d.plataforma.size() <= 40
+        && d.tarjetas is list && d.tarjetas.size() <= 3
+        && d.keys().hasOnly(['plataforma', 'pos', 'voto', 'tarjetas', 'turno', 'via', 'dispositivo', 'secreto', 'ts', 'codigo']);
+    }
+    match /meets/{id}/votos/{k} {
+      allow read: if esDueno(id);
+      allow delete: if esDuenoW(id);
+      allow create: if k.size() <= 120 && codigoOk(id, request.resource.data.codigo) && votoValido(request.resource.data);
+      // el primer voto de cada turno cuenta: solo se reescribe al cambiar de turno
+      allow update: if k.size() <= 120 && codigoOk(id, request.resource.data.codigo) && votoValido(request.resource.data) && request.resource.data.turno != resource.data.turno;
+    }
+    function presenciaValida(d) {
+      return d.pos in ['izq', 'cen', 'der'] && d.plataforma is string && d.plataforma.size() <= 40
+        && d.keys().hasOnly(['plataforma', 'pos', 'bateria', 'via', 'dispositivo', 'nombre', 'huella', 'ts', 'codigo']);
+    }
+    match /meets/{id}/presencia/{k} {
+      allow read: if esDueno(id);
+      allow delete: if esDuenoW(id);
+      allow create, update: if k.size() <= 120 && codigoOk(id, request.resource.data.codigo) && presenciaValida(request.resource.data);
+    }
+
+    /* ---------- inscripciones ---------- */
+    function inscripcionValida(d, iid) {
+      return d.id == iid && iid.matches('^in-[0-9a-f]{24}$')
+        && d.estado in ['pendiente', 'espera'] && d.aid == null && d.pagado == false
+        && d.nombre is string && d.nombre.size() >= 3 && d.nombre.size() <= 80
+        && d.contacto is string && d.contacto.size() >= 7 && d.contacto.size() <= 80
+        && d.sexo in ['M', 'F'] && d.codigo is string && d.codigo.size() == 6
+        && d.keys().hasOnly(['id', 'codigo', 'estado', 'pagado', 'nombre', 'sexo', 'nacimiento', 'club', 'division', 'equipamiento', 'pesoEstimado', 'clase',
+          'aperturas', 'contacto', 'respuestas', 'nota', 'aid', 'creado', 'ts']);
+    }
+    match /meets/{id}/inscripciones/{iid} {
+      allow read: if esDueno(id);
+      allow update, delete: if esDuenoW(id);
+      // crea cualquiera con las inscripciones abiertas; un duplicado es otra escritura sobre el mismo documento y se rechaza (no hay update público)
+      allow create: if publico(id) && inscAbiertas(id) && inscripcionValida(request.resource.data, iid);
+    }
+
+    // Cupos para el formulario público: el dueño los recalcula al abrir sus inscripciones; el público solo suma 1 por inscripción.
+    // shortcut: se puede inflar el contador con escrituras repetidas (el dueño lo corrige al verlo); App Check lo frenaría.
+    match /meets/{id}/publico/{cid} {
+      allow read: if visible(id);
+      allow write: if esDuenoW(id) && cid == 'cupos';
+      allow create: if cid == 'cupos' && publico(id) && inscAbiertas(id) && request.resource.data.keys().hasOnly(['ocupados', 'espera', 'porClase'])
+        && request.resource.data.get('ocupados', 0) + request.resource.data.get('espera', 0) <= 1;
+      allow update: if cid == 'cupos' && publico(id) && inscAbiertas(id) && request.resource.data.keys().hasOnly(['ocupados', 'espera', 'porClase'])
+        && request.resource.data.get('ocupados', 0) + request.resource.data.get('espera', 0) == resource.data.get('ocupados', 0) + resource.data.get('espera', 0) + 1;
+    }
+
+    // Todo lo demás, denegado.
+  }
+}

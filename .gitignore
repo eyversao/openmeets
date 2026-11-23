@@ -1,0 +1,15 @@
+node_modules/
+dist/
+datos/
+*.log
+*.tmp
+*.bak
+.env
+.DS_Store
+.firebase/
+publico/
+nube.json
+*-debug.log
+nativo/target/
+instalador/target/
+*.pdb

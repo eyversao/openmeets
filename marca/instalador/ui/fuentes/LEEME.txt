@@ -1,0 +1,2 @@
+Geist, Geist Mono (Vercel) e Instrument Serif (Instrument): SIL Open Font License 1.1.
+Copias de web/fuentes para que el instalador funcione sin internet.

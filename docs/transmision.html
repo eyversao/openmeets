@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Transmisión (regie) · Documentación de OpenMeets</title>
+<meta name="description" content="Documentación de OpenMeets: la regie del HUD y las imágenes para redes.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="../web/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../web/css/tokens.css">
+<link rel="stylesheet" href="../web/css/base.css">
+<link rel="stylesheet" href="docs.css">
+</head>
+<body>
+<a class="saltar" href="#contenido">Saltar al contenido</a>
+<header class="barra">
+  <a class="logo" href="index.html" aria-label="OpenMeets, documentación"><img class="claro" src="../marca/logotipo-horizontal.svg" alt="OpenMeets" height="26"><img class="oscuro" src="../marca/logotipo-blanco.svg" alt="" height="26"></a>
+  <span class="etiqueta">documentación</span>
+</header>
+<div class="marco">
+  <nav class="lateral" aria-label="Documentación">
+    <details id="menu">
+      <summary>Contenido</summary>
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="guia-rapida.html">Guía rápida</a></li>
+        <li><a href="organizar.html">Organizar un meet</a></li>
+        <li><a href="inscripciones.html">Inscripciones y pesaje</a></li>
+        <li><a href="mesa.html">Dirigir la mesa</a></li>
+        <li><a href="jueces.html">Jueces</a></li>
+        <li><a href="pantalla.html">Pantalla y HUD para OBS</a></li>
+        <li><a href="transmision.html" aria-current="page">Transmisión (regie)</a></li>
+        <li><a href="publico.html">Público e historial</a></li>
+        <li><a href="atletas-records.html">Atletas y récords</a></li>
+        <li><a href="liftingcast.html">Seguir LiftingCast</a></li>
+        <li><a href="tecnico.html">Técnico</a></li>
+        <li><a href="nube.html">Nube</a></li>
+        <li><a href="federacion.html">Modo federación</a></li>
+        <li><a href="marca.html">Marca</a></li>
+        <li><a href="faq.html">Preguntas frecuentes</a></li>
+        <li><a href="creditos.html">Créditos</a></li>
+      </ul>
+    </details>
+  </nav>
+  <main id="contenido">
+
+<h1>Transmisión (regie)</h1>
+<p class="entrada">Decide qué enseña el HUD de OBS mientras transmites, y saca imágenes para redes con la marca del meet.</p>
+<h2>La regie</h2>
+<p>Abre el meet en <b>Organizar</b> y entra en la pestaña <b>Transmisión</b> (<code>/organizar/&lt;id&gt;/regie</code>). Cada escena tiene una miniatura en vivo; la que está al aire lleva la etiqueta «Al aire».</p>
+<ul>
+  <li><b>Atleta en tarima</b>, <b>Siguientes</b>, <b>Clasificación</b> (la categoría del atleta en tarima), <b>Podio de categoría</b> (eliges la categoría), <b>Mejor levantador</b>, <b>Récord</b>, <b>Pausa</b> (texto libre, con atajos como «Volvemos en 10 min»), <b>Patrocinadores</b> (logos que rotan cada 5 a 20 s) y <b>Ocultar todo</b>.</li>
+  <li>Atajos de teclado: las teclas <b>1</b> a <b>9</b> eligen la escena en ese orden.</li>
+  <li><b>AUTO</b> (por defecto): el HUD sigue el vivo solo (atleta, revelado, récord si lo logró, siguiente atleta). Al pulsar una escena intervienes: Siguientes, Clasificación, Podio, Mejor y Récord duran 15 s; Pausa, Patrocinadores y Ocultar se quedan hasta que cambies. «Atleta en tarima» vuelve al vivo.</li>
+  <li><b>MANUAL</b>: el HUD enseña solo lo que elijas, aunque cambie el vivo.</li>
+</ul>
+<p>La regie viaja por el canal del meet como mensaje <code>regie</code> (solo el organizador puede publicarlo; máximo 64 KB, logos pequeños o direcciones https). Se guarda con el meet: un HUD que se conecte tarde la recibe al conectar. El HUD sigue usando <code>?t=</code>, <code>pos</code> y <code>escala</code>, con fondo transparente y transiciones suaves (sin movimiento si el sistema pide menos animación).</p>
+<h2>Imagen para redes</h2>
+<p>En la regie y en la página pública del meet (resultados) hay botones «Imagen para redes». Se generan en tu equipo con Canvas, sin enviar nada a internet:</p>
+<ul>
+  <li><b>Récord</b>: «RÉCORD NACIONAL · 182,5 kg · Sentadilla · nombre».</li>
+  <li><b>Resultado de un atleta</b>: anillo de 9 intentos, S/B/D, total, puntos y puesto.</li>
+  <li><b>Podio de categoría</b>.</li>
+</ul>
+<p>Formatos PNG 1080×1350 (Instagram) y 1080×1920 (historia). Descarga directa o «Compartir» si tu navegador lo permite.</p>
+
+    <footer class="pie">
+      <a href="pantalla.html">&larr; Pantalla y HUD</a><a href="publico.html">Público e historial &rarr;</a>
+    </footer>
+    <p class="firma">OpenMeets · MIT © 2026 Eyver Gomez (<a href="https://instagram.com/eyversao">@eyversao</a>) · <a href="https://github.com/eyversao">GitHub</a></p>
+  </main>
+</div>
+<script>if (matchMedia('(min-width: 860px)').matches) document.getElementById('menu').open = true;</script>
+</body>
+</html>

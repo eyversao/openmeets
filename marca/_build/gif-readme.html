@@ -1,0 +1,174 @@
+<!doctype html><meta charset="utf-8"><title>OpenMeets · GIF del README</title><style>
+/* GIF en bucle del README (?l=en|es|zh). Pantalla de la mesa en vivo: se carga la barra, sentadilla, tres blancas,
+   la clasificación se reordena y el récord titila; luego se descarga y vuelve al principio sin corte.
+   Tipos: Geist (texto), Geist Mono (datos), Instrument Serif italic (acento); chino: Smiley Sans + Microsoft YaHei. */
+@font-face{font-family:Geist;font-weight:500;src:url(../../web/fuentes/geist-latin-500-normal.woff2)}
+@font-face{font-family:Geist;font-weight:600;src:url(../../web/fuentes/geist-latin-600-normal.woff2)}
+@font-face{font-family:GeistMono;font-weight:500;src:url(../../web/fuentes/geist-mono-latin-500-normal.woff2)}
+@font-face{font-family:Titular;font-style:italic;src:url(../../web/fuentes/instrument-serif-latin-400-italic.woff2)}
+@font-face{font-family:Hanzi;src:url(fuentes/smiley-sans-oblique.woff2)}
+:root{--tinta:#0B0B0A;--papel:#F2F2EE;--gris:#8E8E88;--gris-2:#5E5E59;--senal:#D9F84A;
+  --ui:Geist,"Microsoft YaHei",sans-serif;--mono:GeistMono,"Microsoft YaHei",ui-monospace,monospace;--acento:Titular}
+.zh{--acento:Hanzi}
+html,body{margin:0}
+body{width:1200px;height:600px;overflow:hidden;position:relative;font-family:var(--ui);color:var(--papel);
+  background:radial-gradient(760px 420px at 400px 120px,rgba(255,255,255,.06),transparent 70%),linear-gradient(180deg,#121211,#0A0A09)}
+.a{position:absolute}
+#rejilla{inset:0;background:repeating-linear-gradient(90deg,rgba(255,255,255,.05) 0 1px,transparent 1px 60px),repeating-linear-gradient(0deg,rgba(255,255,255,.05) 0 1px,transparent 1px 60px);
+  -webkit-mask:radial-gradient(520px 300px at 400px 330px,#000,transparent 75%)}
+/* cabecera */
+#logo{left:56px;top:44px;height:30px}
+#vivo{right:56px;top:42px;display:flex;align-items:center;gap:14px;font:500 15px/1 var(--mono);letter-spacing:.12em;color:var(--gris)}
+#vivo .pill{display:flex;align-items:center;gap:9px;padding:8px 13px 8px 11px;border-radius:999px;background:rgba(229,53,43,.14);color:#FF8A80;box-shadow:inset 0 0 0 1px rgba(229,53,43,.35)}
+#punto{width:8px;height:8px;border-radius:50%;background:#FF4B3E}
+/* escenario */
+#intento{left:64px;top:118px;font:500 14px/1 var(--mono);letter-spacing:.12em;color:var(--gris)}
+#peso{left:60px;top:140px;font:600 104px/1 var(--ui);letter-spacing:-.045em;font-variant-numeric:tabular-nums}
+#peso small{font:500 26px var(--mono);color:var(--gris);letter-spacing:0;margin-left:6px}
+#atleta{left:64px;top:256px;font:500 19px/1 var(--ui);color:var(--papel)}
+#atleta span{color:var(--gris)}
+#intentos{left:422px;top:150px;display:flex;gap:10px}
+.int{min-width:88px;padding:11px 0 12px;border-radius:14px;text-align:center;font:500 18px/1 var(--mono);color:var(--gris);box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
+.int small{display:block;font-size:11px;letter-spacing:.12em;margin-bottom:7px;color:var(--gris-2)}
+.int.ok{background:#F2F2EE;color:var(--tinta);box-shadow:none}
+.int.ok small{color:#6B6B66}
+#escena{left:0;top:270px;width:800px;height:220px;overflow:visible}
+#suelo{left:60px;width:680px;top:438px;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.16),transparent)}
+#luces{left:291px;top:476px;display:flex;gap:34px}
+.luz{width:50px;height:50px;border-radius:50%;position:relative;background:radial-gradient(circle at 50% 38%,#262623,#111110 70%);box-shadow:0 0 0 4px #1B1B19,0 0 0 5px #2E2E2B}
+.luz i{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 50% 42%,#FFF 0 46%,#ECECE6 72%,#CFCFC8);box-shadow:0 0 26px 6px rgba(255,255,255,.45),0 0 70px 20px rgba(255,255,255,.12)}
+#veredicto{left:520px;top:476px;font:italic 400 52px/1 var(--acento);white-space:nowrap}
+.zh #veredicto{font:46px/1.1 Hanzi}
+/* clasificación */
+#tabla{left:808px;top:110px;width:336px;height:288px;border-radius:22px;background:rgba(255,255,255,.045);box-shadow:inset 0 0 0 1px rgba(255,255,255,.09)}
+#tabla h3{margin:0;position:absolute;left:22px;top:22px;font:500 13px/1 var(--mono);letter-spacing:.12em;color:var(--gris);font-weight:500}
+.fila{position:absolute;left:10px;right:10px;height:50px;border-radius:14px;display:flex;align-items:center;gap:14px;padding:0 14px;box-sizing:border-box;font:500 18px/1 var(--ui)}
+.fila .n{width:18px;font:500 15px var(--mono);color:var(--gris)}
+.fila .nom{flex:1;white-space:nowrap}
+.fila .kg{font:500 18px var(--mono);font-variant-numeric:tabular-nums}
+.fila.yo{background:#252523}
+.fila.yo .n{color:var(--papel)}
+/* récord */
+#record{left:808px;top:416px;width:336px;height:118px;border-radius:22px;background:var(--senal);color:var(--tinta);box-sizing:border-box;padding:20px 22px}
+#record.off{background:#1C1C1A;color:var(--papel);box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
+#record.off span{color:var(--gris)}
+#record b{display:block;font:italic 400 44px/1 var(--acento);letter-spacing:-.01em}
+.zh #record b{font:40px/1.1 Hanzi}
+#record span{display:block;margin-top:12px;font:500 13px/1 var(--mono);letter-spacing:.1em;color:#3C3C38}
+#vineta{inset:0;background:radial-gradient(130% 120% at 50% 40%,transparent 60%,rgba(0,0,0,.45))}
+</style>
+<div id="rejilla" class="a"></div>
+<img id="logo" class="a" src="../logotipo-blanco.svg" alt="">
+<div id="vivo" class="a"><span class="pill"><b id="punto"></b><span data-t="vivo"></span></span><span data-t="plataforma"></span></div>
+<div id="intento" class="a" data-t="enBarra"></div>
+<div id="peso" class="a"><span id="num">20</span><small>kg</small></div>
+<div id="atleta" class="a"></div>
+<div id="intentos" class="a"></div>
+<div id="suelo" class="a"></div>
+<svg id="escena" class="a" viewBox="0 0 800 220"></svg>
+<div id="luces" class="a"><b class="luz"><i></i></b><b class="luz"><i></i></b><b class="luz"><i></i></b></div>
+<div id="veredicto" class="a" data-t="valido"></div>
+<div id="tabla" class="a"><h3 data-t="clasif"></h3></div>
+<div id="record" class="a"><b data-t="record"></b><span data-t="recordSub"></span></div>
+<div id="vineta" class="a"></div>
+<script src="escenario.js"></script>
+<script>
+// Escena determinista y circular: pintar(t) dibuja el instante t (s) y pintar(0) = pintar(DURACION).
+const TEXTOS = {
+  en: { vivo: 'LIVE', plataforma: 'PLATFORM A · SQUAT', enBarra: 'ON THE BAR', intento: n => ['1ST', '2ND', '3RD'][n],
+        valido: 'Good lift.', clasif: 'STANDINGS · 93 KG', record: 'New record', recordSub: 'NATIONAL · SQUAT · 215 KG',
+        atletas: [['Rafael Silva', 210], ['Mateo Ortega', 207.5], ['Jonas Pérez', 202.5], ['Alan Chen', 195]], club: 'Iron Club' },
+  es: { vivo: 'EN VIVO', plataforma: 'PLATAFORMA A · SENTADILLA', enBarra: 'EN LA BARRA', intento: n => ['1.º', '2.º', '3.º'][n],
+        valido: 'Válido.', clasif: 'CLASIFICACIÓN · 93 KG', record: 'Nuevo récord', recordSub: 'NACIONAL · SENTADILLA · 215 KG',
+        atletas: [['Rafael Silva', 210], ['Mateo Ortega', 207.5], ['Jonás Pérez', 202.5], ['Alan Chen', 195]], club: 'Club Hierro' },
+  zh: { vivo: '直播', plataforma: 'A 台 · 深蹲', enBarra: '杠铃重量', intento: n => ['第一次', '第二次', '第三次'][n],
+        valido: '试举成功', clasif: '排名 · 93 公斤级', record: '新纪录', recordSub: '全国纪录 · 深蹲 · 215 公斤',
+        atletas: [['陈锐', 210], ['王磊', 207.5], ['李强', 202.5], ['张伟', 195]], club: '钢铁俱乐部' },
+};
+const L = new URLSearchParams(location.search).get('l') || 'en', T = TEXTOS[L];
+document.documentElement.lang = L; document.body.classList.toggle('zh', L === 'zh');
+document.querySelectorAll('[data-t]').forEach(e => e.textContent = T[e.dataset.t]);
+const $ = id => document.getElementById(id);
+$('atleta').innerHTML = `${T.atletas[1][0]} <span>· ${T.club}</span>`;
+$('intentos').innerHTML = [200, 207.5, 215].map((kg, i) => `<div class="int${i < 2 ? ' ok' : ''}"><small>${T.intento(i)}</small>${kg}</div>`).join('');
+const tercero = $('intentos').children[2];
+
+// Clasificación: el atleta en la barra (índice 1) pasa del 2.º al 1.º con 215.
+const filas = T.atletas.map(([nom, kg], i) => {
+  const f = document.createElement('div'); f.className = 'fila' + (i === 1 ? ' yo' : '');
+  f.innerHTML = `<span class="n">${i + 1}</span><span class="nom">${nom}</span><span class="kg">${kg}</span>`;
+  $('tabla').append(f); return f;
+});
+const FY = i => 56 + i * 56; // y de cada puesto dentro de la tabla
+
+const { g, piezas } = barra($('escena'), { cx: 400, cy: 98, largo: 760, k: .8, id: 'g' });
+
+const D = 10, cl = v => Math.max(0, Math.min(1, v)), seg = (t, a, b) => cl((t - a) / (b - a));
+const sale = v => 1 - Math.pow(1 - v, 4), entra = v => v * v * v, suave = v => v * v * (3 - 2 * v);
+const enOut = v => v < .5 ? 4 * v * v * v : 1 - Math.pow(-2 * v + 2, 3) / 2;
+const CARGA = i => .3 + i * .2, DESCARGA = i => 8.2 + (5 - i) * .16; // la descarga va de fuera hacia dentro
+const kgTxt = v => (Math.round(v * 2) / 2).toString();
+
+window.DURACION = D;
+window.pintar = t => {
+  // «En vivo»: el punto late una vez por segundo (10 latidos por vuelta).
+  const lat = Math.pow(Math.max(0, Math.sin(Math.PI * 2 * t)), 6);
+  $('punto').style.boxShadow = `0 0 ${4 + 14 * lat}px ${1 + 3 * lat}px rgba(255,75,62,${.35 + .5 * lat})`;
+
+  // Carga y descarga de discos, con el contador en saltos de 2,5 kg.
+  let kg = 20, flex = 0;
+  for (const p of piezas) {
+    const v = sale(seg(t, CARGA(p.i), CARGA(p.i) + .5)), u = entra(seg(t, DESCARGA(p.i), DESCARGA(p.i) + .4));
+    p.r.style.transform = `translateX(${p.lado * 150 * (1 - v + u)}px)`;
+    p.r.style.opacity = cl(seg(t, CARGA(p.i), CARGA(p.i) + .5) * 4) * (1 - u);
+    if (p.lado < 0) { kg += SUMA[p.i] * v * (1 - u); flex += 2.5 * Math.sin(Math.PI * seg(t, CARGA(p.i) + .1, CARGA(p.i) + .38)); }
+  }
+  // Los números se calculan con el tiempo del cuadro (20 fps), no del subcuadro: así el desenfoque no los duplica.
+  const tq = Math.floor(t * 20 + 1e-6) / 20;
+  let kq = 20;
+  for (const p of piezas) if (p.lado < 0) kq += SUMA[p.i] * sale(seg(tq, CARGA(p.i), CARGA(p.i) + .5)) * (1 - entra(seg(tq, DESCARGA(p.i), DESCARGA(p.i) + .4)));
+  $('num').textContent = Math.round(kq / 2.5) * 2.5;
+  // Sentadilla: la barra baja y sube con flexión al cambiar de dirección.
+  const baja = (1 - Math.cos(2 * Math.PI * seg(t, 1.9, 3.0))) / 2;
+  g.setAttribute('transform', `translate(0 ${38 * baja + flex})`);
+
+  // Tres blancas juntas, veredicto en serif.
+  const on = suave(seg(t, 3.1, 3.3)) * (1 - suave(seg(t, 7.7, 8.1)));
+  for (const b of $('luces').children) b.firstChild.style.opacity = on;
+  const ver = sale(seg(t, 3.35, 3.85)) * (1 - suave(seg(t, 7.6, 8.0)));
+  $('veredicto').style.opacity = ver;
+  $('veredicto').style.filter = ver < 1 ? `blur(${10 * (1 - ver)}px)` : 'none';
+  $('veredicto').style.transform = `translateX(${-16 * (1 - ver)}px)`;
+
+  // El tercer intento se marca válido.
+  const marca = t >= 3.9 && t < 8.6;
+  tercero.classList.toggle('ok', marca);
+  const pop = marca ? 1 + .06 * Math.sin(Math.PI * seg(t, 3.9, 4.2)) : 1;
+  tercero.style.transform = `scale(${pop})`;
+
+  // Clasificación: sube el total, luego intercambio de puestos; al final se funde y vuelve al estado inicial.
+  const cambia = enOut(seg(t, 4.7, 5.3));
+  filas[1].querySelector('.kg').textContent = kgTxt(207.5 + 7.5 * sale(seg(tq, 4.2, 4.7)));
+  const pos = [cambia, 1 - cambia, 2, 3];
+  filas.forEach((f, i) => {
+    f.style.top = FY(pos[i]) + 'px';
+    f.querySelector('.n').textContent = Math.round(pos[i]) + 1;
+  });
+  const arco = Math.sin(Math.PI * cambia);
+  filas[1].style.boxShadow = `0 ${12 * arco}px ${28 * arco}px rgba(0,0,0,.55)`;
+  filas[1].style.transform = `scale(${1 + .04 * arco})`;
+  filas[1].style.zIndex = 2;
+  const fundido = Math.sin(Math.PI * seg(t, 8.5, 9.5));
+  if (t >= 9) { filas[1].querySelector('.kg').textContent = '207.5'; filas.forEach((f, i) => { f.style.top = FY(i) + 'px'; f.querySelector('.n').textContent = i + 1; }); }
+  $('tabla').style.opacity = 1 - .85 * fundido;
+  $('tabla').style.filter = fundido > .01 ? `blur(${6 * fundido}px)` : 'none';
+
+  // Récord: entra, titila cuatro veces y se queda; sale antes de descargar.
+  const rin = sale(seg(t, 5.4, 5.9)), rout = entra(seg(t, 7.9, 8.4));
+  $('record').classList.toggle('off', tq > 5.9 && tq < 7.1 && Math.floor((tq - 5.9) / .15 + 1e-6) % 2 === 0);
+  $('record').style.opacity = rin * (1 - rout);
+  $('record').style.transform = `translateY(${18 * (1 - rin) + 10 * rout}px)`;
+  $('record').style.filter = rin < 1 || rout > 0 ? `blur(${8 * (1 - rin + rout)}px)` : 'none';
+};
+pintar(Number(new URLSearchParams(location.search).get('t') || 6.2));
+</script>

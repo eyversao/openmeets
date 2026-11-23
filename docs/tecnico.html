@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Técnico · Documentación de OpenMeets</title>
+<meta name="description" content="Documentación de OpenMeets: Técnico.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="../web/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../web/css/tokens.css">
+<link rel="stylesheet" href="../web/css/base.css">
+<link rel="stylesheet" href="docs.css">
+</head>
+<body>
+<a class="saltar" href="#contenido">Saltar al contenido</a>
+<header class="barra">
+  <a class="logo" href="index.html" aria-label="OpenMeets, documentación"><img class="claro" src="../marca/logotipo-horizontal.svg" alt="OpenMeets" height="26"><img class="oscuro" src="../marca/logotipo-blanco.svg" alt="" height="26"></a>
+  <span class="etiqueta">documentación</span>
+</header>
+<div class="marco">
+  <nav class="lateral" aria-label="Documentación">
+    <details id="menu">
+      <summary>Contenido</summary>
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="guia-rapida.html">Guía rápida</a></li>
+        <li><a href="organizar.html">Organizar un meet</a></li>
+        <li><a href="inscripciones.html">Inscripciones y pesaje</a></li>
+        <li><a href="mesa.html">Dirigir la mesa</a></li>
+        <li><a href="jueces.html">Jueces</a></li>
+        <li><a href="pantalla.html">Pantalla y HUD para OBS</a></li>
+        <li><a href="transmision.html">Transmisión (regie)</a></li>
+        <li><a href="publico.html">Público e historial</a></li>
+        <li><a href="atletas-records.html">Atletas y récords</a></li>
+        <li><a href="liftingcast.html">Seguir LiftingCast</a></li>
+        <li><a href="tecnico.html" aria-current="page">Técnico</a></li>
+        <li><a href="nube.html">Nube</a></li>
+        <li><a href="federacion.html">Modo federación</a></li>
+        <li><a href="marca.html">Marca</a></li>
+        <li><a href="faq.html">Preguntas frecuentes</a></li>
+        <li><a href="creditos.html">Créditos</a></li>
+      </ul>
+    </details>
+  </nav>
+  <main id="contenido">
+<h1>Técnico</h1>
+<p class="entrada">Cómo está hecho OpenMeets, su API completa y cómo se construye.</p>
+<h2 id="arquitectura">Arquitectura</h2>
+<p>La misma web corre de dos formas: una <b>app local</b> en la red del gimnasio y una <b>versión en la nube</b> (ver <a href="nube.html">Nube</a>).</p>
+<pre><code>OpenMeets/
+  nativo/     servidor en Rust (openmeets.exe, con la web embebida)
+  instalador/ instalador de Windows en Rust (OpenMeets-Setup.exe)
+  servidor/   servidor Node para desarrollo y base de las pruebas: openmeets.mjs (arranque y consola)
+              almacen.mjs · api.mjs · tiempo-real.mjs · acceso.mjs · estatico.mjs · calculo.mjs
+              inscripciones.mjs · records.mjs · federacion.mjs · openpowerlifting.mjs
+  web/        index.html · sw.js · css/ · js/ (app.js, api.js, canal.js, ui.js, i18n.js,
+              nucleo/ módulos puros, vistas/, nube/ Firestore) · fuentes/ · iconos/
+  marca/      logos SVG, manual, interfaz del instalador
+  docs/       esta documentación
+  mandos/     sketches Arduino/ESP32 y su guía
+  scripts/    nube-build.mjs · sw-lista.mjs · precarga.mjs
+  pruebas/    *.test.mjs y correr.mjs
+  firestore.rules · firebase.json · .firebaserc   la nube</code></pre>
+<ul>
+  <li><b>App local de Windows:</b> <code>openmeets.exe</code>, escrito en Rust, lleva la web dentro. Es un solo archivo y habla el mismo contrato que el servidor Node. Se instala con <code>OpenMeets-Setup.exe</code>, otro programa en Rust con su propia ventana.</li>
+  <li><b>Servidor Node:</b> solo la biblioteca estándar de Node 20 o superior, sin dependencias de npm al ejecutar. Sirve para desarrollar en cualquier sistema (<code>npm start</code>) y es contra lo que se prueba el servidor Rust. Escucha en <code>0.0.0.0</code>, puerto 5050 por defecto.</li>
+  <li><b>Web:</b> módulos ES servidos tal cual, sin paso de compilación en local. Rutas limpias (<code>/organizar</code>, <code>/juez/&lt;id&gt;</code>), nunca <code>#</code>. Cualquier ruta que no sea un archivo devuelve <code>index.html</code>. Solo la versión en la nube se empaqueta (esbuild).</li>
+  <li><b>Tiempo real (local):</b> Server-Sent Events por <code>/api/meets/:id/canal</code>, con un ping cada 15 s. No hay límite de duración de petición: el canal vive horas. En la nube lo sustituyen las escuchas de Firestore.</li>
+  <li><b>Núcleo:</b> <code>web/js/nucleo/</code> son funciones puras (reloj, luces, votos, puntos, CSV, discos, federaciones). Corren igual en el navegador y en Node, y por eso tienen pruebas.</li>
+  <li><b>Almacenamiento:</b> en local, un archivo JSON por meet detrás de <code>almacen.mjs</code>. En la nube, Firestore.</li>
+</ul>
+<h2 id="roles">Roles y seguridad</h2>
+<ul>
+  <li><b>Organizador:</b> toda petición desde el propio equipo (loopback) o con la cookie de sesión que se obtiene con el PIN. En la nube, la cuenta de Google dueña del meet.</li>
+  <li><b>Juez:</b> manda votos y presencia por <code>POST .../canal</code> con el código de jueces del meet.</li>
+  <li><b>Público:</b> lee lo público y puede mandar aplausos.</li>
+  <li>Una petición que cambia datos con un <code>Origin</code> distinto del <code>Host</code> se rechaza (403), para que otra página no use tu servidor.</li>
+  <li>Cuerpos JSON obligatorios (415 si no); límites: 256 KB normal, 64 KB canal, 1 MB lote de atletas, 8 MB importar.</li>
+  <li>El código de jueces y el PIN se comparan en tiempo constante. El bloque <code>privado</code> del meet nunca sale a quien no es organizador.</li>
+  <li>La app local está pensada para una red local de confianza. No la expongas directamente a internet; para eso está la nube.</li>
+</ul>
+<h2 id="api">API (app local)</h2>
+<p>Todo es JSON. Los errores devuelven <code>{ok: false, error: "texto en español"}</code> con su código HTTP. «Organizador» se explica arriba; sin permiso responde 403. En la nube la web llama a las mismas rutas, pero se resuelven en el navegador contra Firestore (<code>web/js/nube/rutas.js</code>).</p>
+
+<div class="tabla"><table><thead><tr><th>Método</th><th>Ruta</th><th>Quién</th><th>Qué hace</th></tr></thead><tbody><tr><td><code>GET</code></td><td><code>/api/info</code></td><td>Público</td><td>Versión, puerto, IPs de la red local y si quien pregunta es organizador. Respuesta: <code>{app, version, puerto, ips, organizador}</code>.</td></tr><tr><td><code>POST</code></td><td><code>/api/sesion</code></td><td>Público</td><td>Cuerpo <code>{pin}</code>. Abre sesión de organizador y pone la cookie <code>om_sesion</code> (HttpOnly, SameSite=Strict). 5 intentos por minuto por IP; 401 si el PIN es incorrecto, 429 si te pasas.</td></tr><tr><td><code>DELETE</code></td><td><code>/api/sesion</code></td><td>Cualquiera</td><td>Cierra la sesión y borra la cookie.</td></tr><tr><td><code>GET</code></td><td><code>/api/pin</code></td><td>Organizador</td><td>Devuelve <code>{ok, pin}</code>.</td></tr><tr><td><code>PUT</code></td><td><code>/api/pin</code></td><td>Organizador</td><td>Cuerpo <code>{pin}</code> de 6 dígitos (o vacío para uno aleatorio). Cierra todas las sesiones.</td></tr><tr><td><code>GET</code></td><td><code>/api/meets</code></td><td>Público</td><td>Lista pública ordenada por fecha descendente: <code>[{id, nombre, fecha, fechaFin, ciudad, pais, federacion, estado, atletas, plataformas, publico}]</code>. Con <code>?todas=1</code> el organizador incluye los no públicos.</td></tr><tr><td><code>POST</code></td><td><code>/api/meets</code></td><td>Organizador</td><td>Crea un meet (cuerpo con los campos del meet; <code>nombre</code> obligatorio). 201 con el meet, que incluye el código de jueces.</td></tr><tr><td><code>POST</code></td><td><code>/api/meets/importar</code></td><td>Organizador</td><td>Restaura una copia (<code>export.json</code>). <code>?reemplazar=1</code> sobrescribe un meet existente (el anterior queda en <code>.bak</code>). Hasta 8 MB.</td></tr><tr><td><code>GET</code></td><td><code>/api/meets/:id</code></td><td>Público*</td><td>El meet con su <code>estado</code>. Sin el bloque <code>privado</code> salvo para el organizador. *Un meet no público devuelve 404 a quien no es organizador.</td></tr><tr><td><code>PATCH</code></td><td><code>/api/meets/:id</code></td><td>Organizador</td><td>Cambia campos del meet (no atletas ni vivo). Acepta <code>privado.codigoJuez</code> o <code>codigoJuez</code>. Emite <code>meet-cambio</code> por el canal.</td></tr><tr><td><code>DELETE</code></td><td><code>/api/meets/:id</code></td><td>Organizador</td><td>Mueve el archivo a <code>&lt;datos&gt;/papelera</code>.</td></tr><tr><td><code>POST</code></td><td><code>/api/meets/:id/atletas</code></td><td>Organizador</td><td>Lote <code>{atletas: [...]}</code> (hasta 1000, 1 MB). Crea o reemplaza por <code>id</code>; sin <code>id</code> se genera uno. Respuesta <code>{ok, atletas}</code>.</td></tr><tr><td><code>PUT</code></td><td><code>/api/meets/:id/atletas/:aid</code></td><td>Organizador</td><td>Crea o actualiza un atleta. Anota en la actividad cada resultado nuevo. Emite <code>atleta</code>.</td></tr><tr><td><code>DELETE</code></td><td><code>/api/meets/:id/atletas/:aid</code></td><td>Organizador</td><td>Quita al atleta y sus aplausos. Emite <code>atleta</code> con <code>eliminado: true</code>.</td></tr><tr><td><code>GET</code></td><td><code>/api/meets/:id/resultados.csv</code></td><td>Público*</td><td>Resultados en CSV (UTF-8 con BOM). Las celdas que parecen fórmulas de Excel llevan un apóstrofo delante.</td></tr><tr><td><code>GET</code></td><td><code>/api/meets/:id/export.json</code></td><td>Organizador</td><td>Copia completa del meet para restaurar con <code>/api/meets/importar</code>.</td></tr><tr><td><code>POST</code></td><td><code>/api/meets/:id/aplauso</code></td><td>Público*</td><td>Cuerpo <code>{aid}</code>. Suma un aplauso; máximo 1 cada 10 s por IP, meet y atleta (429). Respuesta <code>{ok, n}</code>.</td></tr><tr><td><code>GET</code></td><td><code>/api/meets/:id/canal</code></td><td>Público*</td><td>Flujo de eventos (SSE). Ver abajo. Quien es organizador recibe también los eventos privados.</td></tr><tr><td><code>POST</code></td><td><code>/api/meets/:id/canal</code></td><td>Según el tipo</td><td>Publica un mensaje: ver tipos abajo. Hasta 64 KB.</td></tr></tbody></table></div>
+<h3>Eventos del canal (GET)</h3>
+<p>Cada evento llega como <code>data: {"tipo": ..., ...}</code>. Al conectar, el servidor manda el meet entero y el estado en vivo de cada tarima.</p>
+<div class="tabla"><table><thead><tr><th>Tipo</th><th>Datos</th><th>Para quién</th></tr></thead><tbody><tr><td><code>meet</code></td><td><code>{meet}</code> completo (con estado, sin <code>privado</code> si no es organizador)</td><td>Todos, al conectar</td></tr><tr><td><code>vivo</code></td><td><code>{plataforma, datos}</code>: atleta actual, siguientes, reloj, luces…</td><td>Todos</td></tr><tr><td><code>atleta</code></td><td><code>{atleta}</code>, o <code>{id, eliminado: true}</code></td><td>Todos</td></tr><tr><td><code>meet-cambio</code></td><td><code>{campos}</code> modificados; <code>{eliminado: true}</code> si se borró</td><td>Todos</td></tr><tr><td><code>aplauso</code></td><td><code>{aid, n}</code></td><td>Todos</td></tr><tr><td><code>voto</code></td><td><code>{voto}</code> de un juez</td><td>Solo organizador</td></tr><tr><td><code>presencia</code></td><td><code>{datos}</code>: posición, batería, dispositivo, nombre</td><td>Solo organizador</td></tr><tr><td><code>limpiar</code></td><td><code>{plataforma}</code></td><td>Solo organizador</td></tr></tbody></table></div>
+<h3>Mensajes del canal (POST)</h3>
+<div class="tabla"><table><thead><tr><th>Cuerpo</th><th>Quién</th><th>Efecto</th></tr></thead><tbody><tr><td><code>{tipo: "vivo", plataforma, datos}</code></td><td>Organizador</td><td>Guarda y difunde el estado en vivo. Si <code>datos.version</code> es menor que la guardada, se ignora (<code>ignorado: true</code>). Borra los votos del turno anterior.</td></tr><tr><td><code>{tipo: "limpiar", plataforma}</code></td><td>Organizador</td><td>Borra los votos de esa tarima.</td></tr><tr><td><code>{tipo: "voto", voto}</code></td><td>Juez con código</td><td><code>voto</code> lleva <code>codigo</code>, <code>plataforma</code>, <code>pos</code> (<code>izq</code>, <code>cen</code>, <code>der</code>), <code>voto</code> (<code>blanca</code> o <code>roja</code>), <code>tarjetas</code>, <code>turno</code>, <code>via</code>, <code>dispositivo</code>, <code>secreto</code>. El primer voto de cada juez por turno cuenta; los repetidos devuelven <code>repetido: true</code>.</td></tr><tr><td><code>{tipo: "presencia", datos}</code></td><td>Juez con código</td><td>Latido con <code>codigo</code>, <code>plataforma</code>, <code>pos</code>, <code>bateria</code>, <code>nombre</code>, <code>huella</code>. Guarda al juez como conocido (hasta 50 por meet).</td></tr></tbody></table></div>
+<h2 id="modelo">Modelo de datos</h2>
+<p>Cada meet es un archivo JSON. Resumen de sus campos:</p>
+<pre><code>meet = { id, nombre, fecha, fechaFin, sede, ciudad, pais, organizador, descripcion, stream,
+  federacion, modo: 'IPF'|'otra', aprobacion: 'abierta'|'mesa'|'codigo', unidades: 'kg',
+  formula: 'GL'|'DOTS'|'Wilks'|'IPF', barra, barraSentadilla?, collar,
+  discos: [{kg, pares, color}], relojes: [60, 180], pararAlVotar, plataformas: ['Tarima 1'],
+  publico, cerrado, hud, atletas: [atleta], vivo: { [plataforma]: vivo },
+  aplausos: { [aid]: n }, actividad: [{ts, texto}],      // últimos 500
+  privado: { codigoJuez, juecesConocidos: { [huella]: {pos, nombre, ts} } },
+  creado, actualizado }
+
+atleta = { id, nombre, sexo: 'M'|'F', nacimiento?, club, division, equipamiento: 'raw'|'equipado',
+  peso, clase, plataforma, sesion, grupo, lote, rack: {S, B},
+  intentos: { S: [i, i, i], B: [i, i, i], D: [i, i, i] } }
+
+i = { kg, r: 1 | -1 | null, rec, alFinal, cambios?, historial?: [{ts, de, a, motivo}] }</code></pre>
+<p>El estado (<code>en-vivo</code>, <code>programada</code>, <code>terminada</code>) no se guarda: se calcula. Es en vivo si alguna tarima tiene atleta actual y el meet no está cerrado; es terminada si está cerrado o su fecha (de fin) ya pasó.</p>
+<h2 id="datos">Carpeta de datos y copias</h2>
+<p>Por defecto: <code>%LOCALAPPDATA%\OpenMeets\datos</code> en Windows y <code>~/.openmeets</code> en Mac y Linux. Cámbiala con <code>--datos &lt;carpeta&gt;</code>. El instalador y el desinstalador no la tocan, salvo que pidas borrarla al desinstalar.</p>
+<div class="tabla"><table><thead><tr><th>Ruta</th><th>Qué hay</th></tr></thead><tbody><tr><td><code>meets/&lt;id&gt;.json</code></td><td>Un meet. Se escribe atómicamente (archivo temporal y renombrado), agrupando cambios cada 300 ms.</td></tr><tr><td><code>meets/&lt;id&gt;.json.bak</code></td><td>La versión anterior de ese meet.</td></tr><tr><td><code>papelera/</code></td><td>Meets eliminados (<code>&lt;id&gt;-&lt;fecha&gt;.json</code>). Para recuperar uno, cópialo a <code>meets/</code> o impórtalo.</td></tr><tr><td><code>config.json</code></td><td>El PIN de organizador.</td></tr><tr><td><code>openmeets.log</code></td><td>Registro de arranque y errores (rota a 1 MB).</td></tr></tbody></table></div>
+<p><b>Copias de seguridad:</b> copia la carpeta <code>meets/</code> a un USB al terminar cada sesión, o descarga <code>/api/meets/&lt;id&gt;/export.json</code> (desde el equipo de la mesa) y restáurala con <code>/api/meets/importar</code>. Con el servidor cerrado, puedes copiar la carpeta entera sin riesgo.</p>
+<h2 id="sin-conexion">Funcionamiento sin conexión</h2>
+<p><code>web/sw.js</code> es un service worker. En la primera carga guarda la web (HTML, CSS, JS, fuentes e íconos) en el navegador. Después abre aunque el servidor no responda un momento. Los estáticos salen de la caché y se refrescan en segundo plano; la navegación va a la red y, si falla, usa el <code>index.html</code> guardado. Las rutas <code>/api/*</code>, el canal SSE y cualquier petición que no sea GET nunca pasan por la caché.</p>
+<p>La lista de archivos y la versión de caché las escribe <code>node scripts/sw-lista.mjs</code>. Si añades archivos a <code>web/</code>, vuelve a correrlo (la prueba de precarga avisa si se te olvida). Los archivos no listados se guardan igualmente la primera vez que se piden.</p>
+<h2 id="desarrollo">Para desarrolladores</h2>
+<p>Necesitas Node.js 20 o superior. Para la nube y las pruebas de reglas, <code>npm install</code> (esbuild y firebase son dependencias de desarrollo).</p>
+<h3>Arrancar</h3>
+<pre><code>npm start          # servidor Node en http://localhost:5050/
+npm run nativo     # compila el servidor Rust: nativo/target/release/openmeets.exe</code></pre>
+<p>Los dos aceptan <code>--puerto</code>, <code>--datos</code> y <code>--sin-navegador</code>; el de Rust también <code>--web &lt;carpeta&gt;</code>, para servir la web desde disco mientras desarrollas. <code>start.bat</code> usa el exe de Rust si ya lo compilaste y, si no, Node. Para <code>npm run nativo</code> hace falta Rust estable (<code>cargo</code>).</p>
+<h3 id="pruebas">Pruebas</h3>
+<pre><code>npm test                          # todas, contra el servidor Node
+OPENMEETS_SERVIDOR=rust npm test  # las de API por HTTP contra el binario de Rust
+npm run reglas                    # reglas de Firestore en el emulador (necesita Java)
+node pruebas/correr.mjs jueces    # solo los archivos que contengan «jueces»</code></pre>
+<p>Cada archivo <code>pruebas/*.test.mjs</code> corre en su propio proceso de Node, sin navegador. Cubren el núcleo (reloj, luces, votos, puntos, CSV, LiftingCast, mandos), el servidor (API, almacén, acceso, tiempo real, archivos estáticos) y la versión en la nube con un Firestore falso en memoria. Para probar el binario de Rust, compílalo antes con <code>npm run nativo</code>. Dentro de <code>nativo/</code> e <code>instalador/</code>, <code>cargo test</code> corre sus pruebas unitarias.</p>
+<h3 id="construir">Compilar el instalador</h3>
+<pre><code>npm run nativo
+cd instalador
+OPENMEETS_PAYLOAD=../nativo/target/release/openmeets.exe cargo build --release</code></pre>
+<p>Sale <code>instalador/target/release/openmeets-setup.exe</code>; cópialo a <code>dist/OpenMeets-Setup.exe</code>. El instalador lleva dentro el exe comprimido y la interfaz de <code>marca/instalador/ui/</code>. No pide administrador, instala en <code>%LOCALAPPDATA%\Programs\OpenMeets</code>, crea los accesos directos y la entrada de «Aplicaciones» de Windows. También admite <code>/S</code> (silencioso), <code>--carpeta</code>, <code>--sin-escritorio</code> y <code>--desinstalar</code> (con <code>--borrar-datos</code>). El detalle está en <code>instalador/README.md</code>. <code>dist/</code> no se sube a git. Nada va firmado, por eso SmartScreen avisa.</p>
+<h3>Publicar la nube</h3>
+<pre><code>npm run nube:desplegar</code></pre>
+<p>Construye <code>publico/</code> y publica las reglas de Firestore y el sitio de Hosting. Los pasos para usar tu propio proyecto de Firebase están en <a href="nube.html">Nube</a>.</p>
+
+    <footer class="pie">
+      <a href="liftingcast.html">&larr; Seguir LiftingCast</a><a href="marca.html">Marca &rarr;</a>
+    </footer>
+    <p class="firma">OpenMeets · MIT © 2026 Eyver Gomez (<a href="https://instagram.com/eyversao">@eyversao</a>) · <a href="https://github.com/eyversao">GitHub</a></p>
+  </main>
+</div>
+<script>if (matchMedia('(min-width: 860px)').matches) document.getElementById('menu').open = true;</script>
+</body>
+</html>
